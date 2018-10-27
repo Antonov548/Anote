@@ -1,0 +1,24 @@
+<RCC>
+    <qresource prefix="/qml">
+        <file>main.qml</file>
+        <file>pages/ScrollablePage.qml</file>
+        <file>components/DrawerComponent.qml</file>
+        <file>components/ListViewComponent.qml</file>
+        <file>pages/SettingsPage.qml</file>
+        <file>pages/NotePage.qml</file>
+        <file>components/SettingsButtonCompoment.qml</file>
+        <file>components/SettingsCheckComponent.qml</file>
+        <file>pages/PasswordPage.qml</file>
+        <file>components/GridPasswordComponent.qml</file>
+        <file>pages/CreateNoteDialog.qml</file>
+        <file>pages/SetPasswordDialog.qml</file>
+        <file>components/ListActionsComponent.qml</file>
+    </qresource>
+    <qresource prefix="/image">
+        <file>icons/add.png</file>
+        <file>icons/delete.png</file>
+        <file>icons/drawer.png</file>
+        <file>icons/edit.png</file>
+        <file>icons/settings.png</file>
+    </qresource>
+</RCC>
