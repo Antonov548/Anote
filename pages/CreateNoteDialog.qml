@@ -11,6 +11,7 @@ Page{
     property var arr_week: ["Вс","Пн","Вт","Ср","Чт","Пт","Сб"]
 
     signal signalClose()
+    signal signalAccept(real year, string month_s, real month_n, string day_w, real day)
 
     Component.onCompleted: {
         tumblerDay.currentIndex = new Date().getDate()-1
@@ -201,6 +202,7 @@ Page{
                         spacing: 10
 
                         Label{
+                            id: lblDay_w
                             text: arr_week[new Date(arr_year[tumblerYear.currentIndex],tumblerMonth.currentIndex,tumblerDay.currentIndex+1).getDay()]+","
                             font.pointSize: 15
                             horizontalAlignment: Text.AlignHCenter
@@ -208,6 +210,7 @@ Page{
                             color: ApplicationSettings.isDarkTheme ? "silver" : "black"
                         }
                         Label{
+                            id: lblDay
                             text: tumblerDay.currentIndex+1
                             font.pointSize: 15
                             horizontalAlignment: Text.AlignHCenter
@@ -216,6 +219,7 @@ Page{
 
                         }
                         Label{
+                            id: lblMonth
                             text: arr_month[tumblerMonth.currentIndex]
                             font.pointSize: 15
                             horizontalAlignment: Text.AlignHCenter
@@ -296,6 +300,8 @@ Page{
                 width: parent.width
                 font.pointSize: 15
                 text: "Подтвердить"
+                onClicked: signalAccept(arr_year[tumblerYear.currentIndex],lblMonth.text,tumblerMonth.currentIndex+1,
+                                        lblDay_w.text.slice(0,2),tumblerDay.currentIndex+1)
             }
         }
     }

@@ -54,7 +54,7 @@ Item{
                     topPadding: 2
 
                     Label{
-                        text: "12"
+                        text: model.day
                         font.pointSize: 15
                         color: "white"
                         height: parent.height/2
@@ -63,7 +63,7 @@ Item{
                     }
 
                     Label{
-                        text: "Сентябрь"
+                        text: model.month
                         font.pointSize: 12
                         color: "white"
                         height: parent.height/2
@@ -75,7 +75,7 @@ Item{
                 Label{
                     width: parent.width/2
                     height: parent.height/2
-                    text: "Пн"
+                    text: model.day_w
                     color: "white"
                     font.pointSize: 15
                     anchors.right: parent.right
@@ -89,7 +89,7 @@ Item{
             Label{
                 height: parent.height
                 width: contentWidth
-                text: model.title
+                text: "Some title"
                 font.pointSize: 15
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter

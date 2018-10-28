@@ -17,8 +17,11 @@ TableNote *Database::tb_note() const
     return m_tb_note;
 }
 
-void Database::setTb_note(TableNote *tb_note)
-{
+TableAction *Database::tb_action() const{
+    return m_tb_action;
+}
+
+void Database::setTb_note(TableNote *tb_note){
     if (m_tb_note == tb_note)
         return;
 
@@ -26,32 +29,31 @@ void Database::setTb_note(TableNote *tb_note)
     emit tb_noteChanged(m_tb_note);
 }
 
+void Database::setTb_action(TableAction *tb_action){
+    if (m_tb_action == tb_action)
+        return;
+
+    m_tb_action = tb_action;
+    emit tb_actionChanged(m_tb_action);
+}
+
 void Database::connectDataBase(){
 
     if( QFile(DATABASE_NAME).exists()){
-
         db = QSqlDatabase::addDatabase("QSQLITE");
-
         db.setDatabaseName(DATABASE_NAME);
-
         db.open();
-
     }
     else{
-
         db = QSqlDatabase::addDatabase("QSQLITE");
-
         db.setDatabaseName(DATABASE_NAME);
-
         db.open();
-
         m_tb_note->createTable();
+        //m_tb_action
 
     }
 }
 
 void Database::closeDataBase(){
-
     db.close();
-
 }

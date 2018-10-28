@@ -17,7 +17,8 @@ ApplicationWindow{
 
     Connections{
         id: connectionDialogNote
-        onSignalClose: {stackView.pop()}
+        onSignalClose: stackView.pop()
+        onSignalAccept: {tableNote.addNote(year, month_s, month_n, day_w, day); stackView.pop()}
         ignoreUnknownSignals: true
     }
 

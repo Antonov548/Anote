@@ -13,8 +13,10 @@ public:
     explicit NoteModel(QObject *parent = nullptr);
 
     enum{
-        Title = Qt::UserRole,
-        Text
+        Month = Qt::UserRole,
+        Day_w,
+        Day,
+        Date
     };
 
     // Basic functionality:
@@ -26,8 +28,8 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex& index) const override;
 
-    bool setData(const QModelIndex &index, const QVariant &value,
-                 int role = Qt::EditRole) override;
+   // bool setData(const QModelIndex &index, const QVariant &value,
+   //               int role = Qt::EditRole) override;
 
     TableNote* list() const;
 

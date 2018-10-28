@@ -8,14 +8,18 @@
 #include <QVector>
 
 #define TABLE_NOTE "note"
-#define TABLE_TITLE "title"
-#define TABLE_TEXT "text"
+#define TABLE_DAY_W "day_w"
+#define TABLE_DAY_N "day_n"
+#define TABLE_MONTH "month"
+#define TABLE_DATE "date"
+
 
 struct Note
 {
-    QString title;
-    QString text;
-
+    QString month;
+    QString day_w;
+    int day;
+    QString date;
 };
 
 class TableNote : public QObject
@@ -23,11 +27,9 @@ class TableNote : public QObject
     Q_OBJECT
 
     Q_PROPERTY(bool isEmpty READ isEmpty WRITE setIsEmpty NOTIFY isEmptyChanged)
-
     QVector<Note> note_list;
-
+    QString getSqlDate(int year,int month,int day);
     void getNotesDatabase();
-
     bool m_isEmpty;
 
 public:
@@ -48,8 +50,8 @@ signals:
     void isEmptyChanged(bool isEmpty);
 
 public slots:
-    bool addNote(QString,QString);
-    void deleteNote(QString,int);
+    bool addNote(int ,QString, int, QString, int);
+    void deleteNote(QString, int);
 
     void setIsEmpty(bool isEmpty);
 };

@@ -1,26 +1,24 @@
 #include "tablenote.h"
 #include <QDebug>
 
-TableNote::TableNote(QObject *parent) : QObject(parent)
-{
+TableNote::TableNote(QObject *parent) : QObject(parent){
 
     getNotesDatabase();
 
 }
 
-void TableNote::createTable()
-{
+void TableNote::createTable(){
     QString str_query;
 
-    str_query = "CREATE TABLE " TABLE_NOTE " ( " TABLE_TITLE " VARCHAR(255) , " TABLE_TEXT " VARCHAR(255) )";
+    str_query = "CREATE TABLE " TABLE_NOTE " ( " TABLE_MONTH " VARCHAR(255) , " TABLE_DAY_N " int , "
+            TABLE_DAY_W " VARCHAR(255) , " TABLE_DATE " DATE NOT NULL PRIMARY KEY )";
 
     QSqlQuery sql_query;
 
     sql_query.exec(str_query);
 }
 
-bool TableNote::setNoteAt(int index, Note note)
-{
+bool TableNote::setNoteAt(int index, Note note){
     if(index<0 || index>=note_list.size())
         return false;
 
@@ -29,48 +27,45 @@ bool TableNote::setNoteAt(int index, Note note)
     return true;
 }
 
-QVector<Note> TableNote::getNote() const
-{
+QVector<Note> TableNote::getNote() const{
     return note_list;
 }
 
-bool TableNote::isEmpty() const
-{
+bool TableNote::isEmpty() const{
     return m_isEmpty;
 }
 
-bool TableNote::addNote(QString title, QString text)
-{
+bool TableNote::addNote(int year, QString month_s, int month_n, QString day_w, int day_n){
 
-    if(title.length() == 0)
-        return false;
+    QString date_type = getSqlDate(year,month_n,day_n);
 
-    for(auto note : note_list){
+    QString str_query = "SELECT " TABLE_DATE " FROM " TABLE_NOTE " WHERE " TABLE_DATE " = '" + date_type + "'";
+    QSqlQuery sql_query;
+    sql_query.exec(str_query);
 
-        if(title == note.title)
+    for(auto &note : note_list){
+        if(note.date == date_type)
             return false;
-
     }
-
 
     emit addNoteStart();
 
-    QString str_query;
-
-    str_query = "INSERT INTO " TABLE_NOTE " ( " TABLE_TITLE " , " TABLE_TEXT " ) VALUES ( :title , :text )";
-
-    QSqlQuery sql_query;
+    str_query = "INSERT INTO " TABLE_NOTE " ( " TABLE_MONTH " , " TABLE_DAY_N " , " TABLE_DAY_W  " , " TABLE_DATE " ) VALUES ( :month , :day , :day_w , :date )";
 
     sql_query.prepare(str_query);
 
-    sql_query.bindValue(":title",title);
-    sql_query.bindValue(":text",text);
+    sql_query.bindValue(":month",month_s);
+    sql_query.bindValue(":day",day_n);
+    sql_query.bindValue(":day_w",day_w);
+    sql_query.bindValue(":date","'" + date_type + "'");
 
-    sql_query.exec();
+    qDebug() << sql_query.exec();
 
     Note new_note;
-    new_note.title = title;
-    new_note.text = text;
+    new_note.month = month_s;
+    new_note.day = day_n;
+    new_note.day_w = day_w;
+    new_note.date = date_type;
 
     note_list.insert(0,new_note);
 
@@ -82,19 +77,18 @@ bool TableNote::addNote(QString title, QString text)
 
 }
 
-void TableNote::deleteNote(QString title,int index)
-{
+void TableNote::deleteNote(QString date, int index){
     emit deleteNoteStart(index);
 
     QString str_query;
 
-    str_query = "DELETE FROM " TABLE_NOTE " WHERE " TABLE_TITLE " = :title";
+    str_query = "DELETE FROM " TABLE_NOTE " WHERE " TABLE_DATE " = :date";
 
     QSqlQuery sql_query;
 
     sql_query.prepare(str_query);
 
-    sql_query.bindValue(":title",title);
+    sql_query.bindValue(":date","'" + date + "'");
 
     sql_query.exec();
 
@@ -107,8 +101,7 @@ void TableNote::deleteNote(QString title,int index)
 
 }
 
-void TableNote::setIsEmpty(bool isEmpty)
-{
+void TableNote::setIsEmpty(bool isEmpty){
     if (m_isEmpty == isEmpty)
         return;
 
@@ -116,15 +109,28 @@ void TableNote::setIsEmpty(bool isEmpty)
     emit isEmptyChanged(m_isEmpty);
 }
 
-void TableNote::getNotesDatabase()
-{
+QString TableNote::getSqlDate(int year, int month, int day){
 
+    QString sql_format_date = QString::number(year);
+
+    if(month<10)
+        sql_format_date += "-0" + QString::number(month);
+    else
+        sql_format_date += "-" + QString::number(month);
+
+    if(day<10)
+        sql_format_date += "-0" + QString::number(day);
+    else
+        sql_format_date += "-" + QString::number(day);
+
+    return sql_format_date;
+}
+
+void TableNote::getNotesDatabase(){
     QString str_query;
-
     str_query = "SELECT * FROM " TABLE_NOTE;
 
     QSqlQuery sql_query;
-
     sql_query.exec(str_query);
 
     //check database empty
@@ -137,8 +143,13 @@ void TableNote::getNotesDatabase()
 
         Note new_note;
 
-        new_note.title = sql_query.value(sql_query.record().indexOf("title")).toString();
-        new_note.text = sql_query.value(sql_query.record().indexOf("text")).toString();
+        new_note.month = sql_query.value(sql_query.record().indexOf(TABLE_MONTH)).toString();
+        new_note.day_w = sql_query.value(sql_query.record().indexOf(TABLE_DAY_W)).toString();
+        new_note.day = sql_query.value(sql_query.record().indexOf(TABLE_DAY_N)).toInt();
+        new_note.date = sql_query.value(sql_query.record().indexOf(TABLE_DATE)).toString();
+
+        qDebug() << new_note.day;
+        qDebug() << new_note.day_w;
 
         note_list.append(new_note);
 

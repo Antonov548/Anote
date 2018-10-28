@@ -25,10 +25,14 @@ QVariant NoteModel::data(const QModelIndex &index, int role) const
 
     switch (role) {
 
-    case Title:
-        return  QVariant(note.title);
-    case Text:
-        return  QVariant(note.text);
+    case Month:
+        return  QVariant(note.month);
+    case Day_w:
+        return  QVariant(note.day_w);
+    case Day:
+        return QVariant(note.day);
+    case Date:
+        return QVariant(note.date);
 
     }
 
@@ -46,12 +50,15 @@ Qt::ItemFlags NoteModel::flags(const QModelIndex &index) const
 QHash<int, QByteArray> NoteModel::roleNames()const
 {
 
-    roles[Title] = "title";
-    roles[Text] = "text";
+    roles[Month] = "month";
+    roles[Day_w] = "day_w";
+    roles[Day] = "day";
+    roles[Date] = "date";
 
     return roles;
 }
 
+/*
 bool NoteModel::setData(const QModelIndex &index, const QVariant &value,int role)
 {
     if(!m_list)
@@ -77,6 +84,7 @@ bool NoteModel::setData(const QModelIndex &index, const QVariant &value,int role
     return  false;
 
 }
+*/
 
 TableNote *NoteModel::list() const
 {
@@ -89,10 +97,14 @@ QString NoteModel::getProperty(QString role, int index)
     int rol = roles.key(role.toUtf8());
 
     switch (rol) {
-    case Title:
-        return m_list->getNote().at(index).title;
-    case Text:
-        return m_list->getNote().at(index).text;
+    case Month:
+        return m_list->getNote().at(index).month;
+    case Day_w:
+        return m_list->getNote().at(index).day_w;
+    case Day:
+        return QString::number(m_list->getNote().at(index).day);
+    case Date:
+        return m_list->getNote().at(index).date;
     }
 
     return QString();
