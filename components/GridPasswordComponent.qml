@@ -39,7 +39,7 @@ GridView{
             anchors.fill: parent
             text: model.text
             color: "white"
-            font.pointSize: 18
+            font.pixelSize: 18
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
         }

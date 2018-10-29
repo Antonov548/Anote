@@ -19,7 +19,7 @@ Component{
         contentItem: Label{
             anchors.fill: parent
             text: delegateTitle
-            font.pointSize: 15
+            font.pixelSize: 16
             color: ApplicationSettings.isDarkTheme ? "silver" : "black"
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter

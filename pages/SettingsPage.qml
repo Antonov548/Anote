@@ -57,10 +57,8 @@ ScrollablePage{
                 height: parent.height
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                font.pointSize: 15
-
+                font.pixelSize: 17
             }
-
         }
 
         Rectangle{
@@ -125,7 +123,7 @@ ScrollablePage{
                     Label{
                         anchors.fill: parent
                         text: section
-                        font.pointSize: 15
+                        font.pixelSize: 16
                         color: ApplicationSettings.isDarkTheme ? "silver" : "white"
                         horizontalAlignment: Text.AlignLeft
                         verticalAlignment: Text.AlignVCenter

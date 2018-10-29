@@ -6,6 +6,11 @@ ScrollablePage{
     property string noteTitle: ""
     property string noteText: ""
 
+    backgr: Rectangle{
+        anchors.fill: parent
+        color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "white"
+    }
+
     header: Rectangle{
 
         width: parent.width
@@ -50,7 +55,7 @@ ScrollablePage{
                 color: ApplicationSettings.isDarkTheme ? "silver" : "black"
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                font.pointSize: 15
+                font.pixelSize: 16
             }
         }
 
@@ -60,13 +65,7 @@ ScrollablePage{
             color: ApplicationSettings.isDarkTheme ? "silver" : "black"
             anchors.bottom: parent.bottom
             opacity: 0.2
-
         }
-    }
-
-    backgr: Rectangle{
-        anchors.fill: parent
-        color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "white"
     }
 
     content: Column{
@@ -78,7 +77,7 @@ ScrollablePage{
             width: parent.width/1.2
             height: contentHeight
             wrapMode: Text.WordWrap
-            font.pointSize: 15
+            font.pixelSize: 20
             anchors.horizontalCenter: parent.horizontalCenter
             horizontalAlignment: Text.AlignHCenter
             text: noteText

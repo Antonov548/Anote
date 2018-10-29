@@ -37,6 +37,14 @@ Item{
 
         color: ApplicationSettings.isDarkTheme ?  mouseArea.pressed ? "#292929" : "#323232" : mouseArea.pressed ? "#DEDEDE" : "white"
 
+        Rectangle{
+            width: parent.width
+            height: 3
+            color: ApplicationSettings.isDarkTheme ? "#272727" : "#DADADA"
+            anchors.bottom: parent.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+
         Row{
             anchors.fill: parent
             spacing: 100
@@ -50,34 +58,37 @@ Item{
                 Column{
                     width: parent.width/2
                     height: parent.height
-                    leftPadding: 2
-                    topPadding: 2
+                    leftPadding: 5
 
                     Label{
+                        topPadding: 2
+                        leftPadding: 2
                         text: model.day
-                        font.pointSize: 15
+                        font.pixelSize: 16
                         color: "white"
                         height: parent.height/2
                         width: parent.width
-
                     }
 
                     Label{
+                        leftPadding: 2
+                        bottomPadding: 8
                         text: model.month
-                        font.pointSize: 12
+                        font.pixelSize: 12
                         color: "white"
                         height: parent.height/2
                         width: parent.width
-
+                        verticalAlignment: Text.AlignBottom
                     }
                 }
 
                 Label{
+                    topPadding: 2
                     width: parent.width/2
                     height: parent.height/2
                     text: model.day_w
                     color: "white"
-                    font.pointSize: 15
+                    font.pixelSize: 16
                     anchors.right: parent.right
                     anchors.rightMargin: 10
                     anchors.top: parent.top
@@ -89,13 +100,12 @@ Item{
             Label{
                 height: parent.height
                 width: contentWidth
-                text: "Some title"
-                font.pointSize: 15
+                text: "Title"
+                font.pixelSize: 17
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 color: ApplicationSettings.isDarkTheme? "white" : "black"
             }
-
         }
 
         MouseArea{
@@ -110,17 +120,5 @@ Item{
             pressAndHoldInterval: 300
             onClicked: stackView.push(Qt.createComponent("qrc:/qml/pages/NotePage.qml").createObject(null,{"noteTitle":model.title,"noteText":model.text}))
         }
-
-        Rectangle{
-
-            width: parent.width
-            height: 3
-            color: ApplicationSettings.isDarkTheme ? "#272727" : "#DADADA"
-            anchors.bottom: parent.bottom
-            anchors.horizontalCenter: parent.horizontalCenter
-
-        }
-
     }
-
 }

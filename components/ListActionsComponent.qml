@@ -16,7 +16,7 @@ Item{
 
         Row{
             height: item.height
-            spacing: 5
+            spacing: 0
             Rectangle{
                 width: item.width - item.height
                 height: item.height
@@ -39,7 +39,7 @@ Item{
                     width: parent.width/1.1
                     anchors.horizontalCenter: parent.horizontalCenter
                     verticalAlignment: Text.AlignVCenter
-                    font.pointSize: 15
+                    font.pixelSize: 16
                     color: ApplicationSettings.isDarkTheme ? field.textChanged ? "silver" : "#747474"  :  field.textChanged ? "#454545" : "#A5A5A5"
 
                     onActiveFocusChanged: {

@@ -60,7 +60,7 @@ Page{
 
                     Label{
                         text: "Настройки записи"
-                        font.pointSize: 15
+                        font.pixelSize: 16
                         color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
@@ -99,7 +99,7 @@ Page{
 
                                 delegate: Text {
                                     text: model.text
-                                    font.pointSize: 15
+                                    font.pixelSize: 16
                                     color: ApplicationSettings.isDarkTheme ? "silver" : "black"
                                     horizontalAlignment: Text.AlignHCenter
                                     verticalAlignment: Text.AlignVCenter
@@ -134,7 +134,7 @@ Page{
                                 delegate: Text{
                                     text: arr_month[index].slice(0,3)
                                     color: ApplicationSettings.isDarkTheme ? "silver" : "black"
-                                    font.pointSize: 15
+                                    font.pixelSize: 16
                                     horizontalAlignment: Text.AlignHCenter
                                     verticalAlignment: Text.AlignVCenter
                                     opacity: 1.0 - Math.abs(Tumbler.displacement) / (tumblerDay.visibleItemCount / 2)
@@ -168,7 +168,7 @@ Page{
                                 }
                                 wrap: false
                                 delegate: Text{
-                                    font.pointSize: 15
+                                    font.pixelSize: 16
                                     text: arr_year[index]
                                     color: ApplicationSettings.isDarkTheme ? "silver" : "black"
                                     horizontalAlignment: Text.AlignHCenter
@@ -204,7 +204,7 @@ Page{
                         Label{
                             id: lblDay_w
                             text: arr_week[new Date(arr_year[tumblerYear.currentIndex],tumblerMonth.currentIndex,tumblerDay.currentIndex+1).getDay()]+","
-                            font.pointSize: 15
+                            font.pixelSize: 16
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
                             color: ApplicationSettings.isDarkTheme ? "silver" : "black"
@@ -212,7 +212,7 @@ Page{
                         Label{
                             id: lblDay
                             text: tumblerDay.currentIndex+1
-                            font.pointSize: 15
+                            font.pixelSize: 16
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
                             color: ApplicationSettings.isDarkTheme ? "silver" : "black"
@@ -221,7 +221,7 @@ Page{
                         Label{
                             id: lblMonth
                             text: arr_month[tumblerMonth.currentIndex]
-                            font.pointSize: 15
+                            font.pixelSize: 16
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
                             color: ApplicationSettings.isDarkTheme ? "silver" : "black"
@@ -243,7 +243,7 @@ Page{
 
                     Label{
                         text: "Список дел"
-                        font.pointSize: 15
+                        font.pixelSize: 16
                         color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
@@ -253,7 +253,7 @@ Page{
                         height: contentHeight
                         anchors.horizontalCenter: parent.horizontalCenter
                         clip: true
-                        spacing: 5
+                        spacing: 10
                         boundsBehavior: Flickable.StopAtBounds
 
                         model: ListModel{
@@ -298,7 +298,7 @@ Page{
 
             Button{
                 width: parent.width
-                font.pointSize: 15
+                font.pixelSize: 20
                 text: "Подтвердить"
                 onClicked: signalAccept(arr_year[tumblerYear.currentIndex],lblMonth.text,tumblerMonth.currentIndex+1,
                                         lblDay_w.text.slice(0,2),tumblerDay.currentIndex+1)

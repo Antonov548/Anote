@@ -26,7 +26,7 @@ Page{
 
         footer:Button{
             width: parent.width
-            font.pointSize: 15
+            font.pixelSize: 20
             text: "Подтвердить"
             onClicked: {
                 if(list.activatedCount === listModel.count){
@@ -46,7 +46,7 @@ Page{
         Column{
             width: parent.width
             anchors.verticalCenter: parent.verticalCenter
-            spacing: 50
+            spacing: 60
 
             ListView{
                 property real activatedCount: 0
@@ -67,7 +67,8 @@ Page{
                     Label{
                         id: label
                         anchors.fill: parent
-                        font.pointSize: 15
+                        font.pixelSize: 20
+                        bottomPadding: 5
                         text: model.text
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
@@ -130,11 +131,10 @@ Page{
                             anchors.fill: parent
                             text: model.text
                             color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-                            font.pointSize: 18
+                            font.pixelSize: 22
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
                         }
-
                     }
                 }
 

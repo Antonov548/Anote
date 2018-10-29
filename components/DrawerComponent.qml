@@ -42,7 +42,7 @@ Component{
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignLeft
             color: "white"
-            font.pointSize: 15
+            font.pixelSize: 16
             opacity: delegateEnabled ? 1 : 0.5
 
         }

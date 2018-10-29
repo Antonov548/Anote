@@ -9,11 +9,10 @@ TableNote::TableNote(QObject *parent) : QObject(parent){
 
 void TableNote::createTable(){
     QString str_query;
+    QSqlQuery sql_query;
 
     str_query = "CREATE TABLE " TABLE_NOTE " ( " TABLE_MONTH " VARCHAR(255) , " TABLE_DAY_N " int , "
-            TABLE_DAY_W " VARCHAR(255) , " TABLE_DATE " DATE NOT NULL PRIMARY KEY )";
-
-    QSqlQuery sql_query;
+            TABLE_DAY_W " VARCHAR(255) , " TABLE_DATE " VARCHAR(255) NOT NULL PRIMARY KEY )";
 
     sql_query.exec(str_query);
 }
@@ -39,14 +38,15 @@ bool TableNote::addNote(int year, QString month_s, int month_n, QString day_w, i
 
     QString date_type = getSqlDate(year,month_n,day_n);
 
-    QString str_query = "SELECT " TABLE_DATE " FROM " TABLE_NOTE " WHERE " TABLE_DATE " = '" + date_type + "'";
-    QSqlQuery sql_query;
-    sql_query.exec(str_query);
+    qDebug() << date_type;
 
     for(auto &note : note_list){
         if(note.date == date_type)
             return false;
     }
+
+    QString str_query;
+    QSqlQuery sql_query;
 
     emit addNoteStart();
 
@@ -57,7 +57,7 @@ bool TableNote::addNote(int year, QString month_s, int month_n, QString day_w, i
     sql_query.bindValue(":month",month_s);
     sql_query.bindValue(":day",day_n);
     sql_query.bindValue(":day_w",day_w);
-    sql_query.bindValue(":date","'" + date_type + "'");
+    sql_query.bindValue(":date",date_type);
 
     qDebug() << sql_query.exec();
 
@@ -81,15 +81,11 @@ void TableNote::deleteNote(QString date, int index){
     emit deleteNoteStart(index);
 
     QString str_query;
-
     str_query = "DELETE FROM " TABLE_NOTE " WHERE " TABLE_DATE " = :date";
 
     QSqlQuery sql_query;
-
     sql_query.prepare(str_query);
-
-    sql_query.bindValue(":date","'" + date + "'");
-
+    sql_query.bindValue(":date",date);
     sql_query.exec();
 
     note_list.remove(index);
@@ -148,13 +144,18 @@ void TableNote::getNotesDatabase(){
         new_note.day = sql_query.value(sql_query.record().indexOf(TABLE_DAY_N)).toInt();
         new_note.date = sql_query.value(sql_query.record().indexOf(TABLE_DATE)).toString();
 
-        qDebug() << new_note.day;
-        qDebug() << new_note.day_w;
-
         note_list.append(new_note);
 
     }while((sql_query.previous()));
 
     setIsEmpty(false);
 
+    /*
+    str_query = "SELECT * FROM " TABLE_NOTE " ORDER BY " TABLE_DATE;
+    sql_query.exec(str_query);
+
+    while(sql_query.next()){
+        qDebug() << sql_query.value(sql_query.record().indexOf(TABLE_DATE)).toString();
+    };
+    */
 }

@@ -35,7 +35,7 @@ ApplicationWindow{
 
         "Редактировать запись": function(){drawer.close();},
 
-        "Удалить запись": function(){tableNote.deleteNote(listModel.getProperty("title",listView.indexChange),listView.indexChange); drawer.close()},
+        "Удалить запись": function(){tableNote.deleteNote(listModel.getProperty("date",listView.indexChange),listView.indexChange); drawer.close()},
 
         "Настройки": function(name){stackView.push(stackView.page[name]);drawer.close()}}
 
@@ -277,7 +277,7 @@ ApplicationWindow{
 
                     Behavior on height{
                         NumberAnimation{
-                            duration: 150
+                            duration: 300
                         }
                     }
 
@@ -361,7 +361,7 @@ ApplicationWindow{
                                         Label{
                                             text: "Добавить"
                                             height: parent.height
-                                            font.pointSize: 18
+                                            font.pixelSize: height/2
                                             leftPadding: 0
                                             rightPadding: 15
                                             horizontalAlignment: Text.AlignHCenter
@@ -374,7 +374,7 @@ ApplicationWindow{
 
                                 Label{
                                     text: "Добавить заметки на день"
-                                    font.pointSize: 15
+                                    font.pixelSize: 20
                                     color: ApplicationSettings.isDarkTheme ? "silver" : "black"
                                     anchors.horizontalCenter: parent.horizontalCenter
                                 }
