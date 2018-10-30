@@ -11,12 +11,16 @@ Page{
     property var arr_week: ["Вс","Пн","Вт","Ср","Чт","Пт","Сб"]
 
     signal signalClose()
-    signal signalAccept(real year, string month_s, real month_n, string day_w, real day)
 
     Component.onCompleted: {
         tumblerDay.currentIndex = new Date().getDate()-1
         tumblerMonth.currentIndex = new Date().getMonth()
         tumblerYear.currentIndex = arr_year.indexOf(new Date().getFullYear())
+    }
+
+    MouseArea{
+        anchors.fill: parent
+        onClicked: modal.signalClose()
     }
 
     background: Rectangle{
@@ -25,9 +29,12 @@ Page{
         opacity: 0.3
     }
 
-    MouseArea{
-        anchors.fill: parent
-        onClicked: modal.signalClose()
+    ErrorMessage{
+        id: msgError
+        width: parent.width
+        fullHeight: parent.height
+        onCloseError: function(){msgError.hide()}
+        errorString: "Текущая дата занята"
     }
 
     Page{
@@ -300,8 +307,12 @@ Page{
                 width: parent.width
                 font.pixelSize: 20
                 text: "Подтвердить"
-                onClicked: signalAccept(arr_year[tumblerYear.currentIndex],lblMonth.text,tumblerMonth.currentIndex+1,
-                                        lblDay_w.text.slice(0,2),tumblerDay.currentIndex+1)
+                onClicked: {
+                    if(tableNote.addNote(arr_year[tumblerYear.currentIndex],lblMonth.text,tumblerMonth.currentIndex+1,lblDay_w.text.slice(0,2),tumblerDay.currentIndex+1))
+                        signalClose()
+                    else
+                        msgError.show()
+                }
             }
         }
     }

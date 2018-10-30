@@ -2,7 +2,7 @@ import QtQuick 2.11
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
-import QtDatabase 1.0
+import QtModel 1.0
 import "components"
 import "pages"
 
@@ -18,13 +18,11 @@ ApplicationWindow{
     Connections{
         id: connectionDialogNote
         onSignalClose: stackView.pop()
-        onSignalAccept: {tableNote.addNote(year, month_s, month_n, day_w, day); stackView.pop()}
         ignoreUnknownSignals: true
     }
 
     onClosing: {
         close.accepted = false
-
         if(stackView.depth>1)
             stackView.pop()
         else
@@ -32,19 +30,9 @@ ApplicationWindow{
     }
 
     property var handlers: {"Добавить запись": function(name){ var dialog = Qt.createComponent("qrc:/qml/pages/CreateNoteDialog.qml").createObject(); connectionDialogNote.target = dialog ;stackView.push(dialog); drawer.close()},
-
         "Редактировать запись": function(){drawer.close();},
-
         "Удалить запись": function(){tableNote.deleteNote(listModel.getProperty("date",listView.indexChange),listView.indexChange); drawer.close()},
-
         "Настройки": function(name){stackView.push(stackView.page[name]);drawer.close()}}
-
-    Database{
-        id: database
-        tb_note: TableNote{
-            id: tableNote
-        }
-    }
 
     Drawer{
 

@@ -13,6 +13,7 @@
         <file>pages/CreateNoteDialog.qml</file>
         <file>pages/SetPasswordDialog.qml</file>
         <file>components/ListActionsComponent.qml</file>
+        <file>components/ErrorMessage.qml</file>
     </qresource>
     <qresource prefix="/image">
         <file>icons/add.png</file>

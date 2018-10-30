@@ -43,11 +43,9 @@ ScrollablePage{
                         anchors.centerIn: parent
                         transform: Rotation { origin.x: 1; origin.y: 8; angle: 135}
                     }
-
                 }
 
                 onClicked: { stackView.pop()}
-
             }
 
             Label{

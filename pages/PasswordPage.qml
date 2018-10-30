@@ -15,6 +15,14 @@ Page{
         color: "#1E263E"
     }
 
+    ErrorMessage{
+        id: msgError
+        width: parent.width
+        fullHeight: parent.height
+        onCloseError: function(){msgError.hide()}
+        errorString: "Неверный пароль"
+    }
+
     Column{
         anchors.fill: parent
         topPadding: parent.height/3
@@ -50,6 +58,7 @@ Page{
                             if(ApplicationSettings.comparePassword(strPassword))
                                 passwordPage.visible = false
                             else{
+                                msgError.show()
                                 for(var i=0; i < passListModel.count; i++)
                                     passListModel.setProperty(i,"activated",false)
 

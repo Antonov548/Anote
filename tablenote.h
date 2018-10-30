@@ -29,7 +29,6 @@ class TableNote : public QObject
     Q_PROPERTY(bool isEmpty READ isEmpty WRITE setIsEmpty NOTIFY isEmptyChanged)
     QVector<Note> note_list;
     QString getSqlDate(int year,int month,int day);
-    void getNotesDatabase();
     bool m_isEmpty;
 
 public:
@@ -37,7 +36,7 @@ public:
     void createTable();
     bool setNoteAt(int,Note);
     QVector<Note> getNote() const;
-
+    void getNotesDatabase();
     bool isEmpty() const;
 
 signals:

@@ -3,8 +3,6 @@
 
 TableNote::TableNote(QObject *parent) : QObject(parent){
 
-    getNotesDatabase();
-
 }
 
 void TableNote::createTable(){
@@ -38,8 +36,6 @@ bool TableNote::addNote(int year, QString month_s, int month_n, QString day_w, i
 
     QString date_type = getSqlDate(year,month_n,day_n);
 
-    qDebug() << date_type;
-
     for(auto &note : note_list){
         if(note.date == date_type)
             return false;
@@ -59,7 +55,7 @@ bool TableNote::addNote(int year, QString month_s, int month_n, QString day_w, i
     sql_query.bindValue(":day_w",day_w);
     sql_query.bindValue(":date",date_type);
 
-    qDebug() << sql_query.exec();
+    sql_query.exec();
 
     Note new_note;
     new_note.month = month_s;

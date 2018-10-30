@@ -12,33 +12,17 @@
 
 #define DATABASE_NAME "database.db"
 
-class Database : public QObject
+class Database
 {
-    Q_OBJECT
-
-    Q_PROPERTY(TableNote* tb_note READ tb_note WRITE setTb_note NOTIFY tb_noteChanged)
-    Q_PROPERTY(TableAction* tb_action READ tb_action WRITE setTb_action NOTIFY tb_actionChanged)
 
 public:
-    explicit Database(QObject *parent = nullptr);
+    explicit Database(TableNote *tb_note);
     ~Database();
-
-    TableNote* tb_note() const;
-    TableAction* tb_action() const;
-
-public slots:
-    void setTb_note(TableNote* tb_note);
-    void setTb_action(TableAction* tb_action);
-
-signals:
-    void tb_noteChanged(TableNote* tb_note);
-    void tb_actionChanged(TableAction* tb_action);
 
 private:
     QSqlDatabase db;
+    TableNote *table_note;
 
     void connectDataBase();
     void closeDataBase();
-    TableNote* m_tb_note;
-    TableAction* m_tb_action;
 };

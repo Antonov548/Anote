@@ -1,40 +1,11 @@
 #include "database.h"
 
-Database::Database(QObject* parent):QObject(parent){
-
+Database::Database(TableNote* tb_note):table_note(tb_note){
     connectDataBase();
-
 }
 
 Database::~Database(){
-
     closeDataBase();
-
-}
-
-TableNote *Database::tb_note() const
-{
-    return m_tb_note;
-}
-
-TableAction *Database::tb_action() const{
-    return m_tb_action;
-}
-
-void Database::setTb_note(TableNote *tb_note){
-    if (m_tb_note == tb_note)
-        return;
-
-    m_tb_note = tb_note;
-    emit tb_noteChanged(m_tb_note);
-}
-
-void Database::setTb_action(TableAction *tb_action){
-    if (m_tb_action == tb_action)
-        return;
-
-    m_tb_action = tb_action;
-    emit tb_actionChanged(m_tb_action);
 }
 
 void Database::connectDataBase(){
@@ -48,9 +19,7 @@ void Database::connectDataBase(){
         db = QSqlDatabase::addDatabase("QSQLITE");
         db.setDatabaseName(DATABASE_NAME);
         db.open();
-        m_tb_note->createTable();
-        //m_tb_action
-
+        table_note->createTable();
     }
 }
 

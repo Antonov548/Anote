@@ -5,6 +5,7 @@
 
 #include "database.h"
 #include "notemodel.h"
+#include "tablenote.h"
 #include "applicationsettings.h"
 
 int main(int argc, char *argv[])
@@ -15,11 +16,15 @@ int main(int argc, char *argv[])
 
     ApplicationSettings settings("settings.json");
 
-    qmlRegisterType<Database>("QtDatabase",1,0,"Database");
-    qmlRegisterType<TableNote>("QtDatabase",1,0,"TableNote");
-    qmlRegisterType<NoteModel>("QtDatabase",1,0,"NoteModel");
+    qmlRegisterType<NoteModel>("QtModel",1,0,"NoteModel");
+
+    TableNote *tableNote = new TableNote();
+    Database db(tableNote);
+
+    tableNote->getNotesDatabase();
 
     QQmlApplicationEngine engine;
+    engine.rootContext()->setContextProperty("tableNote",tableNote);
     engine.rootContext()->setContextProperty("ApplicationSettings",&settings);
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
 

@@ -18,6 +18,14 @@ Page{
         onClicked: modal.signalClose()
     }
 
+    ErrorMessage{
+        id: msgError
+        width: parent.width
+        fullHeight: parent.height
+        onCloseError: function(){msgError.hide()}
+        errorString: "Введите все символы"
+    }
+
     Page{
         anchors.centerIn: parent
         width: parent.width/1.2
@@ -35,6 +43,8 @@ Page{
                     ApplicationSettings.setIsBlock(true)
                     modal.signalClose()
                 }
+                else
+                    msgError.show()
             }
         }
 
