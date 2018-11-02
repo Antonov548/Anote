@@ -10,11 +10,12 @@
         <file>components/SettingsCheckComponent.qml</file>
         <file>pages/PasswordPage.qml</file>
         <file>components/GridPasswordComponent.qml</file>
-        <file>pages/CreateNoteDialog.qml</file>
         <file>pages/SetPasswordDialog.qml</file>
         <file>components/ErrorMessage.qml</file>
         <file>components/AddActionsComponent.qml</file>
         <file>components/ListActionComponent.qml</file>
+        <file>components/ListNoteAction.qml</file>
+        <file>pages/CreateNotePage.qml</file>
     </qresource>
     <qresource prefix="/image">
         <file>icons/add.png</file>

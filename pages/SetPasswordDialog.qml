@@ -7,6 +7,10 @@ Page{
     id: modal
     signal signalClose()
 
+    function popSignal(){
+        signalClose()
+    }
+
     background: Rectangle{
         anchors.fill: modal
         color: ApplicationSettings.isDarkTheme ? "#3F3F3F" : "black"

@@ -17,21 +17,24 @@ ApplicationWindow{
 
     Connections{
         id: connectionDialogNote
-        onSignalClose: stackView.pop()
+        target: stackView.createNotePage
+        onSignalClose:{
+            stackView.pop()
+        }
         ignoreUnknownSignals: true
     }
 
     onClosing: {
         close.accepted = false
         if(stackView.depth>1)
-            stackView.pop()
+            stackView.currentItem.popSignal()
         else
             close.accepted = true
     }
 
-    property var handlers: {"Добавить запись": function(name){tableAction.resetList(); var dialog = Qt.createComponent("qrc:/qml/pages/CreateNoteDialog.qml").createObject(); connectionDialogNote.target = dialog ;stackView.push(dialog); drawer.close()},
+    property var handlers: {"Добавить запись": function(name){tableAction.resetList();stackView.createNotePage = stackView.push("qrc:/qml/pages/CreateNotePage.qml"); drawer.close()},
         "Редактировать запись": function(){drawer.close();},
-        "Удалить запись": function(){tableNote.deleteNote(listModel.getProperty("date",listView.indexChange),listView.indexChange); drawer.close()},
+        "Удалить запись": function(){tableNote.deleteNote(listModel.getProperty("date",listView.indexChange),listView.indexChange); tableAction.deleteActionsDatabase(listModel.getProperty("date",listView.indexChange)); drawer.close()},
         "Настройки": function(name){stackView.push(stackView.page[name]);drawer.close()}}
 
     Drawer{
@@ -125,6 +128,7 @@ ApplicationWindow{
 
         SettingsPage{id: settings}
 
+        property var createNotePage: null
         property var page: {
             "Настройки": settings
         }
@@ -344,7 +348,7 @@ ApplicationWindow{
 
                                 Label{
                                     text: "Добавить заметки на день"
-                                    font.pixelSize: 20
+                                    font.pixelSize: 16
                                     color: ApplicationSettings.isDarkTheme ? "silver" : "black"
                                     anchors.horizontalCenter: parent.horizontalCenter
                                 }

@@ -10,6 +10,10 @@ ScrollablePage{
         onSignalClose: stackView.pop()
     }
 
+    function popSignal(){
+        stackView.pop()
+    }
+
     header: Rectangle{
 
         width: parent.width
@@ -70,10 +74,7 @@ ScrollablePage{
 
     }
 
-    backgr: Rectangle{
-        anchors.fill: parent
-        color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "white"
-    }
+    backgroundColor: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "white"
 
     content: Column{
         anchors.fill: parent

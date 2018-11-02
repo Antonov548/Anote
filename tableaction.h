@@ -41,11 +41,12 @@ signals:
     void deleteNoteEnd();
 
 public slots:
-    bool addAction(QString);
+    void addAction();
     void resetList();
     void deleteAction(int);
     void addActionsDatabase(QString);
     void getActionsDatabase(QString);
+    void deleteActionsDatabase(QString);
    // void setDone(QString,int);
     void setIsEmpty(bool isEmpty);
 };

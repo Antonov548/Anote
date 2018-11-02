@@ -28,6 +28,13 @@ Page{
         topPadding: parent.height/3
         spacing: 20
 
+        Label{
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: "Введите пароль"
+            font.pixelSize: 18
+            color: "silver"
+        }
+
         ListView{
             width: contentWidth
             height: 40

@@ -64,7 +64,7 @@ void ActionModel::setList(TableAction *list)
 
     if (m_list) {
         connect(m_list, &TableAction::addNoteStart, this, [=]() {
-            const int index = 0;
+            const int index = m_list->getAction().count();
             beginInsertRows(QModelIndex(), index, index);
         });
         connect(m_list, &TableAction::addNoteEnd, this, [=]() {

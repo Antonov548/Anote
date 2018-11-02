@@ -14,9 +14,7 @@ Item{
 
 
     ListView.onRemove: SequentialAnimation {
-
         PropertyAction { target: item; property: "ListView.delayRemove"; value: true }
-
         PropertyAnimation {
             property: "opacity"
             target: item
@@ -24,10 +22,8 @@ Item{
             duration: 400
             easing.type: Easing.InOutQuad
         }
-
         PropertyAction { target: item; property: "ListView.delayRemove"; value: false }
     }
-
 
     Rectangle{
 
@@ -118,7 +114,7 @@ Item{
             hoverEnabled: true
             onPressAndHold: item.openDrawer(index)
             pressAndHoldInterval: 300
-            onClicked: {console.log(model.date); tableAction.getActionsDatabase(model.date); stackView.push(Qt.createComponent("qrc:/qml/pages/NotePage.qml").createObject(null,{"noteTitle":model.title,"noteText":model.text}))}
+            onClicked: {tableAction.getActionsDatabase(model.date); stackView.push(Qt.createComponent("qrc:/qml/pages/NotePage.qml").createObject(null,{"noteTitle":model.title,"noteText":model.text}))}
         }
     }
 }

@@ -10,7 +10,7 @@ ScrollablePage{
     property string noteText: ""
 
     backgr: Rectangle{
-        anchors.fill: parent
+        anchors.fill: page
         color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "white"
     }
 
@@ -36,29 +36,30 @@ ScrollablePage{
                     Rectangle{
                         height: 16
                         width: 2
-                        color: ApplicationSettings.isDarkTheme ? "silver" : "black"
+                        color: ApplicationSettings.isDarkTheme? "silver" : "black"
                         anchors.centerIn: parent
                         transform: Rotation { origin.x: 1; origin.y: 8; angle: 45}
                     }
                     Rectangle{
                         height: 16
                         width: 2
-                        color: ApplicationSettings.isDarkTheme ? "silver" : "black"
+                        color: ApplicationSettings.isDarkTheme? "silver" : "black"
                         anchors.centerIn: parent
                         transform: Rotation { origin.x: 1; origin.y: 8; angle: 135}
                     }
                 }
-                onClicked: { stackView.pop()}
+
+                onClicked: {stackView.pop()}
             }
 
             Label{
                 text: "Запись"
+                color: ApplicationSettings.isDarkTheme? "silver" : "black"
                 width: contentWidth
                 height: parent.height
-                color: ApplicationSettings.isDarkTheme ? "silver" : "black"
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                font.pixelSize: 16
+                font.pixelSize: 17
             }
         }
 
@@ -92,7 +93,7 @@ ScrollablePage{
             spacing: 8
             boundsBehavior: Flickable.StopAtBounds
 
-            delegate: ListActionComponent{}
+            delegate: ListNoteAction{}
             model: ActionModel{
                 list: tableAction
             }
