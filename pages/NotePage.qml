@@ -1,7 +1,10 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.4
+import QtModel 1.0
+import "../components"
 
 ScrollablePage{
+    id: page
 
     property string noteTitle: ""
     property string noteText: ""
@@ -81,6 +84,18 @@ ScrollablePage{
             anchors.horizontalCenter: parent.horizontalCenter
             horizontalAlignment: Text.AlignHCenter
             text: noteText
+        }
+        ListView{
+            width: parent.width/1.1
+            height: contentHeight
+            anchors.horizontalCenter: parent.horizontalCenter
+            spacing: 8
+            boundsBehavior: Flickable.StopAtBounds
+
+            delegate: ListActionComponent{}
+            model: ActionModel{
+                list: tableAction
+            }
         }
     }
 }

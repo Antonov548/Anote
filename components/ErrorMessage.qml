@@ -13,6 +13,11 @@ Page{
     property real fullHeight: 0
     property var onCloseError: function(){}
 
+    function showMessage(text){
+        errorString = text
+        animShow.start()
+    }
+
     function show(){
         animShow.start()
     }
@@ -60,7 +65,7 @@ Page{
             width: parent.width - parent.height
             text: errorString
             color: "#454545"
-            font.pixelSize: 18
+            font.pixelSize: 16
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
         }

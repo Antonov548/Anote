@@ -118,7 +118,7 @@ Item{
             hoverEnabled: true
             onPressAndHold: item.openDrawer(index)
             pressAndHoldInterval: 300
-            onClicked: stackView.push(Qt.createComponent("qrc:/qml/pages/NotePage.qml").createObject(null,{"noteTitle":model.title,"noteText":model.text}))
+            onClicked: {console.log(model.date); tableAction.getActionsDatabase(model.date); stackView.push(Qt.createComponent("qrc:/qml/pages/NotePage.qml").createObject(null,{"noteTitle":model.title,"noteText":model.text}))}
         }
     }
 }

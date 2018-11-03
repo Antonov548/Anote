@@ -32,12 +32,10 @@ bool TableNote::isEmpty() const{
     return m_isEmpty;
 }
 
-bool TableNote::addNote(int year, QString month_s, int month_n, QString day_w, int day_n){
-
-    QString date_type = getSqlDate(year,month_n,day_n);
+bool TableNote::addNote(QString sql_date, QString month_s, QString day_w, int day_n){
 
     for(auto &note : note_list){
-        if(note.date == date_type)
+        if(note.date == sql_date)
             return false;
     }
 
@@ -53,7 +51,7 @@ bool TableNote::addNote(int year, QString month_s, int month_n, QString day_w, i
     sql_query.bindValue(":month",month_s);
     sql_query.bindValue(":day",day_n);
     sql_query.bindValue(":day_w",day_w);
-    sql_query.bindValue(":date",date_type);
+    sql_query.bindValue(":date",sql_date);
 
     sql_query.exec();
 
@@ -61,7 +59,7 @@ bool TableNote::addNote(int year, QString month_s, int month_n, QString day_w, i
     new_note.month = month_s;
     new_note.day = day_n;
     new_note.day_w = day_w;
-    new_note.date = date_type;
+    new_note.date = sql_date;
 
     note_list.insert(0,new_note);
 
@@ -74,6 +72,7 @@ bool TableNote::addNote(int year, QString month_s, int month_n, QString day_w, i
 }
 
 void TableNote::deleteNote(QString date, int index){
+
     emit deleteNoteStart(index);
 
     QString str_query;
@@ -99,23 +98,6 @@ void TableNote::setIsEmpty(bool isEmpty){
 
     m_isEmpty = isEmpty;
     emit isEmptyChanged(m_isEmpty);
-}
-
-QString TableNote::getSqlDate(int year, int month, int day){
-
-    QString sql_format_date = QString::number(year);
-
-    if(month<10)
-        sql_format_date += "-0" + QString::number(month);
-    else
-        sql_format_date += "-" + QString::number(month);
-
-    if(day<10)
-        sql_format_date += "-0" + QString::number(day);
-    else
-        sql_format_date += "-" + QString::number(day);
-
-    return sql_format_date;
 }
 
 void TableNote::getNotesDatabase(){

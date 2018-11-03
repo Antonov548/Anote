@@ -23,7 +23,7 @@ QVariant NoteModel::data(const QModelIndex &index, int role) const
 
     const Note note = m_list->getNote().at(index.row());
 
-    switch (role) {
+    switch (role){
 
     case Month:
         return  QVariant(note.month);

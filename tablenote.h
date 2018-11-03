@@ -14,8 +14,7 @@
 #define TABLE_DATE "date"
 
 
-struct Note
-{
+struct Note{
     QString month;
     QString day_w;
     int day;
@@ -28,7 +27,6 @@ class TableNote : public QObject
 
     Q_PROPERTY(bool isEmpty READ isEmpty WRITE setIsEmpty NOTIFY isEmptyChanged)
     QVector<Note> note_list;
-    QString getSqlDate(int year,int month,int day);
     bool m_isEmpty;
 
 public:
@@ -49,7 +47,7 @@ signals:
     void isEmptyChanged(bool isEmpty);
 
 public slots:
-    bool addNote(int ,QString, int, QString, int);
+    bool addNote(QString sql_date, QString month_s, QString day_w, int day_n);
     void deleteNote(QString, int);
 
     void setIsEmpty(bool isEmpty);

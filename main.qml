@@ -29,7 +29,7 @@ ApplicationWindow{
             close.accepted = true
     }
 
-    property var handlers: {"Добавить запись": function(name){ var dialog = Qt.createComponent("qrc:/qml/pages/CreateNoteDialog.qml").createObject(); connectionDialogNote.target = dialog ;stackView.push(dialog); drawer.close()},
+    property var handlers: {"Добавить запись": function(name){tableAction.resetList(); var dialog = Qt.createComponent("qrc:/qml/pages/CreateNoteDialog.qml").createObject(); connectionDialogNote.target = dialog ;stackView.push(dialog); drawer.close()},
         "Редактировать запись": function(){drawer.close();},
         "Удалить запись": function(){tableNote.deleteNote(listModel.getProperty("date",listView.indexChange),listView.indexChange); drawer.close()},
         "Настройки": function(name){stackView.push(stackView.page[name]);drawer.close()}}
@@ -37,26 +37,20 @@ ApplicationWindow{
     Drawer{
 
         id: drawer
-
         enabled: true
-
         width: parent.width/1.2
         height: parent.height
-
         interactive: (stackView.depth === 1  && !passwordPage.visible)
 
         background: Rectangle{
-
             anchors.fill: parent
             gradient: Gradient {
                 GradientStop { position: 0.0; color: "#2D395B" }
                 GradientStop { position: 1.0; color: "#303C60" }
             }
-
         }
 
         DrawerComponent{id: drawerComponent}
-
         ListView{
 
             id: drawerListViewTop
@@ -86,7 +80,6 @@ ApplicationWindow{
                 property bool delegateEnabled: model.color
                 property var delegateHandler: handlers[model.title]
             }
-
         }
 
         ListView{
@@ -114,7 +107,6 @@ ApplicationWindow{
                 property bool delegateEnabled: model.color
                 property var delegateHandler: handlers[model.title]
             }
-
         }
 
         onClosed: {
@@ -125,7 +117,6 @@ ApplicationWindow{
                 drawerListModelTop.setProperty(i,"color",false)
             }
         }
-
     }
 
     StackView{
@@ -194,10 +185,8 @@ ApplicationWindow{
                         easing.type: Easing.OutCubic
                     }
                 }
-
                 PropertyAction {
                     property: "scale"; value: 1 }
-
             }
         }
 
@@ -210,7 +199,6 @@ ApplicationWindow{
                 anchors.fill: parent
                 color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "#E9E9E9"
             }
-
             ListView{
 
                 id: listView
@@ -248,15 +236,12 @@ ApplicationWindow{
                         duration: 300
                         easing.type: Easing.InOutQuad
                     }
-
                 }
-
 
                 header: Rectangle{
                     id: listHeader
 
                     z: 2
-
                     width: appWindow.width
                     height: tableNote.isEmpty ? appWindow.height : appWindow.height/4
 
@@ -268,12 +253,10 @@ ApplicationWindow{
                             duration: 300
                         }
                     }
-
                     MouseArea{
                         anchors.fill: parent
                         preventStealing: true
                     }
-
                     Button{
                         anchors.top: parent.top
                         anchors.topMargin: 10
@@ -358,7 +341,6 @@ ApplicationWindow{
                                         }
                                     }
                                 }
-
 
                                 Label{
                                     text: "Добавить заметки на день"

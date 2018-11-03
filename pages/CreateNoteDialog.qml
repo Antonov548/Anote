@@ -1,6 +1,7 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.4
 import Qt.labs.calendar 1.0
+import QtModel 1.0
 import "../components/"
 
 Page{
@@ -10,7 +11,21 @@ Page{
     property var arr_year: [2018,2019,2020,2021,2022,2023,2024,2025]
     property var arr_week: ["Вс","Пн","Вт","Ср","Чт","Пт","Сб"]
 
+    property bool date_valid: false
+    property bool list_valid: false
+
     signal signalClose()
+
+    function getSQLDateFormat(year,month,day){
+        var sql_format_date = year
+        if(month<10) sql_format_date += "-0" + month
+        else sql_format_date += "-" + month
+
+        if(day<10) sql_format_date += "-0" +day
+        else sql_format_date += "-" + day
+
+        return sql_format_date;
+    }
 
     Component.onCompleted: {
         tumblerDay.currentIndex = new Date().getDate()-1
@@ -34,7 +49,6 @@ Page{
         width: parent.width
         fullHeight: parent.height
         onCloseError: function(){msgError.hide()}
-        errorString: "Текущая дата занята"
     }
 
     Page{
@@ -246,7 +260,7 @@ Page{
                 content: Column{
                     topPadding: 20
                     bottomPadding: 20
-                    spacing: 20
+                    spacing: 30
 
                     Label{
                         text: "Список дел"
@@ -255,20 +269,24 @@ Page{
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
 
-                    ListView {
-                        width: dialog.width
-                        height: contentHeight
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        clip: true
-                        spacing: 10
-                        boundsBehavior: Flickable.StopAtBounds
+                    Column{
+                        width: parent.width
+                        spacing: 8
 
-                        model: ListModel{
-                            id: listModel
-                            ListElement{added: false}
+                        AddActionsComponent{}
+
+                        ListView{
+                            width: parent.width/1.1
+                            height: contentHeight
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            spacing: 8
+                            boundsBehavior: Flickable.StopAtBounds
+
+                            delegate: ListActionComponent{}
+                            model: ActionModel{
+                                list: tableAction
+                            }
                         }
-
-                        delegate: ListActionsComponent{}
                     }
                 }
             }
@@ -308,10 +326,13 @@ Page{
                 font.pixelSize: 20
                 text: "Подтвердить"
                 onClicked: {
-                    if(tableNote.addNote(arr_year[tumblerYear.currentIndex],lblMonth.text,tumblerMonth.currentIndex+1,lblDay_w.text.slice(0,2),tumblerDay.currentIndex+1))
+                    var sql_date = getSQLDateFormat(arr_year[tumblerYear.currentIndex],tumblerMonth.currentIndex+1,tumblerDay.currentIndex+1)
+                    if(tableNote.addNote(sql_date,lblMonth.text,lblDay_w.text.slice(0,2),tumblerDay.currentIndex+1)){
+                        tableAction.addActionsDatabase(sql_date)
                         signalClose()
+                    }
                     else
-                        msgError.show()
+                        msgError.showMessage("Текущая дата занята")
                 }
             }
         }

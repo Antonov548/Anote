@@ -1,6 +1,6 @@
 #include "database.h"
 
-Database::Database(TableNote* tb_note):table_note(tb_note){
+Database::Database(TableNote &tb_note, TableAction& tb_action):table_note(tb_note),table_action(tb_action){
     connectDataBase();
 }
 
@@ -19,7 +19,8 @@ void Database::connectDataBase(){
         db = QSqlDatabase::addDatabase("QSQLITE");
         db.setDatabaseName(DATABASE_NAME);
         db.open();
-        table_note->createTable();
+        table_note.createTable();
+        table_action.createTable();
     }
 }
 

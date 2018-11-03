@@ -18,7 +18,8 @@ SOURCES += \
     database.cpp \
     tablenote.cpp \
     applicationsettings.cpp \
-    tableaction.cpp
+    tableaction.cpp \
+    actionmodel.cpp
 
 RESOURCES += \
     res.qrc
@@ -50,4 +51,7 @@ HEADERS += \
     database.h \
     tablenote.h \
     applicationsettings.h \
-    tableaction.h
+    tableaction.h \
+    actionmodel.h
+
+STATECHARTS +=
