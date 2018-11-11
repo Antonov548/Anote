@@ -152,6 +152,7 @@ ScrollablePage{
                         id: tumblerDay
                         wrap: false
                         model: dateCountDays
+                        currentIndex: dateDay
                         Component.onCompleted: {
                             tumblerDay.contentItem.positionViewAtIndex(dateDay-1,ListView.Center)
                         }
@@ -196,6 +197,7 @@ ScrollablePage{
                     Tumbler {
                         id: tumblerMonth
                         wrap: false
+                        currentIndex: dateMonth
                         model: arr_month.length
 
                         Component.onCompleted: {
@@ -255,6 +257,7 @@ ScrollablePage{
                     Tumbler{
                         id: tumblerYear
                         model: arr_year.length
+                        currentIndex: arr_year.indexOf(dateYear)
                         Component.onCompleted: {
                             tumblerYear.contentItem.positionViewAtIndex(arr_year.indexOf(dateYear),ListView.Center)
                         }
