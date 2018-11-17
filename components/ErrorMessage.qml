@@ -97,7 +97,7 @@ Page{
     Rectangle{
         height: 1
         width: errorMess.width
-        color: ApplicationSettings.isDarkTheme ? "silver" : "black"
+        color: ApplicationSettings.isDarkTheme ? "#D2D2D2" : "black"
         opacity: 0.2
         anchors.top: parent.top
     }

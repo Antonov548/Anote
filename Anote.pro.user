@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.7.2, 2018-11-11T21:39:42. -->
+<!-- Written by QtCreator 4.7.2, 2018-11-17T18:21:45. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -59,11 +59,6 @@
     <value type="QString">-fno-delayed-template-parsing</value>
    </valuelist>
    <value type="bool" key="ClangCodeModel.UseGlobalConfig">true</value>
-   <value type="bool" key="ClangTools.BuildBeforeAnalysis">false</value>
-   <valuelist type="QVariantList" key="ClangTools.SelectedDirs"/>
-   <valuelist type="QVariantList" key="ClangTools.SelectedFiles"/>
-   <valuelist type="QVariantList" key="ClangTools.SuppressedDiagnostics"/>
-   <value type="bool" key="ClangTools.UseGlobalSettings">true</value>
   </valuemap>
  </data>
  <data>
@@ -372,7 +367,7 @@
     <valuelist type="QVariantList" key="Android.PostStartShellCmdListKey"/>
     <valuelist type="QVariantList" key="Android.PreStartShellCmdListKey"/>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Anote</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Anote</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.AndroidRunConfiguration:D:/qt/Anote/Anote.pro</value>
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>

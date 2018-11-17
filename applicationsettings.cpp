@@ -2,6 +2,8 @@
 #include <QCryptographicHash>
 #include <QDebug>
 
+ApplicationSettings* ApplicationSettings::instance = nullptr;
+
 bool ApplicationSettings::setJSON(QString file_path)
 {
     j_file.setFileName(file_path);
@@ -45,14 +47,8 @@ void ApplicationSettings::saveToFile()
     j_file.close();
 }
 
-ApplicationSettings::ApplicationSettings(QString file_path, QObject *parent) : QObject(parent)
+ApplicationSettings::ApplicationSettings(QObject *parent) : QObject(parent)
 {
-    if(!setJSON(file_path))
-        setDefault();
-
-    m_isDarkTheme = j_object.value("isDarkTheme").toBool();
-    m_isBlock = j_object.value("isBlock").toBool();
-    passwordHash = j_object.value("passwordHash").toString();
 }
 
 ApplicationSettings::~ApplicationSettings()
@@ -67,6 +63,57 @@ bool ApplicationSettings::isBlock() const
 bool ApplicationSettings::isDarkTheme() const
 {
     return m_isDarkTheme;
+}
+
+/*
+void ApplicationSettings::initializeAndroidKeyboard()
+{
+    JNINativeMethod methods[] = {
+        {
+            "VirtualKeyboardStateChanged",
+            "(I)V",
+            reinterpret_cast<void*>(keyboardAndroidChanged)
+        }
+    };
+
+    QAndroidJniObject javaClass("anote/java/keyboardsize/VirtualKeyboardListener");
+    QAndroidJniEnvironment env;
+
+    jclass objectClass = env->GetObjectClass(javaClass.object<jobject>());
+
+    env->RegisterNatives(objectClass,
+                         methods,
+                         sizeof(methods) / sizeof(methods[0]));
+    env->DeleteLocalRef(objectClass);
+
+    QAndroidJniObject::callStaticMethod<void>("anote/java/keyboardsize/VirtualKeyboardListener", "InstallKeyboardListener");
+}
+
+void ApplicationSettings::keyboardAndroidChanged(JNIEnv *env, jobject thiz, jint VirtualKeyboardHeight)
+{
+    Q_UNUSED(env)
+    Q_UNUSED(thiz)
+
+    instance->keyboardChanged(VirtualKeyboardHeight);
+}
+*/
+
+ApplicationSettings *ApplicationSettings::AppSettingsInstance()
+{
+    if(!instance)
+        instance = new ApplicationSettings();
+    return instance;
+}
+
+void ApplicationSettings::setFile(QString filepath)
+{
+    if(!setJSON(filepath))
+        setDefault();
+
+    m_isDarkTheme = j_object.value("isDarkTheme").toBool();
+    m_isBlock = j_object.value("isBlock").toBool();
+    passwordHash = j_object.value("passwordHash").toString();
+
 }
 
 void ApplicationSettings::setIsBlock(bool isBlock)

@@ -22,23 +22,22 @@ bool TableAction::isEmpty() const{
     return m_isEmpty;
 }
 
-void TableAction::addAction(){
+void TableAction::addAction(QString text){
 
     emit addNoteStart();
 
     Action new_action;
-    new_action.information = "";
+    new_action.information = text;
     new_action.isDone = false;
     new_action.date = "";
 
-    action_list.append(new_action);
+    action_list.insert(0,new_action);
     emit addNoteEnd();
 }
 
 void TableAction::resetList(){
     action_list.clear();
 }
-
 
 void TableAction::deleteAction(int index){
     emit deleteNoteStart(index);

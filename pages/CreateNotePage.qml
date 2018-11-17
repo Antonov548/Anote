@@ -1,6 +1,7 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.4
 import QtModel 1.0
+import QtQuick.Window 2.11
 import "../components/"
 
 ScrollablePage{
@@ -19,28 +20,16 @@ ScrollablePage{
 
     property bool date_valid: false
     property bool list_valid: false
-    property real pageHeight: 0
-    property bool firstOpen: true
-    property bool keyBoardOpened: false
-    property real coordFlick: 0
+    property real appHeight: 0
 
     function popSignal(){
         signalClose()
     }
 
-    onHeightChanged: {
-        if(firstOpen){
-            pageHeight = page.height
-            firstOpen = false
-        }
-        else{
-            if(pageHeight > page.height){
-                keyBoardOpened = true
-                page.contentYPosition = coordFlick - page.height
-            }
-            else if(pageHeight <= page.height){
-                keyBoardOpened = false
-            }
+    Connections{
+        target: ApplicationSettings
+        onKeyboardChanged: {
+            page.height = appHeight - keyboardHeight/Screen.devicePixelRatio
         }
     }
 
@@ -56,9 +45,7 @@ ScrollablePage{
 
         return sql_format_date;
     }
-    Component.onCompleted: {
-        tableAction.addAction()
-    }
+
     header: Rectangle{
 
         width: parent.width
@@ -131,6 +118,35 @@ ScrollablePage{
         width: parent.width
         spacing: 40
         bottomPadding: 40
+
+        Column{
+            id: listViewColumn
+            spacing: 35
+            width: parent.width
+            anchors.horizontalCenter: parent.horizontalCenter
+            Column{
+                spacing: 10
+                topPadding: 40
+                width: parent.width
+                anchors.horizontalCenter: parent.horizontalCenter
+                TextEditAction{id: fieldAction; anchors.horizontalCenter: parent.horizontalCenter}
+                AddActionsComponent{anchors.horizontalCenter: parent.horizontalCenter}
+            }
+
+            ListView{
+                id: listView
+                width: parent.width
+                height: contentHeight
+                anchors.horizontalCenter: parent.horizontalCenter
+                spacing: 15
+                boundsBehavior: Flickable.StopAtBounds
+
+                delegate: ListActionComponent{itemText: model.info}
+                model: ActionModel{
+                    list: tableAction
+                }
+            }
+        }
 
         Column{
             id: tumblerColumn
@@ -347,27 +363,6 @@ ScrollablePage{
                     color: ApplicationSettings.isDarkTheme ? "silver" : "black"
                 }
             }
-        }
-
-        Column{
-            id: listViewColumn
-            spacing: 30
-            width: parent.width
-            anchors.horizontalCenter: parent.horizontalCenter
-            ListView{
-                id: listView
-                width: parent.width
-                height: contentHeight
-                anchors.horizontalCenter: parent.horizontalCenter
-                spacing: 20
-                boundsBehavior: Flickable.StopAtBounds
-
-                delegate: ListActionComponent{}
-                model: ActionModel{
-                    list: tableAction
-                }
-            }
-            AddActionsComponent{anchors.horizontalCenter: parent.horizontalCenter}
         }
     }
 }

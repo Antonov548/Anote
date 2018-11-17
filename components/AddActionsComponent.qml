@@ -32,7 +32,7 @@ Item{
         }
         Label{
             height: item.height
-            text: "Новый пункт"
+            text: "Добавить пункт"
             font.pixelSize: 16
             verticalAlignment: Text.AlignVCenter
             color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
@@ -41,7 +41,14 @@ Item{
     MouseArea{
         anchors.fill: item
         onClicked: {
-            tableAction.addAction()
+            if(!fieldAction.isReadyToAccept){
+                msgError.showMessage("Введите текст заметки")
+                page.contentYPosition = 0
+            }
+            else{
+                tableAction.addAction(fieldAction.text)
+                fieldAction.clear()
+            }
         }
     }
 }

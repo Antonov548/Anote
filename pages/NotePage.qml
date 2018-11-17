@@ -9,11 +9,6 @@ ScrollablePage{
     property string noteTitle: ""
     property string noteText: ""
 
-    backgr: Rectangle{
-        anchors.fill: page
-        color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "white"
-    }
-
     header: Rectangle{
 
         width: parent.width

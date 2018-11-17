@@ -64,7 +64,7 @@ void ActionModel::setList(TableAction *list)
 
     if (m_list) {
         connect(m_list, &TableAction::addNoteStart, this, [=]() {
-            const int index = m_list->getAction().count();
+            const int index = 0;
             beginInsertRows(QModelIndex(), index, index);
         });
         connect(m_list, &TableAction::addNoteEnd, this, [=]() {
@@ -82,4 +82,28 @@ void ActionModel::setList(TableAction *list)
     emit listChanged(m_list);
 
     endResetModel();
+}
+
+bool ActionModel::setProperty(const QModelIndex &index, const QVariant &value, QString role)
+{
+    if(!m_list)
+        return  false;
+
+    int number_role = roles.key(role.toUtf8());
+    Action action = m_list->getAction().at(index.row());
+
+    switch (number_role) {
+    case Information:
+        action.information = value.toString();
+        break;
+    case IsDone:
+        action.isDone = value.toBool();
+        break;
+    case Date:
+        action.date = value.toString();
+        break;
+    }
+
+    emit dataChanged(index, index);
+    return true;
 }

@@ -24,6 +24,11 @@ ApplicationWindow{
         ignoreUnknownSignals: true
     }
 
+    background: Rectangle{
+        anchors.fill: parent
+        color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "white"
+    }
+
     onClosing: {
         close.accepted = false
         if(stackView.depth>1)
@@ -32,7 +37,7 @@ ApplicationWindow{
             close.accepted = true
     }
 
-    property var handlers: {"Добавить запись": function(name){tableAction.resetList();stackView.createNotePage = stackView.push("qrc:/qml/pages/CreateNotePage.qml"); drawer.close()},
+    property var handlers: {"Добавить запись": function(name){tableAction.resetList();stackView.createNotePage = stackView.push("qrc:/qml/pages/CreateNotePage.qml",{"appHeight": appWindow.height}); drawer.close()},
         "Редактировать запись": function(){drawer.close();},
         "Удалить запись": function(){tableNote.deleteNote(listModel.getProperty("date",listView.indexChange),listView.indexChange); tableAction.deleteActionsDatabase(listModel.getProperty("date",listView.indexChange)); drawer.close()},
         "Настройки": function(name){stackView.push(stackView.page[name]);drawer.close()}}

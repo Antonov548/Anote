@@ -5,15 +5,11 @@ import QtQuick.Window 2.11
 Item{
     id: item
 
-    property real startHeight: 0
+    property string itemText: ""
 
+    height: textAction.implicitHeight
     width: parent.width/1.2
-    height: field.height + 12
     anchors.horizontalCenter: parent.horizontalCenter
-
-    Component.onCompleted: {
-        startHeight = item.height
-    }
 
     ListView.onAdd: NumberAnimation {
         target: item
@@ -29,39 +25,26 @@ Item{
         height: item.height
         color: ApplicationSettings.isDarkTheme ? "#3A3A3A" : "#E1E1E1"
         radius: 4
-        TextArea{
-            id: field
-            placeholderText: "Текст заметки"
+        Text{
+            id: textAction
+            text: itemText
+            height: contentHeight
             width: parent.width/1.1
-            padding: 5
+            color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
             font.pixelSize: 16
-            anchors.verticalCenter: parent.verticalCenter
-            color: ApplicationSettings.isDarkTheme ? field.textChanged ? "silver" : "#747474"  :  field.textChanged ? "#454545" : "#A5A5A5"
-            wrapMode: TextArea.Wrap
-
-            onActiveFocusChanged: {
-                if(field.activeFocus){
-                    if(!page.keyBoardOpened)
-                        page.coordFlick = listViewColumn.y + item.y + 30 + item.height + mainColumn.spacing
-                    else
-                        page.contentYPosition = listViewColumn.y + item.y + 30 + item.height + mainColumn.spacing - page.height
-                }
-            }
-            onLineCountChanged: {
-                page.contentYPosition = listViewColumn.y + item.y + 30 + item.height + mainColumn.spacing - page.height
-            }
+            wrapMode: Text.Wrap
+            padding: 10
         }
 
         Button{
             id: button
-            width: startHeight/1.2
+            width: textAction.contentHeight/textAction.lineCount
             height: width
             clip: true
-            visible: (field.activeFocus || button.pressed)
             anchors.right: parent.right
             anchors.rightMargin: 5
             anchors.top: parent.top
-            anchors.topMargin: (startHeight - height)/2
+            anchors.topMargin: (width + textAction.padding*2 - height)/2
 
             onClicked: {
                 tableAction.deleteAction(index)

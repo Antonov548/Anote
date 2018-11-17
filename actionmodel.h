@@ -26,6 +26,7 @@ public:
 
 public slots:
     void setList(TableAction* list);
+    bool setProperty(const QModelIndex &index, const QVariant &value, QString role);
 
 signals:
     void listChanged(TableAction* list);

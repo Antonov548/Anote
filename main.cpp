@@ -16,7 +16,8 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
-    ApplicationSettings settings("settings.json");
+    ApplicationSettings *settings = ApplicationSettings::AppSettingsInstance();
+    settings->setFile("settings.json");
 
     qmlRegisterType<NoteModel>("QtModel",1,0,"NoteModel");
     qmlRegisterType<ActionModel>("QtModel",1,0,"ActionModel");
@@ -30,8 +31,10 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("tableNote",&tableNote);
     engine.rootContext()->setContextProperty("tableAction",&tableAction);
-    engine.rootContext()->setContextProperty("ApplicationSettings",&settings);
+    engine.rootContext()->setContextProperty("ApplicationSettings",settings);
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
+
+    //settings->initializeAndroidKeyboard();
 
     if (engine.rootObjects().isEmpty())
         return -1;
