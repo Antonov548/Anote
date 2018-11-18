@@ -10,9 +10,6 @@ Item{
     height: 60
     anchors.horizontalCenter: parent.horizontalCenter
 
-    signal openDrawer(real c_index)
-
-
     ListView.onRemove: SequentialAnimation {
         PropertyAction { target: item; property: "ListView.delayRemove"; value: true }
         PropertyAnimation {
@@ -32,6 +29,42 @@ Item{
         radius: 2
 
         color: ApplicationSettings.isDarkTheme ?  mouseArea.pressed ? "#292929" : "#323232" : mouseArea.pressed ? "#DEDEDE" : "white"
+
+        Rectangle{
+            id: buttonTool
+            height: 60
+            width: visible ? lbl.implicitWidth : 0
+            anchors.right: parent.right
+            color: ApplicationSettings.isDarkTheme? "#292929" : "#DEDEDE"
+            radius: 2
+            visible: stackInitial.indexChange == index
+            clip: true
+
+            Behavior on width {
+                NumberAnimation{
+                    duration: 200
+                    easing.type: Easing.InOutQuad
+                }
+            }
+            Label{
+                id: lbl
+                anchors.centerIn: parent
+                font.pixelSize: 14
+                text: "Удалить"
+                rightPadding: 15
+                leftPadding: 15
+                color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+            }
+            MouseArea{
+                anchors.fill: parent
+                onClicked: {
+                    var data = listModel.getProperty("date",stackInitial.indexChange)
+                    tableNote.deleteNote(data,stackInitial.indexChange)
+                    tableAction.deleteActionsDatabase(data)
+                    stackInitial.indexChange = -1
+                }
+            }
+        }
 
         Rectangle{
             width: parent.width
@@ -105,16 +138,14 @@ Item{
         }
 
         MouseArea{
-
             id: mouseArea
-
             width: parent.width/1.3
             height: parent.height
             anchors.horizontalCenter: parent.horizontalCenter
             hoverEnabled: true
-            onPressAndHold: item.openDrawer(index)
+            onPressAndHold: {stackInitial.indexChange = index}
             pressAndHoldInterval: 300
-            onClicked: {tableAction.getActionsDatabase(model.date); stackView.push(Qt.createComponent("qrc:/qml/pages/NotePage.qml").createObject(null,{"noteTitle":model.title,"noteText":model.text}))}
+            onClicked: {tableAction.getActionsDatabase(model.date); stackView.push("qrc:/qml/pages/NotePage.qml")}
         }
     }
 }

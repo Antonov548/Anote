@@ -1,7 +1,7 @@
 #include "tableaction.h"
 #include <QDebug>
 
-TableAction::TableAction(QObject *parent) : QObject(parent){
+TableAction::TableAction(QObject *parent) : QObject(parent),m_isEmpty(true){
 
 }
 
@@ -32,16 +32,19 @@ void TableAction::addAction(QString text){
     new_action.date = "";
 
     action_list.insert(0,new_action);
+    m_isEmpty = action_list.isEmpty();
     emit addNoteEnd();
 }
 
 void TableAction::resetList(){
     action_list.clear();
+    m_isEmpty = true;
 }
 
 void TableAction::deleteAction(int index){
     emit deleteNoteStart(index);
     action_list.remove(index);
+    m_isEmpty = action_list.isEmpty();
     emit deleteNoteEnd();
 }
 

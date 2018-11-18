@@ -33,7 +33,6 @@ Component{
             horizontalAlignment: Text.AlignLeft
             color: "white"
             font.pixelSize: 14
-            opacity: delegateEnabled ? 1 : 0.5
         }
         MouseArea{
             id: mouseArea
@@ -42,13 +41,7 @@ Component{
             onClicked: onClick()
 
             function onClick(){
-                if(delegateEnabled){
-                    drawer.enabled = false
-                    delegateHandler(delegateTitle)
-                }
-                else{
-                    return
-                }
+                delegateHandler(delegateTitle)
             }
         }
     }

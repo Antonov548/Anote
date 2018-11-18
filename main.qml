@@ -31,15 +31,10 @@ ApplicationWindow{
 
     onClosing: {
         close.accepted = false
-        if(stackView.depth>1)
-            stackView.currentItem.popSignal()
-        else
-            close.accepted = true
+        stackView.currentItem.popSignal()
     }
 
-    property var handlers: {"Добавить запись": function(name){tableAction.resetList();stackView.createNotePage = stackView.push("qrc:/qml/pages/CreateNotePage.qml",{"appHeight": appWindow.height}); drawer.close()},
-        "Редактировать запись": function(){drawer.close();},
-        "Удалить запись": function(){tableNote.deleteNote(listModel.getProperty("date",listView.indexChange),listView.indexChange); tableAction.deleteActionsDatabase(listModel.getProperty("date",listView.indexChange)); drawer.close()},
+    property var handlers: {"Добавить запись": function(name){tableAction.resetList();stackView.createNotePage = stackView.push("qrc:/qml/pages/CreateNotePage.qml",{"appHeight": appWindow.height}); stackInitial.indexChange = -1; drawer.close()},
         "Настройки": function(name){stackView.push(stackView.page[name]);drawer.close()}}
 
     Drawer{
@@ -74,9 +69,7 @@ ApplicationWindow{
             model: ListModel{
                 id: drawerListModelTop
 
-                ListElement{title: "Добавить запись"; source: "qrc:/image/icons/add.png"; color: true}
-                ListElement{title: "Редактировать запись"; source: "qrc:/image/icons/edit.png"; color: false}
-                ListElement{title: "Удалить запись"; source: "qrc:/image/icons/delete.png"; color: false}
+                ListElement{title: "Добавить запись"; source: "qrc:/image/icons/add.png"}
             }
 
             delegate: Loader{
@@ -85,7 +78,6 @@ ApplicationWindow{
 
                 property string delegateTitle: model.title
                 property string delegateSourceImage: model.source
-                property bool delegateEnabled: model.color
                 property var delegateHandler: handlers[model.title]
             }
         }
@@ -103,7 +95,7 @@ ApplicationWindow{
             clip: true
 
             model: ListModel{
-                ListElement{title: "Настройки"; source: "qrc:/image/icons/settings.png"; color: true; role: 3}
+                ListElement{title: "Настройки"; source: "qrc:/image/icons/settings.png"}
             }
 
             delegate: Loader{
@@ -112,17 +104,7 @@ ApplicationWindow{
 
                 property string delegateTitle: model.title
                 property string delegateSourceImage: model.source
-                property bool delegateEnabled: model.color
                 property var delegateHandler: handlers[model.title]
-            }
-        }
-
-        onClosed: {
-
-            drawer.enabled = true
-            listView.indexChange = -1
-            for(var i = 1; i < 3; i++){
-                drawerListModelTop.setProperty(i,"color",false)
             }
         }
     }
@@ -201,8 +183,17 @@ ApplicationWindow{
 
         initialItem: Pane{
             id: stackInitial
+            property real indexChange: -1
 
             padding: 0
+
+            function popSignal(){
+                if(indexChange >= 0){
+                    indexChange = -1
+                }else{
+                    Qt.quit()
+                }
+            }
 
             background: Rectangle{
                 anchors.fill: parent
@@ -217,8 +208,6 @@ ApplicationWindow{
                 clip: true
 
                 anchors.fill: parent
-
-                property real indexChange: -1
 
                 model: NoteModel{
                     id: listModel
@@ -362,21 +351,7 @@ ApplicationWindow{
                     }
                 }
 
-                delegate: ListViewComponent{
-
-                    onOpenDrawer: {listView.customElement(c_index)}
-
-                }
-
-                function customElement(custom_index){
-
-                    listView.indexChange = custom_index
-
-                    for(var i = 1; i < 3; i++){
-                        drawerListModelTop.setProperty(i,"color",true)
-                    }
-                    drawer.open()
-                }
+                delegate: ListViewComponent{}
             }
         }
     }

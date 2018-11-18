@@ -5,82 +5,89 @@ import QtGraphicalEffects 1.0
 Item{
     id: item
 
-    width: parent.width - 16
-    height: 50
+    height: textAction.implicitHeight + bottomSpaccing.height
+    width: parent.width/1.2
     anchors.horizontalCenter: parent.horizontalCenter
+    clip: true
+
+    ListView.onAdd: NumberAnimation {
+        target: item
+        property: "opacity"
+        from: 0
+        to: 1
+        duration: 300
+        easing.type: Easing.InOutQuad
+    }
 
     ListView.onRemove: SequentialAnimation {
         PropertyAction { target: item; property: "ListView.delayRemove"; value: true }
-        PropertyAnimation {
-            property: "opacity"
-            target: item
-            to: 0
-            duration: 400
-            easing.type: Easing.InOutQuad
-        }
+        NumberAnimation { target: item; property: "height"; to: 0; duration: 200; easing.type: Easing.InOutQuad }
         PropertyAction { target: item; property: "ListView.delayRemove"; value: false }
     }
-
-    Rectangle{
-        anchors.fill: parent
-        radius: 2
-        clip: true
-
-        color: ApplicationSettings.isDarkTheme ?  mouseArea.pressed ? "#292929" : "#323232" : mouseArea.pressed ? "#BFBFBF" : "#DEDEDE"
-
+    Column{
+        width: item.width
+        height: item.height
         Rectangle{
-            width: parent.width
-            height: 3
-            color: ApplicationSettings.isDarkTheme ? "#272727" : "#EAEAEA"
-            anchors.bottom: parent.bottom
-            anchors.horizontalCenter: parent.horizontalCenter
-        }
-
-        Row{
-            anchors.fill: parent
-            leftPadding: 10
-            spacing: 10
-
-            Label{
+            width: item.width
+            height: item.height - bottomSpaccing.height
+            color: ApplicationSettings.isDarkTheme ? "#3A3A3A" : "#E1E1E1"
+            radius: 4
+            Text{
+                id: textAction
                 text: model.info
-                width: item.width/1.2
-                height: item.height
+                height: contentHeight
+                width: parent.width/1.1
                 color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
                 font.pixelSize: 16
-                verticalAlignment: Text.AlignVCenter
+                wrapMode: Text.Wrap
+                padding: 10
             }
 
-            Rectangle{
-                width: 28
-                height: 28
-                radius: 4
-                color: "transparent"
-                border.color: "#2D395B"
-                border.width: 3
-                anchors.verticalCenter: parent.verticalCenter
+            Button{
+                id: button
+                width: textAction.contentHeight/textAction.lineCount
+                height: width
+                clip: true
+                anchors.right: parent.right
+                anchors.rightMargin: 5
+                anchors.top: parent.top
+                anchors.topMargin: (width + textAction.padding*2 - height)/2
 
-                Rectangle{
-                    visible: !model.done
-                    width: 26
-                    height: 26
-                    anchors.centerIn: parent
-                    color: "#2D395B"
+                onClicked: {
+                    tableAction.deleteAction(index)
+                }
+
+                background: Rectangle{
+                    anchors.fill: button
+                    color: "transparent"
+                }
+                contentItem: Rectangle{
+                    id: rect
+                    anchors.fill: parent
+                    color: "transparent"
 
                     Rectangle{
                         width: 2
-                        height: 20
+                        height: 16
+                        color: ApplicationSettings.isDarkTheme ? "#A5A5A5" : "#454545"
+                        anchors.centerIn: rect
+                        transform: Rotation{ origin.x: 1; origin.y: 8; angle: 45}
+                    }
+                    Rectangle{
+                        width: 16
+                        height: 2
+                        color: ApplicationSettings.isDarkTheme ? "#A5A5A5" : "#454545"
+                        anchors.centerIn: rect
+                        transform: Rotation{ origin.x: 8; origin.y: 1; angle: 45}
                     }
                 }
             }
         }
-    }
-
-    MouseArea{
-        id: mouseArea
-
-        width: parent.width
-        height: parent.height
-        anchors.horizontalCenter: parent.horizontalCenter
-        hoverEnabled: true
+        Rectangle{
+            id: bottomSpaccing
+            width: item.width
+            height: 15
+            color: "transparent"
+        }
     }
 }

@@ -6,9 +6,6 @@ import "../components"
 ScrollablePage{
     id: page
 
-    property string noteTitle: ""
-    property string noteText: ""
-
     header: Rectangle{
 
         width: parent.width
@@ -67,6 +64,8 @@ ScrollablePage{
         }
     }
 
+    backgroundColor: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "white"
+
     content: Column{
         anchors.fill: parent
         spacing: 20
@@ -79,13 +78,11 @@ ScrollablePage{
             font.pixelSize: 20
             anchors.horizontalCenter: parent.horizontalCenter
             horizontalAlignment: Text.AlignHCenter
-            text: noteText
         }
         ListView{
             width: parent.width/1.1
             height: contentHeight
             anchors.horizontalCenter: parent.horizontalCenter
-            spacing: 8
             boundsBehavior: Flickable.StopAtBounds
 
             delegate: ListNoteAction{}

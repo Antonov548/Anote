@@ -2,13 +2,14 @@ import QtQuick 2.11
 import QtQuick.Controls 2.4
 import QtModel 1.0
 import QtQuick.Window 2.11
+import QtGraphicalEffects 1.0
 import "../components/"
 
 ScrollablePage{
     id: page
 
     property var arr_month: ["Января","Февраля","Марта","Апреля","Мая","Июня","Июля","Августа","Сентября","Октября","Ноября","Декабря"]
-    property var arr_year: [2017,2018,2019,2020,2021,2022,2023,2024,2025]
+    property var arr_year: [2018,2019,2020,2021,2022,2023,2024,2025]
     property var arr_week: ["Вс","Пн","Вт","Ср","Чт","Пт","Сб"]
 
     property var date: new Date()
@@ -23,7 +24,18 @@ ScrollablePage{
     property real appHeight: 0
 
     function popSignal(){
-        signalClose()
+        if(tableAction.isEmpty){
+            signalClose()
+            return
+        }
+
+        var sql_date = getSQLDateFormat(arr_year[tumblerYear.currentIndex],tumblerMonth.currentIndex+1,tumblerDay.currentIndex+1)
+        if(tableNote.addNote(sql_date,lblMonth.text,lblDay_w.text.slice(0,2),tumblerDay.currentIndex+1)){
+            tableAction.addActionsDatabase(sql_date)
+            signalClose()
+        }
+        else
+            msgError.showMessage("Текущая дата занята")
     }
 
     Connections{
@@ -81,7 +93,7 @@ ScrollablePage{
                     }
                 }
 
-                onClicked: {signalClose()}
+                onClicked: {popSignal()}
             }
 
             Label{
@@ -121,12 +133,12 @@ ScrollablePage{
 
         Column{
             id: listViewColumn
-            spacing: 35
             width: parent.width
             anchors.horizontalCenter: parent.horizontalCenter
             Column{
                 spacing: 10
                 topPadding: 40
+                bottomPadding: 20
                 width: parent.width
                 anchors.horizontalCenter: parent.horizontalCenter
                 TextEditAction{id: fieldAction; anchors.horizontalCenter: parent.horizontalCenter}
@@ -138,7 +150,6 @@ ScrollablePage{
                 width: parent.width
                 height: contentHeight
                 anchors.horizontalCenter: parent.horizontalCenter
-                spacing: 15
                 boundsBehavior: Flickable.StopAtBounds
 
                 delegate: ListActionComponent{itemText: model.info}
@@ -151,7 +162,7 @@ ScrollablePage{
         Column{
             id: tumblerColumn
             topPadding: 20
-            bottomPadding: 20
+            bottomPadding: 50
             spacing: 20
             anchors.horizontalCenter: parent.horizontalCenter
 
@@ -172,6 +183,15 @@ ScrollablePage{
                         Component.onCompleted: {
                             tumblerDay.contentItem.positionViewAtIndex(dateDay-1,ListView.Center)
                         }
+
+                        NumberAnimation {
+                            id: animation
+                            target: tumblerDay
+                            property: "currentIndex"
+                            duration: 200
+                            easing.type: Easing.InOutQuad
+                        }
+
                         background: Rectangle{
                             anchors.fill: parent
                             color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "white"
@@ -336,6 +356,7 @@ ScrollablePage{
             Row{
                 anchors.horizontalCenter: parent.horizontalCenter
                 spacing: 10
+                bottomPadding: 10
 
                 Label{
                     id: lblDay_w
@@ -363,16 +384,35 @@ ScrollablePage{
                     color: ApplicationSettings.isDarkTheme ? "silver" : "black"
                 }
             }
+
+            Button{
+                id: buttonToday
+                height: 40
+                padding: 0
+                anchors.horizontalCenter: parent.horizontalCenter
+
+                onClicked: {
+                    tumblerDay.contentItem.positionViewAtIndex(dateDay-1,ListView.Center)
+                    tumblerMonth.contentItem.positionViewAtIndex(dateMonth,ListView.Center)
+                    tumblerYear.contentItem.positionViewAtIndex(arr_year.indexOf(dateYear),ListView.Center)
+                }
+
+                background: Rectangle{
+                    anchors.fill: parent
+                    color: ApplicationSettings.isDarkTheme ?  buttonToday.pressed ? "#292929" : "#323232" : buttonToday.pressed ? "#C7C7C7" : "#E1E1E1"
+                }
+
+                contentItem: Label{
+                    text: "Сегодня"
+                    height: parent.height
+                    font.pixelSize: 16
+                    leftPadding: 15
+                    rightPadding: 15
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                }
+            }
         }
     }
 }
-
-/*
-                var sql_date = getSQLDateFormat(arr_year[tumblerYear.currentIndex],tumblerMonth.currentIndex+1,tumblerDay.currentIndex+1)
-                if(tableNote.addNote(sql_date,lblMonth.text,lblDay_w.text.slice(0,2),tumblerDay.currentIndex+1)){
-                    tableAction.addActionsDatabase(sql_date)
-                    signalClose()
-                }
-                else
-                    msgError.showMessage("Текущая дата занята")
-*/
