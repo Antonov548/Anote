@@ -128,8 +128,7 @@ ScrollablePage{
     content: Column{
         id: mainColumn
         width: parent.width
-        spacing: 40
-        bottomPadding: 40
+        bottomPadding: 20
 
         Column{
             id: listViewColumn
@@ -399,6 +398,7 @@ ScrollablePage{
 
                 background: Rectangle{
                     anchors.fill: parent
+                    radius: 4
                     color: ApplicationSettings.isDarkTheme ?  buttonToday.pressed ? "#292929" : "#323232" : buttonToday.pressed ? "#C7C7C7" : "#E1E1E1"
                 }
 

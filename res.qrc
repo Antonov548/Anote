@@ -17,6 +17,7 @@
         <file>components/ListNoteAction.qml</file>
         <file>pages/CreateNotePage.qml</file>
         <file>components/TextEditAction.qml</file>
+        <file>pages/MenuPage.qml</file>
     </qresource>
     <qresource prefix="/image">
         <file>icons/add.png</file>

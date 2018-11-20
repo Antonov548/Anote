@@ -214,8 +214,6 @@ ApplicationWindow{
                     list: tableNote
                 }
 
-                spacing: 8
-
                 headerPositioning: ListView.OverlayHeader
                 boundsBehavior: Flickable.StopAtBounds
                 boundsMovement: Flickable.StopAtBounds
@@ -255,27 +253,6 @@ ApplicationWindow{
                         anchors.fill: parent
                         preventStealing: true
                     }
-                    Button{
-                        anchors.top: parent.top
-                        anchors.topMargin: 10
-                        anchors.left: parent.left
-                        anchors.leftMargin: 10
-
-                        icon.source: "qrc:/image/icons/drawer.png"
-                        icon.color: ApplicationSettings.isDarkTheme ? "white" : "black"
-
-                        icon.width: 20
-                        icon.height: 20
-
-                        background: Rectangle{
-
-                            anchors.fill: parent
-                            color: "transparent"
-
-                        }
-
-                        onClicked: {drawer.open()}
-                    }
 
                     Pane{
                         width: parent.width/1.5
@@ -306,6 +283,7 @@ ApplicationWindow{
 
                                     background: Rectangle{
                                         anchors.fill: parent
+                                        radius: 4
                                         color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
                                     }
 
@@ -353,6 +331,7 @@ ApplicationWindow{
 
                 delegate: ListViewComponent{}
             }
+            MenuPage{}
         }
     }
 
