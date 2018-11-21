@@ -26,18 +26,18 @@ ScrollablePage{
                     anchors.fill: parent
                     color: ApplicationSettings.isDarkTheme ?  button.pressed ? "#292929" : "#1B1B1B" : button.pressed ? "#DEDEDE" : "white"
                     Rectangle{
-                        height: 16
+                        height: 18
                         width: 2
                         color: ApplicationSettings.isDarkTheme? "silver" : "black"
                         anchors.centerIn: parent
-                        transform: Rotation { origin.x: 1; origin.y: 8; angle: 45}
+                        transform: Rotation { origin.x: 1; origin.y: 9; angle: 45}
                     }
                     Rectangle{
-                        height: 16
+                        height: 18
                         width: 2
                         color: ApplicationSettings.isDarkTheme? "silver" : "black"
                         anchors.centerIn: parent
-                        transform: Rotation { origin.x: 1; origin.y: 8; angle: 135}
+                        transform: Rotation { origin.x: 1; origin.y: 9; angle: 135}
                     }
                 }
 

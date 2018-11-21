@@ -46,7 +46,7 @@ Item{
                 page.contentYPosition = 0
             }
             else{
-                fieldAction.focus = false
+                fieldAction.setFocus(false)
                 fieldAction.isReadyToAccept = false
                 tableAction.addAction(fieldAction.text)
                 fieldAction.clear()

@@ -5,27 +5,34 @@ Item{
     id: item
     visible: true
     anchors.fill: parent
+
     property bool isOpen: false
 
     Page{
         id: page
-        visible: isOpen
         anchors.fill: item
+        visible: false
         background: Rectangle{
             anchors.fill: page
             color: "black"
-            opacity: 0.7
+            opacity: isOpen ? 0.7 : 0
+            Behavior on opacity {
+                OpacityAnimator{
+                    duration: 150
+                }
+            }
         }
+
         MouseArea{
             anchors.fill: parent
             onClicked: isOpen = false
         }
 
         ScrollablePage{
-            x: 10
-            y: 10
+            x: button.x - 10
+            y: button.y - 10
             width: isOpen ? item.width/1.7 : 0
-            height: isOpen ? item.width/2 : 0
+            height: isOpen ? item.height/2 : 0
 
             Behavior on width {
                 NumberAnimation{
@@ -42,10 +49,9 @@ Item{
             }
 
             clip: true
-
             background: Rectangle{
                 anchors.fill: parent
-                radius: 5
+                radius: 8
                 color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "#E9E9E9"
             }
         }
@@ -82,16 +88,26 @@ Item{
             Transition {
                 from: "default"
                 to: "opened"
-                PropertyAnimation{ targets: [humb_3,humb_1] ; properties: "width,y,x"; duration: 200; easing.type: Easing.InOutQuad}
-                PropertyAnimation{ targets: [transf_1,transf_2] ; properties: "angle"; duration: 200; easing.type: Easing.OutCirc}
-                PropertyAnimation{ target: humb_2; property: "width"; duration: 100; easing.type: Easing.InOutQuad}
+                SequentialAnimation{
+                    PropertyAction{target: page; property: "visible"; value: true}
+                    ParallelAnimation{
+                        PropertyAnimation{ targets: [humb_3,humb_1] ; properties: "width,y,x"; duration: 200; easing.type: Easing.InOutQuad}
+                        PropertyAnimation{ targets: [transf_1,transf_2] ; properties: "angle"; duration: 200; easing.type: Easing.OutCirc}
+                        PropertyAnimation{ target: humb_2; property: "width"; duration: 100; easing.type: Easing.InOutQuad}
+                    }
+                }
             },
             Transition {
                 from: "opened"
                 to: "default"
-                PropertyAnimation{ targets: [humb_3,humb_1] ; properties: "width,y"; duration: 200; easing.type: Easing.InOutQuad}
-                PropertyAnimation{ targets: [transf_1,transf_2] ; properties: "angle"; duration: 200; easing.type: Easing.OutCirc}
-                PropertyAnimation{ target: humb_2; property: "width"; duration: 100; easing.type: Easing.InOutQuad}
+                SequentialAnimation{
+                    ParallelAnimation{
+                        PropertyAnimation{ targets: [humb_3,humb_1] ; properties: "width,y"; duration: 200; easing.type: Easing.InOutQuad}
+                        PropertyAnimation{ targets: [transf_1,transf_2] ; properties: "angle"; duration: 200; easing.type: Easing.OutCirc}
+                        PropertyAnimation{ target: humb_2; property: "width"; duration: 100; easing.type: Easing.InOutQuad}
+                    }
+                    PropertyAction{target: page; property: "visible"; value: false}
+                }
             }
         ]
 

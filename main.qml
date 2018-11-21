@@ -188,11 +188,15 @@ ApplicationWindow{
             padding: 0
 
             function popSignal(){
+                if(menu.isOpen){
+                    menu.isOpen = false
+                    return
+                }
                 if(indexChange >= 0){
                     indexChange = -1
-                }else{
-                    Qt.quit()
+                    return
                 }
+                Qt.quit()
             }
 
             background: Rectangle{
@@ -331,7 +335,7 @@ ApplicationWindow{
 
                 delegate: ListViewComponent{}
             }
-            MenuPage{}
+            MenuPage{id: menu}
         }
     }
 

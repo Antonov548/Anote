@@ -12,7 +12,11 @@ Item{
     anchors.horizontalCenter: parent.horizontalCenter
 
     function clear(){
-        field.clear()
+        field.text = ""
+    }
+
+    function setFocus(value){
+        field.focus = value
     }
 
     ListView.onAdd: NumberAnimation {
