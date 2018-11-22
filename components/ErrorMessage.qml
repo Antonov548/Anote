@@ -66,6 +66,7 @@ Page{
             text: errorString
             color: "#454545"
             font.pixelSize: 16
+            font.family: ApplicationSettings.font
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
         }

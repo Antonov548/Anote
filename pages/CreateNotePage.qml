@@ -104,6 +104,7 @@ ScrollablePage{
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 font.pixelSize: 17
+                font.family: ApplicationSettings.font
             }
         }
 
@@ -137,7 +138,7 @@ ScrollablePage{
             Column{
                 spacing: 10
                 topPadding: 40
-                bottomPadding: 20
+                bottomPadding: 10
                 width: parent.width
                 anchors.horizontalCenter: parent.horizontalCenter
                 TextEditAction{id: fieldAction; anchors.horizontalCenter: parent.horizontalCenter}
@@ -161,7 +162,7 @@ ScrollablePage{
         Column{
             id: tumblerColumn
             topPadding: 20
-            bottomPadding: 50
+            bottomPadding: 20
             spacing: 20
             anchors.horizontalCenter: parent.horizontalCenter
 
@@ -209,6 +210,7 @@ ScrollablePage{
                         delegate: Text {
                             text: index+1
                             font.pixelSize: 17
+                            font.family: ApplicationSettings.font
                             color: ApplicationSettings.isDarkTheme ? "silver" : "black"
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
@@ -256,6 +258,7 @@ ScrollablePage{
                         }
                         delegate: Text{
                             font.pixelSize: 17
+                            font.family: ApplicationSettings.font
                             text: arr_month[index].slice(0,3)
                             color: ApplicationSettings.isDarkTheme ? "silver" : "black"
                             horizontalAlignment: Text.AlignHCenter
@@ -315,6 +318,7 @@ ScrollablePage{
                         wrap: false
                         delegate: Text{
                             font.pixelSize: 17
+                            font.family: ApplicationSettings.font
                             text: arr_year[index]
                             color: ApplicationSettings.isDarkTheme ? "silver" : "black"
                             horizontalAlignment: Text.AlignHCenter
@@ -361,6 +365,7 @@ ScrollablePage{
                     id: lblDay_w
                     text: arr_week[new Date(arr_year[tumblerYear.currentIndex],tumblerMonth.currentIndex,tumblerDay.currentIndex+1).getDay()]+","
                     font.pixelSize: 18
+                    font.family: ApplicationSettings.font
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     color: ApplicationSettings.isDarkTheme ? "silver" : "black"
@@ -369,6 +374,7 @@ ScrollablePage{
                     id: lblDay
                     text: tumblerDay.currentIndex+1
                     font.pixelSize: 18
+                    font.family: ApplicationSettings.font
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     color: ApplicationSettings.isDarkTheme ? "silver" : "black"
@@ -378,6 +384,7 @@ ScrollablePage{
                     id: lblMonth
                     text: arr_month[tumblerMonth.currentIndex]
                     font.pixelSize: 18
+                    font.family: ApplicationSettings.font
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     color: ApplicationSettings.isDarkTheme ? "silver" : "black"
@@ -405,6 +412,7 @@ ScrollablePage{
                 contentItem: Label{
                     text: "Сегодня"
                     height: parent.height
+                    font.family: ApplicationSettings.font
                     font.pixelSize: 16
                     leftPadding: 15
                     rightPadding: 15

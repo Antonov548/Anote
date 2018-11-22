@@ -35,6 +35,7 @@ void ApplicationSettings::setDefault()
     j_object.insert("isBlock",QJsonValue::fromVariant(false));
     j_object.insert("passwordHash",QJsonValue::fromVariant(""));
     j_object.insert("isDarkTheme",QJsonValue::fromVariant(false));
+    j_object.insert("font",QJsonValue::fromVariant("Arial"));
 
     saveToFile();
 }
@@ -112,8 +113,14 @@ void ApplicationSettings::setFile(QString filepath)
 
     m_isDarkTheme = j_object.value("isDarkTheme").toBool();
     m_isBlock = j_object.value("isBlock").toBool();
+    m_font = j_object.value("font").toString();
     passwordHash = j_object.value("passwordHash").toString();
 
+}
+
+QString ApplicationSettings::font() const
+{
+    return m_font;
 }
 
 void ApplicationSettings::setIsBlock(bool isBlock)
@@ -173,4 +180,19 @@ bool ApplicationSettings::comparePassword(QString pass)
         return true;
     else
         return false;
+}
+
+void ApplicationSettings::commitInputMethod()
+{
+    qDebug() << "work";
+    emit commit();
+}
+
+void ApplicationSettings::setFont(QString font)
+{
+    if (m_font == font)
+        return;
+
+    m_font = font;
+    emit fontChanged(m_font);
 }

@@ -5,7 +5,6 @@ Item{
     id: item
 
     property alias text: field.text
-    property bool isReadyToAccept: false
 
     width: parent.width/1.2
     height: field.height + 20
@@ -13,10 +12,6 @@ Item{
 
     function clear(){
         field.text = ""
-    }
-
-    function setFocus(value){
-        field.focus = value
     }
 
     ListView.onAdd: NumberAnimation {
@@ -34,23 +29,18 @@ Item{
         color: ApplicationSettings.isDarkTheme ? "#3A3A3A" : "#E1E1E1"
         radius: 4
         TextArea{
-
             id: field
             width: parent.width/1.1
+            height: text.length == 0 ? implicitHeight + 1 : implicitHeight
             topPadding: 0
             bottomPadding: 0
             leftPadding: 10
             font.pixelSize: 16
+            font.family: "Arial"
             anchors.verticalCenter: parent.verticalCenter
             color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
             wrapMode: TextArea.Wrap
             placeholderText: "Текст заметки"
-
-            onTextChanged: {
-                isReadyToAccept = false
-                if(text.length !== 0)
-                    isReadyToAccept = true
-            }
         }
     }
 }

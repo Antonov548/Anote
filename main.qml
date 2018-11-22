@@ -313,6 +313,7 @@ ApplicationWindow{
                                             text: "Добавить"
                                             height: parent.height
                                             font.pixelSize: height/2
+                                            font.family: ApplicationSettings.font
                                             leftPadding: 0
                                             rightPadding: 15
                                             horizontalAlignment: Text.AlignHCenter
@@ -325,6 +326,7 @@ ApplicationWindow{
                                 Label{
                                     text: "Добавить заметки на день"
                                     font.pixelSize: 16
+                                    font.family: ApplicationSettings.font
                                     color: ApplicationSettings.isDarkTheme ? "silver" : "black"
                                     anchors.horizontalCenter: parent.horizontalCenter
                                 }

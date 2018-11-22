@@ -41,13 +41,12 @@ Item{
     MouseArea{
         anchors.fill: item
         onClicked: {
-            if(!fieldAction.isReadyToAccept){
+            //ApplicationSettings.commitInputMethod()
+            if(fieldAction.text.length == 0){
                 msgError.showMessage("Введите текст заметки")
                 page.contentYPosition = 0
             }
             else{
-                fieldAction.setFocus(false)
-                fieldAction.isReadyToAccept = false
                 tableAction.addAction(fieldAction.text)
                 fieldAction.clear()
             }

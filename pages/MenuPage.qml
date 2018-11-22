@@ -52,7 +52,7 @@ Item{
             background: Rectangle{
                 anchors.fill: parent
                 radius: 8
-                color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "#E9E9E9"
+                color: ApplicationSettings.isDarkTheme ? "#333333" : "#E9E9E9"
             }
         }
     }

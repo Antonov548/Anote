@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QInputMethod>
 #include <QDebug>
 
 #include "database.h"
@@ -18,6 +19,8 @@ int main(int argc, char *argv[])
 
     ApplicationSettings *settings = ApplicationSettings::AppSettingsInstance();
     settings->setFile("settings.json");
+
+    QObject::connect(settings,SIGNAL(commit()),app.inputMethod(),SLOT(commit()));
 
     qmlRegisterType<NoteModel>("QtModel",1,0,"NoteModel");
     qmlRegisterType<ActionModel>("QtModel",1,0,"ActionModel");
