@@ -8,6 +8,12 @@ Item{
     anchors.fill: parent
 
     property bool isOpen: false
+    property bool isClose: false
+
+    function close(){
+        isClose = true
+        isOpen = false
+    }
 
     Page{
         id: page
@@ -69,8 +75,8 @@ Item{
                         delegate: MenuComponent{}
 
                         model: ListModel{
-                            ListElement{text: "Добавить запись"; event: function(){tableAction.resetList(); stackView.createNotePage = stackView.push("qrc:/qml/pages/CreateNotePage.qml",{"appHeight": appWindow.height}); stackInitial.indexChange = -1; isOpen = false}}
-                            ListElement{text: "Настройки"; event: function(){stackView.push(stackView.page["Настройки"]); isOpen = false}}
+                            ListElement{text: "Добавить запись"; event: function(){tableAction.resetList(); stackView.createNotePage = stackView.push("qrc:/qml/pages/CreateNotePage.qml",{"appHeight": appWindow.height}); stackInitial.indexChange = -1; close()}}
+                            ListElement{text: "Настройки"; event: function(){stackView.push(stackView.page["Настройки"]); close()}}
                         }
                     }
                 }
@@ -130,10 +136,11 @@ Item{
                     to: "default"
                     SequentialAnimation{
                         ParallelAnimation{
-                            PropertyAnimation{ targets: [humb_3,humb_1] ; properties: "width,y"; duration: 200; easing.type: Easing.InOutQuad}
-                            PropertyAnimation{ targets: [transf_1,transf_2] ; properties: "angle"; duration: 200; easing.type: Easing.OutCirc}
-                            PropertyAnimation{ target: humb_2; property: "width"; duration: 100; easing.type: Easing.InOutQuad}
+                            PropertyAnimation{ targets: [humb_3,humb_1] ; properties: "width,y"; duration: isClose ? 0 : 200; easing.type: Easing.InOutQuad}
+                            PropertyAnimation{ targets: [transf_1,transf_2] ; properties: "angle"; duration: isClose ? 0 : 200; easing.type: Easing.OutCirc}
+                            PropertyAnimation{ target: humb_2; property: "width"; duration: isClose ? 0 : 100; easing.type: Easing.InOutQuad}
                         }
+                        PropertyAction{target: item; property: "isClose"; value: false}
                         PropertyAction{target: page; property: "visible"; value: false}
                     }
                 }

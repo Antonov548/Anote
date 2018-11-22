@@ -83,7 +83,6 @@ ApplicationWindow{
                 }
             }
         }
-
         popExit: Transition {
 
             SequentialAnimation{

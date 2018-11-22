@@ -41,7 +41,7 @@ Item{
     MouseArea{
         anchors.fill: item
         onClicked: {
-            //ApplicationSettings.commitInputMethod()
+            ApplicationSettings.commitInputMethod()
             if(fieldAction.text.length == 0){
                 msgError.showMessage("Введите текст заметки")
                 page.contentYPosition = 0
