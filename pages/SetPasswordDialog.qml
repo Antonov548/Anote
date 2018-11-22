@@ -39,6 +39,7 @@ Page{
         footer:Button{
             width: parent.width
             font.pixelSize: 20
+            font.family: ApplicationSettings.font
             text: "Подтвердить"
             onClicked: {
                 if(list.activatedCount === listModel.count){
@@ -82,6 +83,7 @@ Page{
                         id: label
                         anchors.fill: parent
                         font.pixelSize: 20
+                        font.family: ApplicationSettings.font
                         bottomPadding: 5
                         text: model.text
                         horizontalAlignment: Text.AlignHCenter
@@ -146,6 +148,7 @@ Page{
                             text: model.text
                             color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
                             font.pixelSize: 22
+                            font.family: ApplicationSettings.font
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
                         }

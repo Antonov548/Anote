@@ -60,6 +60,7 @@ ScrollablePage{
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 font.pixelSize: 17
+                font.family: ApplicationSettings.font
             }
         }
 
@@ -123,6 +124,7 @@ ScrollablePage{
                         anchors.fill: parent
                         text: section
                         font.pixelSize: 16
+                        font.family: ApplicationSettings.font
                         color: ApplicationSettings.isDarkTheme ? "silver" : "white"
                         horizontalAlignment: Text.AlignLeft
                         verticalAlignment: Text.AlignVCenter

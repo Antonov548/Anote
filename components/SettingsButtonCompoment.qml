@@ -16,6 +16,7 @@ Component{
             anchors.fill: parent
             text: delegateTitle
             font.pixelSize: 16
+            font.family: ApplicationSettings.font
             color: ApplicationSettings.isDarkTheme ? delegateCheck ? "silver" : "grey" : delegateCheck ? "black" : "silver"
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter

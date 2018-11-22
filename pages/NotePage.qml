@@ -7,7 +7,6 @@ ScrollablePage{
     id: page
 
     header: Rectangle{
-
         width: parent.width
         height: 50
         color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "white"

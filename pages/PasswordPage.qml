@@ -32,6 +32,7 @@ Page{
             anchors.horizontalCenter: parent.horizontalCenter
             text: "Введите пароль"
             font.pixelSize: 18
+            font.family: ApplicationSettings.font
             color: "silver"
         }
 

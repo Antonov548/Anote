@@ -8,10 +8,12 @@ Page {
     property alias content: pane.contentItem
     property alias contentYPosition: flickable.contentY
     property color backgroundColor: "white"
+    property real pageRadius: 0
 
     background: Rectangle{
         anchors.fill: page
         color: backgroundColor
+        radius: pageRadius
     }
 
     Flickable {
@@ -35,6 +37,7 @@ Page {
             background: Rectangle{
                 anchors.fill: parent
                 color: backgroundColor
+                radius: pageRadius
             }
         }
 

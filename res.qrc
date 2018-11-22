@@ -2,7 +2,6 @@
     <qresource prefix="/qml">
         <file>main.qml</file>
         <file>pages/ScrollablePage.qml</file>
-        <file>components/DrawerComponent.qml</file>
         <file>components/ListViewComponent.qml</file>
         <file>pages/SettingsPage.qml</file>
         <file>pages/NotePage.qml</file>
@@ -18,6 +17,7 @@
         <file>pages/CreateNotePage.qml</file>
         <file>components/TextEditAction.qml</file>
         <file>pages/MenuPage.qml</file>
+        <file>components/MenuComponent.qml</file>
     </qresource>
     <qresource prefix="/image">
         <file>icons/add.png</file>

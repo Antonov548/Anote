@@ -40,6 +40,7 @@ GridView{
             text: model.text
             color: "white"
             font.pixelSize: 18
+            font.family: ApplicationSettings.font
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
         }

@@ -1,5 +1,6 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.4
+import "../components"
 
 Item{
     id: item
@@ -28,12 +29,16 @@ Item{
             onClicked: isOpen = false
         }
 
-        ScrollablePage{
+        Page{
             x: mouseArea.x - 2
             y: mouseArea.y - 2
             width: isOpen ? item.width/1.7 : 0
             height: isOpen ? item.height/2 : 0
-
+            background: Rectangle{
+                anchors.fill: parent
+                radius: 8
+                color: ApplicationSettings.isDarkTheme ? "#333333" : "#E9E9E9"
+            }
             Behavior on width {
                 NumberAnimation{
                     duration: 200
@@ -47,12 +52,28 @@ Item{
                     easing.type: Easing.OutCirc//OutBack
                 }
             }
+            ScrollablePage{
+                width: parent.width
+                height: parent.height/1.4
+                anchors.verticalCenter: parent.verticalCenter
+                backgroundColor: "transparent"
 
-            clip: true
-            background: Rectangle{
-                anchors.fill: parent
-                radius: 8
-                color: ApplicationSettings.isDarkTheme ? "#333333" : "#E9E9E9"
+                content: Column{
+                    width: parent.width
+                    ListView{
+                        width: parent.width
+                        height: contentHeight
+                        spacing: 10
+                        boundsBehavior: Flickable.StopAtBounds
+
+                        delegate: MenuComponent{}
+
+                        model: ListModel{
+                            ListElement{text: "Добавить запись"; event: function(){tableAction.resetList(); stackView.createNotePage = stackView.push("qrc:/qml/pages/CreateNotePage.qml",{"appHeight": appWindow.height}); stackInitial.indexChange = -1; isOpen = false}}
+                            ListElement{text: "Настройки"; event: function(){stackView.push(stackView.page["Настройки"]); isOpen = false}}
+                        }
+                    }
+                }
             }
         }
     }

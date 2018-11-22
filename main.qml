@@ -34,81 +34,6 @@ ApplicationWindow{
         stackView.currentItem.popSignal()
     }
 
-    property var handlers: {"Добавить запись": function(name){tableAction.resetList();stackView.createNotePage = stackView.push("qrc:/qml/pages/CreateNotePage.qml",{"appHeight": appWindow.height}); stackInitial.indexChange = -1; drawer.close()},
-        "Настройки": function(name){stackView.push(stackView.page[name]);drawer.close()}}
-
-    Drawer{
-
-        id: drawer
-        enabled: true
-        width: parent.width/1.2
-        height: parent.height
-        interactive: (stackView.depth === 1  && !passwordPage.visible)
-
-        background: Rectangle{
-            anchors.fill: parent
-            gradient: Gradient {
-                GradientStop { position: 0.0; color: "#2D395B" }
-                GradientStop { position: 1.0; color: "#303C60" }
-            }
-        }
-
-        DrawerComponent{id: drawerComponent}
-        ListView{
-
-            id: drawerListViewTop
-
-            width: parent.width
-            height: contentHeight
-            anchors.top: parent.top
-            anchors.topMargin: 30
-            spacing:2
-            boundsBehavior: Flickable.StopAtBounds
-            clip: true
-
-            model: ListModel{
-                id: drawerListModelTop
-
-                ListElement{title: "Добавить запись"; source: "qrc:/image/icons/add.png"}
-            }
-
-            delegate: Loader{
-                width: parent.width
-                sourceComponent: drawerComponent
-
-                property string delegateTitle: model.title
-                property string delegateSourceImage: model.source
-                property var delegateHandler: handlers[model.title]
-            }
-        }
-
-        ListView{
-
-            id: drawerListViewBottom
-
-            width: parent.width
-            height: contentHeight
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 20
-            spacing:2
-            boundsBehavior: Flickable.StopAtBounds
-            clip: true
-
-            model: ListModel{
-                ListElement{title: "Настройки"; source: "qrc:/image/icons/settings.png"}
-            }
-
-            delegate: Loader{
-                sourceComponent: drawerComponent
-                width: parent.width
-
-                property string delegateTitle: model.title
-                property string delegateSourceImage: model.source
-                property var delegateHandler: handlers[model.title]
-            }
-        }
-    }
-
     StackView{
         id: stackView
         anchors.fill: parent
@@ -283,7 +208,7 @@ ApplicationWindow{
                                     padding: 0
                                     anchors.horizontalCenter: parent.horizontalCenter
 
-                                    onClicked: handlers["Добавить запись"]()
+                                    onClicked: {tableAction.resetList(); stackView.createNotePage = stackView.push("qrc:/qml/pages/CreateNotePage.qml",{"appHeight": appWindow.height}); stackInitial.indexChange = -1; menu.isOpen = false}
 
                                     background: Rectangle{
                                         anchors.fill: parent
