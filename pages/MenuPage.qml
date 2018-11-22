@@ -29,8 +29,8 @@ Item{
         }
 
         ScrollablePage{
-            x: button.x - 10
-            y: button.y - 10
+            x: mouseArea.x - 2
+            y: mouseArea.y - 2
             width: isOpen ? item.width/1.7 : 0
             height: isOpen ? item.height/2 : 0
 
@@ -57,67 +57,66 @@ Item{
         }
     }
 
-    Button{
-        id: button
-        x: 20
-        y: 20
-        width: 22
-        height: 16
-        state: isOpen ? "opened" : "default"
+    MouseArea{
+        id: mouseArea
+        width: 35
+        height: 35
+        x: 15
+        y: 10
         onClicked: isOpen = !isOpen
-        states: [
-            State{
-                name: "default"
-                PropertyChanges{target: humb_1; y: 0; x: 0; width: button.width}
-                PropertyChanges{target: humb_3; x: 0; width: button.width}
-                PropertyChanges{target: humb_2; width: button.width}
-                PropertyChanges{target: transf_1; angle: 0}
-                PropertyChanges{target: transf_2; angle: 0}
-            },
-            State{
-                name: "opened"
-                PropertyChanges{target: humb_1; y: -1; x: (button.width - button.height)/2; width: Math.sqrt(2*Math.pow(button.height,2))}
-                PropertyChanges{target: humb_3; x: (button.width - button.height)/2; width: Math.sqrt(2*Math.pow(button.height,2))}
-                PropertyChanges{target: humb_2; width: 0}
-                PropertyChanges{target: transf_1; angle: 45}
-                PropertyChanges{target: transf_2; angle: -45}
-            }
-        ]
 
-        transitions: [
-            Transition {
-                from: "default"
-                to: "opened"
-                SequentialAnimation{
-                    PropertyAction{target: page; property: "visible"; value: true}
-                    ParallelAnimation{
-                        PropertyAnimation{ targets: [humb_3,humb_1] ; properties: "width,y,x"; duration: 200; easing.type: Easing.InOutQuad}
-                        PropertyAnimation{ targets: [transf_1,transf_2] ; properties: "angle"; duration: 200; easing.type: Easing.OutCirc}
-                        PropertyAnimation{ target: humb_2; property: "width"; duration: 100; easing.type: Easing.InOutQuad}
+        Rectangle{
+            id: button
+            anchors.centerIn: parent
+            width: 22
+            height: 16
+            state: isOpen ? "opened" : "default"
+            color: "transparent"
+            states: [
+                State{
+                    name: "default"
+                    PropertyChanges{target: humb_1; y: 0; x: 0; width: button.width}
+                    PropertyChanges{target: humb_3; x: 0; width: button.width}
+                    PropertyChanges{target: humb_2; width: button.width}
+                    PropertyChanges{target: transf_1; angle: 0}
+                    PropertyChanges{target: transf_2; angle: 0}
+                },
+                State{
+                    name: "opened"
+                    PropertyChanges{target: humb_1; y: -1; x: (button.width - button.height)/2; width: Math.sqrt(2*Math.pow(button.height,2))}
+                    PropertyChanges{target: humb_3; x: (button.width - button.height)/2; width: Math.sqrt(2*Math.pow(button.height,2))}
+                    PropertyChanges{target: humb_2; width: 0}
+                    PropertyChanges{target: transf_1; angle: 45}
+                    PropertyChanges{target: transf_2; angle: -45}
+                }
+            ]
+
+            transitions: [
+                Transition {
+                    from: "default"
+                    to: "opened"
+                    SequentialAnimation{
+                        PropertyAction{target: page; property: "visible"; value: true}
+                        ParallelAnimation{
+                            PropertyAnimation{ targets: [humb_3,humb_1] ; properties: "width,y,x"; duration: 200; easing.type: Easing.InOutQuad}
+                            PropertyAnimation{ targets: [transf_1,transf_2] ; properties: "angle"; duration: 200; easing.type: Easing.OutCirc}
+                            PropertyAnimation{ target: humb_2; property: "width"; duration: 100; easing.type: Easing.InOutQuad}
+                        }
+                    }
+                },
+                Transition {
+                    from: "opened"
+                    to: "default"
+                    SequentialAnimation{
+                        ParallelAnimation{
+                            PropertyAnimation{ targets: [humb_3,humb_1] ; properties: "width,y"; duration: 200; easing.type: Easing.InOutQuad}
+                            PropertyAnimation{ targets: [transf_1,transf_2] ; properties: "angle"; duration: 200; easing.type: Easing.OutCirc}
+                            PropertyAnimation{ target: humb_2; property: "width"; duration: 100; easing.type: Easing.InOutQuad}
+                        }
+                        PropertyAction{target: page; property: "visible"; value: false}
                     }
                 }
-            },
-            Transition {
-                from: "opened"
-                to: "default"
-                SequentialAnimation{
-                    ParallelAnimation{
-                        PropertyAnimation{ targets: [humb_3,humb_1] ; properties: "width,y"; duration: 200; easing.type: Easing.InOutQuad}
-                        PropertyAnimation{ targets: [transf_1,transf_2] ; properties: "angle"; duration: 200; easing.type: Easing.OutCirc}
-                        PropertyAnimation{ target: humb_2; property: "width"; duration: 100; easing.type: Easing.InOutQuad}
-                    }
-                    PropertyAction{target: page; property: "visible"; value: false}
-                }
-            }
-        ]
-
-        background: Rectangle{
-            anchors.fill: parent
-            color: "transparent"
-        }
-        contentItem: Rectangle{
-            anchors.fill: parent
-            color: "transparent"
+            ]
             Rectangle{
                 id: humb_1
                 width: button.width
