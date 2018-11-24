@@ -8,6 +8,8 @@ import "../components/"
 ScrollablePage{
     id: page
 
+    signal signalClose()
+
     property var arr_month: ["Января","Февраля","Марта","Апреля","Мая","Июня","Июля","Августа","Сентября","Октября","Ноября","Декабря"]
     property var arr_year: [2018,2019,2020,2021,2022,2023,2024,2025]
     property var arr_week: ["Вс","Пн","Вт","Ср","Чт","Пт","Сб"]
@@ -44,8 +46,6 @@ ScrollablePage{
             page.height = appHeight - keyboardHeight/Screen.devicePixelRatio
         }
     }
-
-    signal signalClose()
 
     function getSQLDateFormat(year,month,day){
         var sql_format_date = year
@@ -124,6 +124,10 @@ ScrollablePage{
         width: parent.width
         fullHeight: parent.height
         onCloseError: function(){msgError.hide()}
+    }
+
+    DialogPage{
+        isOpen: false
     }
 
     content: Column{

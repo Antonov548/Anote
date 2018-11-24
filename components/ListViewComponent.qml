@@ -148,7 +148,7 @@ Item{
                 hoverEnabled: true
                 onPressAndHold: {stackInitial.indexChange = index}
                 pressAndHoldInterval: 300
-                onClicked: {tableAction.getActionsDatabase(model.date); stackView.push("qrc:/qml/pages/NotePage.qml")}
+                onClicked: {tableAction.getActionsDatabase(model.date); stackView.notePage = stackView.push("qrc:/qml/pages/NotePage.qml")}
             }
         }
         Rectangle{

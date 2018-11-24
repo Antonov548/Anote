@@ -6,6 +6,12 @@ import "../components"
 ScrollablePage{
     id: page
 
+    signal signalClose()
+
+    function popSignal(){
+        signalClose()
+    }
+
     header: Rectangle{
         width: parent.width
         height: 50

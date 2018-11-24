@@ -15,7 +15,6 @@ Component{
             height: parent.height
             verticalAlignment: Text.AlignVCenter
             anchors.horizontalCenter: parent.horizontalCenter
-            leftPadding: 20
             font.family: ApplicationSettings.font
             font.pixelSize: 16
             color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"

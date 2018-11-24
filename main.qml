@@ -15,15 +15,6 @@ ApplicationWindow{
     width: 500
     height: 800
 
-    Connections{
-        id: connectionDialogNote
-        target: stackView.createNotePage
-        onSignalClose:{
-            stackView.pop()
-        }
-        ignoreUnknownSignals: true
-    }
-
     background: Rectangle{
         anchors.fill: parent
         color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "white"
@@ -40,7 +31,24 @@ ApplicationWindow{
 
         SettingsPage{id: settings}
 
+        Connections{
+            target: stackView.createNotePage
+            onSignalClose:{
+                stackView.pop()
+            }
+            ignoreUnknownSignals: true
+        }
+
+        Connections{
+            target: stackView.notePage
+            onSignalClose:{
+                stackView.pop()
+            }
+            ignoreUnknownSignals: true
+        }
+
         property var createNotePage: null
+        property var notePage: null
         property var page: {
             "Настройки": settings
         }
@@ -207,7 +215,7 @@ ApplicationWindow{
                                     padding: 0
                                     anchors.horizontalCenter: parent.horizontalCenter
 
-                                    onClicked: {tableAction.resetList(); stackView.createNotePage = stackView.push("qrc:/qml/pages/CreateNotePage.qml",{"appHeight": appWindow.height}); stackInitial.indexChange = -1; menu.isOpen = false}
+                                    onClicked: {tableAction.resetList(); stackView.createNotePage = stackView.push("qrc:/qml/pages/CreateNotePage.qml",{"appHeight": appWindow.height}); stackInitial.indexChange = -1}
 
                                     background: Rectangle{
                                         anchors.fill: parent

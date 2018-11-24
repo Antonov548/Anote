@@ -18,6 +18,7 @@
         <file>components/TextEditAction.qml</file>
         <file>pages/MenuPage.qml</file>
         <file>components/MenuComponent.qml</file>
+        <file>pages/DialogPage.qml</file>
     </qresource>
     <qresource prefix="/image">
         <file>icons/add.png</file>
