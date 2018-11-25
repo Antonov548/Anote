@@ -26,6 +26,11 @@ ScrollablePage{
     property real appHeight: 0
 
     function popSignal(){
+        if(dialog.isOpen){
+            dialog.isOpen = false
+            return
+        }
+
         if(tableAction.isEmpty){
             signalClose()
             return
@@ -37,7 +42,7 @@ ScrollablePage{
             signalClose()
         }
         else
-            msgError.showMessage("Текущая дата занята")
+            dialog.isOpen = true
     }
 
     Connections{
@@ -127,7 +132,10 @@ ScrollablePage{
     }
 
     DialogPage{
-        isOpen: false
+        id: dialog
+        text: "Текущая дата занята.\nЗапись не будет сохранена."
+        onOkey: function(){dialog.isOpen = false; signalClose()}
+        onCancel: function(){dialog.isOpen = false}
     }
 
     content: Column{
