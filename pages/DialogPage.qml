@@ -96,28 +96,46 @@ Item{
             footer: Column{
                 width: parent.width
                 Row{
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    spacing: 20
-                    Text{
-                        padding: 15
-                        text: "Ок"
-                        font.pixelSize: 16
-                        font.family: ApplicationSettings.font
-                        color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-                        MouseArea{
+                    anchors.right: parent.right
+                    topPadding: 10
+                    bottomPadding: 10
+                    rightPadding: 20
+                    spacing: 10
+
+                    Button{
+                        id: btnOkey
+                        width: 70
+                        onClicked: onOkey()
+                        contentItem:Text{
+                            width: parent.width
+                            horizontalAlignment: Text.AlignHCenter
+                            text: "Ок"
+                            font.pixelSize: 16
+                            font.family: ApplicationSettings.font
+                            color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                        }
+                        background: Rectangle{
+                            radius: 4
                             anchors.fill: parent
-                            onClicked: onOkey()
+                            color: ApplicationSettings.isDarkTheme ? btnOkey.pressed ? "#3C3C3C" : "#272727" : btnOkey.pressed ? "#C6C6C6" : "#DADADA"
                         }
                     }
-                    Text{
-                        padding: 15
-                        text: "Отмена"
-                        font.pixelSize: 16
-                        font.family: ApplicationSettings.font
-                        color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-                        MouseArea{
+                    Button{
+                        id: btnCancel
+                        width: 70
+                        onClicked: onCancel()
+                        contentItem:Text{
+                            width: parent.width
+                            horizontalAlignment: Text.AlignHCenter
+                            text: "Отмена"
+                            font.pixelSize: 16
+                            font.family: ApplicationSettings.font
+                            color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                        }
+                        background: Rectangle{
+                            radius: 4
                             anchors.fill: parent
-                            onClicked: onCancel()
+                            color: ApplicationSettings.isDarkTheme ? btnCancel.pressed ? "#3C3C3C" : "#272727" : btnCancel.pressed ? "#C6C6C6" : "#DADADA"
                         }
                     }
                 }

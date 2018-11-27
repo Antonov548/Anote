@@ -69,7 +69,6 @@ Item{
                     ListView{
                         width: parent.width
                         height: contentHeight
-                        spacing: 10
                         boundsBehavior: Flickable.StopAtBounds
 
                         delegate: MenuComponent{}

@@ -184,7 +184,6 @@ bool ApplicationSettings::comparePassword(QString pass)
 
 void ApplicationSettings::commitInputMethod()
 {
-    qDebug() << "work";
     emit commit();
 }
 

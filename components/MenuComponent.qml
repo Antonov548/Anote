@@ -4,30 +4,33 @@ import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 
 Component{
-    Rectangle{
-
-        height: 50
+    Column{
         width: parent.width
-        color: mouseArea.pressed ? ApplicationSettings.isDarkTheme ? "#454545" : "silver" : "transparent"
 
-        Text{
-            text: model.text
-            height: parent.height
-            verticalAlignment: Text.AlignVCenter
-            anchors.horizontalCenter: parent.horizontalCenter
-            font.family: ApplicationSettings.font
-            font.pixelSize: 16
-            color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-        }
+        Rectangle{
+            height: 45
+            width: parent.width
+            color: mouseArea.pressed ? ApplicationSettings.isDarkTheme ? "#454545" : "silver" : "transparent"
 
-        MouseArea{
-            id: mouseArea
-            anchors.fill: parent
-            hoverEnabled: true
-            onClicked: onClick()
+            Text{
+                text: model.text
+                height: parent.height
+                verticalAlignment: Text.AlignVCenter
+                leftPadding: 40
+                font.family: ApplicationSettings.font
+                font.pixelSize: 16
+                color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+            }
 
-            function onClick(){
-                model.event()
+            MouseArea{
+                id: mouseArea
+                anchors.fill: parent
+                hoverEnabled: true
+                onClicked: onClick()
+
+                function onClick(){
+                    model.event()
+                }
             }
         }
     }

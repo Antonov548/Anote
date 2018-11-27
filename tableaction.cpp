@@ -11,7 +11,7 @@ void TableAction::createTable(){
 
     str_query = "CREATE TABLE " TABLE_ACTION " ( " TABLE_INFO " VARCHAR(255), " TABLE_DONE " int , " TABLE_DATE " VARCHAR(255) NOT NULL)";
 
-    qDebug() << sql_query.exec(str_query);
+    sql_query.exec(str_query);
 }
 
 QVector<Action> TableAction::getAction() const{
