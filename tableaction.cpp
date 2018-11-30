@@ -10,12 +10,10 @@ void TableAction::createTable(){
     QSqlQuery sql_query;
 
     str_query = "CREATE TABLE " TABLE_ACTION " ( " TABLE_INFO " VARCHAR(255), " TABLE_DONE " int , " TABLE_INDEX " int , " TABLE_DATE " VARCHAR(255) NOT NULL)";
-
-    qDebug() << str_query;
-    qDebug() << sql_query.exec(str_query);
+    sql_query.exec(str_query);
 }
 
-QVector<Action> TableAction::getAction() const{
+QList<Action> TableAction::getAction() const{
     return action_list;
 }
 
@@ -44,7 +42,7 @@ void TableAction::resetList(){
 
 void TableAction::deleteAction(int index){
     emit deleteNoteStart(index);
-    action_list.remove(index);
+    action_list.removeAt(index);
     m_isEmpty = action_list.isEmpty();
     emit deleteNoteEnd();
 }
@@ -82,7 +80,7 @@ void TableAction::getActionsDatabase(QString date){
     str_query = "SELECT * FROM " TABLE_ACTION " WHERE " TABLE_DATE "='" + date + "'";
     sql_query.exec(str_query);
 
-    if(!sql_query.last()){
+    if(!sql_query.first()){
         setIsEmpty(true);
         return;
     }
@@ -96,7 +94,7 @@ void TableAction::getActionsDatabase(QString date){
 
         action_list.append(new_action);
 
-    }while((sql_query.previous()));
+    }while((sql_query.next()));
 
     setIsEmpty(false);
 }
@@ -109,8 +107,21 @@ void TableAction::deleteActionsDatabase(QString date){
     sql_query.exec(str_query);
 }
 
-void TableAction::setDone(QString date, int index){
+void TableAction::setDone(QString date, int index, bool done){
+    QString str_query;
+    QSqlQuery sql_query;
 
+    str_query = "UPDATE " TABLE_ACTION " SET " TABLE_DONE " = :done WHERE " TABLE_DATE "=:date AND " TABLE_INDEX "=:index";
+    sql_query.prepare(str_query);
+
+    sql_query.bindValue(":done",int(done));
+    sql_query.bindValue(":date",date);
+    sql_query.bindValue(":index",index);
+
+    sql_query.exec();
+    action_list[index].isDone = done;
+
+    emit updateData("done",index);
 }
 
 void TableAction::setIsEmpty(bool isEmpty){

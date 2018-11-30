@@ -15,11 +15,13 @@ Item{
     states: [
         State {
             name: "default"
-            PropertyChanges {target: textAction; color: ApplicationSettings.isDarkTheme ? "silver" : "#454545" }
+            PropertyChanges{target: textAction; color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"}
+            PropertyChanges{target: check; visible: false}
         },
         State {
             name: "done"
-            PropertyChanges {target: textAction; color: ApplicationSettings.isDarkTheme ? "#B5B5B5" : "#646464" }
+            PropertyChanges{target: textAction; color: ApplicationSettings.isDarkTheme ? "#B5B5B5" : "#646464"}
+            PropertyChanges{target: check; visible: true}
         }
     ]
 
@@ -67,7 +69,7 @@ Item{
                 anchors.topMargin: (width + textAction.padding*2 - height)/2
 
                 onClicked: {
-                    tableAction.deleteAction(index)
+                    tableAction.setDone(model.date,index,!model.done)
                 }
 
                 background: Rectangle{
@@ -75,27 +77,32 @@ Item{
                     color: "transparent"
                 }
                 contentItem: Rectangle{
-                    id: rect
+                    id: checkBorder
                     anchors.fill: parent
                     color: "transparent"
                     border.color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
                     border.width: 2
                     radius: 4
                     Rectangle{
-                        height: parent.height/1.5
-                        color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-                        width: 2
-                        anchors.verticalCenter: parent.verticalCenter
-                        x: (parent.width-width) - 3
-                        transform: Rotation {origin.x: 0; origin.y: 1; angle: 45}
-                    }
-                    Rectangle{
-                        height: parent.height/3.4
-                        color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-                        width: 2
-                        y: 10
-                        x: 4
-                        transform: Rotation {origin.x: 0; origin.y: 1; angle: -45}
+                        id: check
+                        color: "transparent"
+                        anchors.fill: parent
+                        Rectangle{
+                            height: parent.height/1.5
+                            color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                            width: 2
+                            anchors.verticalCenter: parent.verticalCenter
+                            x: (parent.width-width) - 3
+                            transform: Rotation {origin.x: 0; origin.y: 1; angle: 45}
+                        }
+                        Rectangle{
+                            height: parent.height/3.4
+                            color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                            width: 2
+                            y: 10
+                            x: 4
+                            transform: Rotation {origin.x: 0; origin.y: 1; angle: -45}
+                        }
                     }
                 }
             }

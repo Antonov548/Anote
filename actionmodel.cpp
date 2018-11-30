@@ -77,6 +77,7 @@ void ActionModel::setList(TableAction *list)
         connect(m_list, &TableAction::deleteNoteEnd, this, [=]() {
             endRemoveRows();
         });
+        connect(m_list,SIGNAL(updateData(QString,int)), this, SLOT(setProperty(QString,int)));
     }
 
     emit listChanged(m_list);
@@ -84,26 +85,15 @@ void ActionModel::setList(TableAction *list)
     endResetModel();
 }
 
-bool ActionModel::setProperty(const QModelIndex &index, const QVariant &value, QString role)
+bool ActionModel::setProperty(QString role, int index)
 {
     if(!m_list)
         return  false;
 
     int number_role = roles.key(role.toUtf8());
-    Action action = m_list->getAction().at(index.row());
+    QVector<int> changed_role;
+    changed_role << number_role;
 
-    switch (number_role) {
-    case Information:
-        action.information = value.toString();
-        break;
-    case IsDone:
-        action.isDone = value.toBool();
-        break;
-    case Date:
-        action.date = value.toString();
-        break;
-    }
-
-    emit dataChanged(index, index);
+    emit dataChanged(ActionModel::index(index), ActionModel::index(index), changed_role);
     return true;
 }

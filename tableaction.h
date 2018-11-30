@@ -3,7 +3,7 @@
 #include <QObject>
 #include <QSqlQuery>
 #include <QSqlRecord>
-#include <QVector>
+#include <QList>
 #include <QVariant>
 
 #define TABLE_ACTION "action"
@@ -23,13 +23,13 @@ class TableAction : public QObject
     Q_OBJECT
 
     Q_PROPERTY(bool isEmpty READ isEmpty WRITE setIsEmpty NOTIFY isEmptyChanged)
-    QVector<Action> action_list;
+    QList<Action> action_list;
     bool m_isEmpty;
 
 public:
     explicit TableAction(QObject *parent = nullptr);
     void createTable();
-    QVector<Action> getAction() const;
+    QList<Action> getAction() const;
     bool isEmpty() const;
 
 signals:
@@ -41,6 +41,8 @@ signals:
     void deleteNoteStart(int index);
     void deleteNoteEnd();
 
+    void updateData(QString role, int index);
+
 public slots:
     void addAction(QString);
     void resetList();
@@ -48,6 +50,6 @@ public slots:
     void addActionsDatabase(QString);
     void getActionsDatabase(QString);
     void deleteActionsDatabase(QString);
-    void setDone(QString, int);
+    void setDone(QString, int, bool);
     void setIsEmpty(bool isEmpty);
 };
