@@ -76,6 +76,7 @@ Item{
                         model: ListModel{
                             ListElement{text: "Добавить запись"; event: function(){tableAction.resetList(); stackView.createNotePage = stackView.push("qrc:/qml/pages/CreateNotePage.qml",{"appHeight": appWindow.height}); stackInitial.indexChange = -1; close()}}
                             ListElement{text: "Настройки"; event: function(){stackView.push(stackView.page["Настройки"]); close()}}
+                            ListElement{text: "GitHub"; event: function(){Qt.openUrlExternally("https://github.com/Antonov548/Anote")}}
                         }
                     }
                 }

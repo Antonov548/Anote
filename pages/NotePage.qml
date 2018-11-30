@@ -76,16 +76,8 @@ ScrollablePage{
         spacing: 20
         topPadding: 40
 
-        Label{
-            width: parent.width/1.2
-            height: contentHeight
-            wrapMode: Text.WordWrap
-            font.pixelSize: 20
-            anchors.horizontalCenter: parent.horizontalCenter
-            horizontalAlignment: Text.AlignHCenter
-        }
         ListView{
-            width: parent.width/1.1
+            width: parent.width
             height: contentHeight
             anchors.horizontalCenter: parent.horizontalCenter
             boundsBehavior: Flickable.StopAtBounds
