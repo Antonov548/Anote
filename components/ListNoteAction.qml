@@ -10,6 +10,19 @@ Item{
     anchors.horizontalCenter: parent.horizontalCenter
     clip: true
 
+    state: model.done ? "done" : "default"
+
+    states: [
+        State {
+            name: "default"
+            PropertyChanges {target: textAction; color: ApplicationSettings.isDarkTheme ? "silver" : "#454545" }
+        },
+        State {
+            name: "done"
+            PropertyChanges {target: textAction; color: ApplicationSettings.isDarkTheme ? "#B5B5B5" : "#646464" }
+        }
+    ]
+
     ListView.onAdd: NumberAnimation {
         target: item
         property: "opacity"
@@ -32,19 +45,6 @@ Item{
             height: item.height - bottomSpaccing.height
             color: ApplicationSettings.isDarkTheme ? "#3A3A3A" : "#E1E1E1"
             radius: 4
-
-            state: model.done ? "done" : "default"
-
-            states: [
-                State {
-                    name: "default"
-                    PropertyChanges {target: textAction; color: ApplicationSettings.isDarkTheme ? "silver" : "#454545" }
-                },
-                State {
-                    name: "done"
-                    PropertyChanges {target: textAction; color: ApplicationSettings.isDarkTheme ? "#B5B5B5" : "#646464" }
-                }
-            ]
 
             Text{
                 id: textAction

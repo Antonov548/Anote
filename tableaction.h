@@ -10,6 +10,7 @@
 #define TABLE_DATE "date"
 #define TABLE_INFO "info"
 #define TABLE_DONE "done"
+#define TABLE_INDEX "action_index"
 
 struct Action{
     QString information;
@@ -47,6 +48,6 @@ public slots:
     void addActionsDatabase(QString);
     void getActionsDatabase(QString);
     void deleteActionsDatabase(QString);
-   // void setDone(QString,int);
+    void setDone(QString, int);
     void setIsEmpty(bool isEmpty);
 };
