@@ -180,11 +180,6 @@ ApplicationWindow{
                     color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "#E9E9E9"
                     clip: true
 
-                    Behavior on height{
-                        NumberAnimation{
-                            duration: 300
-                        }
-                    }
                     MouseArea{
                         anchors.fill: parent
                         preventStealing: true
@@ -193,9 +188,20 @@ ApplicationWindow{
                     Pane{
                         width: parent.width/1.5
                         height: parent.height/2
-                        anchors.centerIn: parent
                         padding: 0
                         visible: tableNote.isEmpty
+                        opacity: tableNote.isEmpty ? 1 : 0
+
+                        Behavior on opacity {
+                            enabled: !tableNote.isEmpty
+                            OpacityAnimator{
+                                duration: 250
+                                easing.type: Easing.InOutQuad
+                            }
+                        }
+
+                        clip: true
+                        anchors.centerIn: parent
 
                         background: Rectangle{
                             anchors.fill: parent
