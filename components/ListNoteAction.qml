@@ -20,25 +20,34 @@ Item{
         },
         State {
             name: "done"
-            PropertyChanges{target: textAction; color: ApplicationSettings.isDarkTheme ? "#B5B5B5" : "#646464"}
+            PropertyChanges{target: textAction; color: ApplicationSettings.isDarkTheme ? "#7E7E7E" : "#9D9D9D"}
             PropertyChanges{target: check; visible: true}
         }
     ]
 
-    ListView.onAdd: NumberAnimation {
-        target: item
-        property: "opacity"
-        from: 0
-        to: 1
-        duration: 300
-        easing.type: Easing.InOutQuad
-    }
+    transitions: [
+        Transition {
+            from: "default"
+            to: "done"
+            ColorAnimation{target: textAction; duration: 200; easing.type: Easing.OutCirc}
+        },
+        Transition {
+            from: "done"
+            to: "default"
+            ColorAnimation{target: textAction; duration: 200;  easing.type: Easing.OutCirc}
+        }
+    ]
 
     ListView.onRemove: SequentialAnimation {
         PropertyAction { target: item; property: "ListView.delayRemove"; value: true }
         NumberAnimation { target: item; property: "height"; to: 0; duration: 200; easing.type: Easing.InOutQuad }
         PropertyAction { target: item; property: "ListView.delayRemove"; value: false }
     }
+    MouseArea{
+        anchors.fill: parent
+        onClicked: tableAction.setDone(model.date,index,!model.done)
+    }
+
     Column{
         width: item.width
         height: item.height
@@ -53,13 +62,13 @@ Item{
                 text: model.info
                 height: contentHeight
                 width: parent.width/1.1
+                font.family: ApplicationSettings.font
                 font.pixelSize: 16
                 wrapMode: Text.Wrap
                 padding: 10
             }
-
-            Button{
-                id: button
+            Rectangle{
+                id: checkBorder
                 width: textAction.contentHeight/textAction.lineCount
                 height: width
                 clip: true
@@ -67,42 +76,29 @@ Item{
                 anchors.rightMargin: 8
                 anchors.top: parent.top
                 anchors.topMargin: (width + textAction.padding*2 - height)/2
-
-                onClicked: {
-                    tableAction.setDone(model.date,index,!model.done)
-                }
-
-                background: Rectangle{
-                    anchors.fill: button
+                color: "transparent"
+                border.color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                border.width: 2
+                radius: 4
+                Rectangle{
+                    id: check
                     color: "transparent"
-                }
-                contentItem: Rectangle{
-                    id: checkBorder
                     anchors.fill: parent
-                    color: "transparent"
-                    border.color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-                    border.width: 2
-                    radius: 4
                     Rectangle{
-                        id: check
-                        color: "transparent"
-                        anchors.fill: parent
-                        Rectangle{
-                            height: parent.height/1.5
-                            color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-                            width: 2
-                            anchors.verticalCenter: parent.verticalCenter
-                            x: (parent.width-width) - 3
-                            transform: Rotation {origin.x: 0; origin.y: 1; angle: 45}
-                        }
-                        Rectangle{
-                            height: parent.height/3.4
-                            color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-                            width: 2
-                            y: 10
-                            x: 4
-                            transform: Rotation {origin.x: 0; origin.y: 1; angle: -45}
-                        }
+                        height: parent.height/1.5
+                        color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                        width: 2
+                        anchors.verticalCenter: parent.verticalCenter
+                        x: (parent.width-width) - 3
+                        transform: Rotation {origin.x: 0; origin.y: 1; angle: 45}
+                    }
+                    Rectangle{
+                        height: parent.height/3.4
+                        color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                        width: 2
+                        y: 9
+                        x: 3
+                        transform: Rotation {origin.x: 0; origin.y: 1; angle: -45}
                     }
                 }
             }

@@ -50,7 +50,7 @@ ScrollablePage{
             }
 
             Label{
-                text: "Запись"
+                text: "Заметка"
                 color: ApplicationSettings.isDarkTheme? "silver" : "black"
                 width: contentWidth
                 height: parent.height

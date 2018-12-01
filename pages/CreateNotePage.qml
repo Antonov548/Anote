@@ -191,17 +191,10 @@ ScrollablePage{
                         id: tumblerDay
                         wrap: false
                         model: dateCountDays
-                        currentIndex: dateDay
-                        Component.onCompleted: {
-                            tumblerDay.contentItem.positionViewAtIndex(dateDay-1,ListView.Center)
-                        }
 
-                        NumberAnimation {
-                            id: animation
-                            target: tumblerDay
-                            property: "currentIndex"
-                            duration: 200
-                            easing.type: Easing.InOutQuad
+                        Component.onCompleted: {
+                            tumblerDay.contentItem.currentIndex = dateDay - 1
+                            tumblerDay.contentItem.positionViewAtIndex(dateDay - 1,ListView.Center)
                         }
 
                         background: Rectangle{
@@ -246,10 +239,10 @@ ScrollablePage{
                     Tumbler {
                         id: tumblerMonth
                         wrap: false
-                        currentIndex: dateMonth
                         model: arr_month.length
 
                         Component.onCompleted: {
+                            tumblerMonth.contentItem.currentIndex = dateMonth
                             tumblerMonth.contentItem.positionViewAtIndex(dateMonth,ListView.Center)
                         }
 
@@ -307,8 +300,8 @@ ScrollablePage{
                     Tumbler{
                         id: tumblerYear
                         model: arr_year.length
-                        currentIndex: arr_year.indexOf(dateYear)
                         Component.onCompleted: {
+                            tumblerYear.contentItem.currentIndex = arr_year.indexOf(dateYear)
                             tumblerYear.contentItem.positionViewAtIndex(arr_year.indexOf(dateYear),ListView.Center)
                         }
 

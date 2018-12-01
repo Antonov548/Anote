@@ -60,7 +60,6 @@ Item{
             parent: ApplicationWindow.overlay
             anchors.fill: parent
             color: "black"
-            opacity: 0.6
             MouseArea{
                 anchors.fill: parent
                 onClicked: isOpen = false

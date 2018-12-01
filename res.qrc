@@ -19,6 +19,7 @@
         <file>pages/MenuPage.qml</file>
         <file>components/MenuComponent.qml</file>
         <file>pages/DialogPage.qml</file>
+        <file>components/ApplicationOverlay.qml</file>
     </qresource>
     <qresource prefix="/image">
         <file>icons/add.png</file>
