@@ -138,6 +138,7 @@ ScrollablePage{
         onCancel: function(){dialog.isOpen = false}
     }
 
+
     content: Column{
         id: mainColumn
         width: parent.width

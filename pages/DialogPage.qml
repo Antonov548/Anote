@@ -1,74 +1,23 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.4
+import "../components/"
 
-Item{
-    property bool isOpen: false
-
+Item {
     id: item
-    visible: isOpen
     anchors.fill: parent
+    visible: overlay.isOpen
 
+    property alias isOpen: overlay.isOpen
     property var onOkey: function(){}
     property var onCancel: function(){}
     property alias text: information.text
 
-    state: isOpen ? "open" : "close"
-
-    states: [
-        State {
-            name: "close"
-            PropertyChanges{target: background ; opacity: 0; visible: false}
-            PropertyChanges{target: content ; visible: false}
-        },
-        State {
-            name: "open"
-            PropertyChanges{target: background ; opacity: 0.6; visible: true}
-            PropertyChanges{target: content ; visible: true}
-        }
-    ]
-
-    transitions: [
-        Transition {
-            from: "close"
-            to: "open"
-            SequentialAnimation{
-                PropertyAction {targets: [background,content]; properties: "visible"; value: true }
-                ParallelAnimation{
-                    PropertyAnimation{target: background; property: "opacity"; duration: 250; easing.type: Easing.OutCirc}
-                }
-            }
-        },
-        Transition {
-            from: "open"
-            to: "close"
-            SequentialAnimation{
-                PropertyAction {targets: [content]; properties: "visible"; value: false}
-                ParallelAnimation{
-                    PropertyAnimation{target: background; property: "opacity"; duration: 150; easing.type: Easing.OutCirc}
-                }
-                PropertyAction {targets: [background]; properties: "visible"; value: false}
-            }
-        }
-    ]
-
-    Page{
-        padding: 0
-        anchors.fill: parent
-
-        background: Rectangle{
-            id: background
-            parent: ApplicationWindow.overlay
-            anchors.fill: parent
-            color: "black"
-            MouseArea{
-                anchors.fill: parent
-                onClicked: isOpen = false
-            }
-        }
-        Page{
+    ApplicationOverlay{
+        id: overlay
+        isOpen: item.isOpen
+        content:Page{
             id: content
             clip: true
-            parent: ApplicationWindow.overlay
             width: item.width/1.4
             height: item.height/3
             anchors.centerIn: parent
