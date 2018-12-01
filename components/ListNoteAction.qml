@@ -17,11 +17,13 @@ Item{
             name: "default"
             PropertyChanges{target: textAction; color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"}
             PropertyChanges{target: check; visible: false}
+            PropertyChanges{target: checkBorder; color: "transparent"}
         },
         State {
             name: "done"
             PropertyChanges{target: textAction; color: ApplicationSettings.isDarkTheme ? "#7E7E7E" : "#9D9D9D"}
             PropertyChanges{target: check; visible: true}
+            PropertyChanges{target: checkBorder; color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"}
         }
     ]
 
@@ -29,12 +31,12 @@ Item{
         Transition {
             from: "default"
             to: "done"
-            ColorAnimation{target: textAction; duration: 200; easing.type: Easing.OutCirc}
+            ColorAnimation{targets: [textAction,checkBorder]; duration: 150; easing.type: Easing.Linear}
         },
         Transition {
             from: "done"
             to: "default"
-            ColorAnimation{target: textAction; duration: 200;  easing.type: Easing.OutCirc}
+            ColorAnimation{targets: [textAction,checkBorder]; duration: 150;  easing.type: Easing.Linear}
         }
     ]
 
@@ -86,7 +88,7 @@ Item{
                     anchors.fill: parent
                     Rectangle{
                         height: parent.height/1.5
-                        color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                        color: ApplicationSettings.isDarkTheme ? "#454545" : "silver"
                         width: 2
                         anchors.verticalCenter: parent.verticalCenter
                         x: (parent.width-width) - 3
@@ -94,7 +96,7 @@ Item{
                     }
                     Rectangle{
                         height: parent.height/3.4
-                        color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                        color: ApplicationSettings.isDarkTheme ? "#454545" : "silver"
                         width: 2
                         y: 9
                         x: 3
