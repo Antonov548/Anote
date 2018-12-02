@@ -59,30 +59,23 @@ ApplicationWindow{
         }
 
         pushEnter: Transition {
-            PropertyAnimation {
-                property: "opacity"
-                from: 0
-                to:1
-                duration: 200
-            }
-        }
-        pushExit: Transition {
-            PropertyAnimation {
-                property: "opacity"
-                from: 0.5
-                to:0
-                duration: 200
+            ParallelAnimation{
+                ScaleAnimator {
+                    from: 0.95
+                    to: 1
+                    duration: 400
+                    easing.type: Easing.OutCubic
+                }
+                PropertyAnimation {
+                    property: "opacity"
+                    from: 0
+                    to:1
+                    duration: 200
+                }
             }
         }
         popEnter: Transition {
             ParallelAnimation{
-
-                PropertyAnimation {
-                    property: "opacity"
-                    from: 0.5
-                    to:1
-                    duration: 150
-                }
                 ScaleAnimator {
                     from: 1.1
                     to: 1
@@ -91,27 +84,8 @@ ApplicationWindow{
                 }
             }
         }
-        popExit: Transition {
-
-            SequentialAnimation{
-
-                ParallelAnimation{
-                    PropertyAnimation{
-                        property: "opacity"
-                        to: 0
-                        duration: 100
-                    }
-                    ScaleAnimator {
-                        from: 1
-                        to: 1.05
-                        duration: 400
-                        easing.type: Easing.OutCubic
-                    }
-                }
-                PropertyAction {
-                    property: "scale"; value: 1 }
-            }
-        }
+        pushExit: Transition {}
+        popExit: Transition {}
 
         initialItem: Pane{
             id: stackInitial

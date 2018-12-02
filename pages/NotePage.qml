@@ -17,6 +17,22 @@ ScrollablePage{
         signalClose()
     }
 
+    function getLabel(parse_date){
+        var string_date = parse_date.toString()
+
+        if(string_date.length >= 2){
+            if(parseInt(string_date[string_date.length-2]) === 1)
+                return "Осталось " + parse_date + " дней"
+        }
+
+        if(parseInt(string_date[string_date.length-1]) === 1)
+            return "Остался " + parse_date + " день"
+        if(parseInt(string_date[string_date.length-1]) >1 && parseInt(string_date[string_date.length-1]) <5)
+            return "Осталось " + parse_date + " дня"
+        if(parseInt(string_date[string_date.length-1]) >= 5)
+            return "Осталось " + parse_date + " дней"
+    }
+
     header: Rectangle{
         width: parent.width
         height: 50
@@ -80,6 +96,7 @@ ScrollablePage{
         anchors.fill: parent
         spacing: 40
         topPadding: 40
+        bottomPadding: 20
 
         Column{
             anchors.horizontalCenter: parent.horizontalCenter
@@ -95,13 +112,13 @@ ScrollablePage{
             Label{
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: {
-                    var days_count = Math.round((new Date(date) - Date.now() + 86400000)/(1000*60*60*24))
+                    var days_count = Math.round((new Date(date+"T24:00:00") - Date.now())/(1000*60*60*24))
                     if(days_count<0)
                         return "Заметка устарела"
                     if(days_count == 0)
                         return "Сегодня"
                     if(days_count>0)
-                        return "Отсалось " + days_count + " дней"
+                        getLabel(days_count)
                 }
                 color: "#909090"
                 font.family: ApplicationSettings.font
