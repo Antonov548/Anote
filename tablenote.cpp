@@ -33,7 +33,6 @@ bool TableNote::isEmpty() const{
 }
 
 bool TableNote::addNote(QString sql_date, QString month_s, QString day_w, int day_n){
-
     for(auto &note : note_list){
         if(note.date == sql_date)
             return false;
@@ -100,9 +99,43 @@ void TableNote::setIsEmpty(bool isEmpty){
     emit isEmptyChanged(m_isEmpty);
 }
 
-void TableNote::getNotesDatabase(){
+void TableNote::reorderList(bool isOrder){
+    if(m_isEmpty)
+        return;
+
     QString str_query;
-    str_query = "SELECT * FROM " TABLE_NOTE;
+    QSqlQuery sql_query;
+
+    if(isOrder)
+        str_query = "SELECT * FROM " TABLE_NOTE " ORDER BY " TABLE_DATE;
+    else
+        str_query = "SELECT * FROM " TABLE_NOTE;
+
+    sql_query.exec(str_query);
+    note_list.clear();
+
+    while(sql_query.next()){
+        Note new_note;
+
+        new_note.month = sql_query.value(sql_query.record().indexOf(TABLE_MONTH)).toString();
+        new_note.day_w = sql_query.value(sql_query.record().indexOf(TABLE_DAY_W)).toString();
+        new_note.day = sql_query.value(sql_query.record().indexOf(TABLE_DAY_N)).toInt();
+        new_note.date = sql_query.value(sql_query.record().indexOf(TABLE_DATE)).toString();
+
+        if(isOrder)
+            note_list.append(new_note);
+        else
+            note_list.insert(0,new_note);
+    }
+}
+
+void TableNote::getNotesDatabase(bool isOrder){
+    QString str_query;
+
+    if(isOrder)
+        str_query = "SELECT * FROM " TABLE_NOTE " ORDER BY " TABLE_DATE;
+    else
+        str_query = "SELECT * FROM " TABLE_NOTE;
 
     QSqlQuery sql_query;
     sql_query.exec(str_query);
@@ -114,7 +147,6 @@ void TableNote::getNotesDatabase(){
     }
 
     do{
-
         Note new_note;
 
         new_note.month = sql_query.value(sql_query.record().indexOf(TABLE_MONTH)).toString();
@@ -122,18 +154,11 @@ void TableNote::getNotesDatabase(){
         new_note.day = sql_query.value(sql_query.record().indexOf(TABLE_DAY_N)).toInt();
         new_note.date = sql_query.value(sql_query.record().indexOf(TABLE_DATE)).toString();
 
-        note_list.append(new_note);
+        if(isOrder)
+            note_list.insert(0,new_note);
+        else
+            note_list.append(new_note);
 
     }while((sql_query.previous()));
-
     setIsEmpty(false);
-
-    /*
-    str_query = "SELECT * FROM " TABLE_NOTE " ORDER BY " TABLE_DATE;
-    sql_query.exec(str_query);
-
-    while(sql_query.next()){
-        qDebug() << sql_query.value(sql_query.record().indexOf(TABLE_DATE)).toString();
-    };
-    */
 }

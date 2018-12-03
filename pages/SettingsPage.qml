@@ -96,13 +96,13 @@ ScrollablePage{
             property var handlers : {"Использовать пароль": function(){if(!ApplicationSettings.isBlock)handlers["Изменить пароль"](); else ApplicationSettings.setIsBlock(false)},
                 "Изменить пароль": function(){var dialog = Qt.createComponent("qrc:/qml/pages/SetPasswordDialog.qml").createObject(); connectionDialogPass.target = dialog; stackView.push(dialog);},
                 "Темное оформление": function(){ApplicationSettings.setIsDarkTheme(!ApplicationSettings.isDarkTheme)},
-                "Сортировать по дате": function(){}
+                "Сортировать по дате": function(){ApplicationSettings.setIsOrder(!ApplicationSettings.isOrder); tableNote.resetList(ApplicationSettings.isOrder)}
             }
 
             property var check: {"Использовать пароль": ApplicationSettings.isBlock,
                                  "Изменить пароль": ApplicationSettings.isBlock,
                                  "Темное оформление": ApplicationSettings.isDarkTheme,
-                                 "Сортировать по дате": false
+                                 "Сортировать по дате": ApplicationSettings.isOrder
             }
 
             SettingsCheckComponent{id: btn_password}

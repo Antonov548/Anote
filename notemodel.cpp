@@ -111,6 +111,12 @@ QString NoteModel::getProperty(QString role, int index)
 
 }
 
+void NoteModel::resetList(bool isOrder){
+    beginResetModel();
+    m_list->reorderList(isOrder);
+    endResetModel();
+}
+
 void NoteModel::setList(TableNote *list)
 {
 
@@ -133,6 +139,7 @@ void NoteModel::setList(TableNote *list)
         connect(m_list, &TableNote::deleteNoteEnd, this, [=]() {
             endRemoveRows();
         });
+        connect(m_list,SIGNAL(resetList(bool)),this,SLOT(resetList(bool)));
     }
 
     emit listChanged(m_list);

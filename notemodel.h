@@ -25,14 +25,15 @@ public:
     virtual QHash<int,QByteArray> roleNames() const override;
     Qt::ItemFlags flags(const QModelIndex& index) const override;
 
-   // bool setData(const QModelIndex &index, const QVariant &value,
-   //               int role = Qt::EditRole) override;
+    // bool setData(const QModelIndex &index, const QVariant &value,
+    //               int role = Qt::EditRole) override;
 
     TableNote* list() const;
 
 public slots:
     void setList(TableNote* list);
     QString getProperty(QString role,int index);
+    void resetList(bool);
 
 signals:
     void listChanged(TableNote* list);

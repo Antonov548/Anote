@@ -14,6 +14,7 @@ class ApplicationSettings : public QObject
 
     Q_PROPERTY(bool isBlock READ isBlock WRITE setIsBlock NOTIFY isBlockChanged)
     Q_PROPERTY(bool isDarkTheme READ isDarkTheme WRITE setIsDarkTheme NOTIFY isDarkThemeChanged)
+    Q_PROPERTY(bool isOrder READ isOrder WRITE setIsOrder NOTIFY isOrderChanged)
     Q_PROPERTY(QString font READ font WRITE setFont NOTIFY fontChanged)
 
     explicit ApplicationSettings(QObject *parent = nullptr);
@@ -34,6 +35,7 @@ class ApplicationSettings : public QObject
     QString passwordHash;
     bool m_isDarkTheme;
     QString m_font;
+    bool m_isOrder;
 
 public:
     bool isBlock() const;
@@ -43,14 +45,15 @@ public:
     static ApplicationSettings *AppSettingsInstance();
     void setFile(QString);
     QString font() const;
+    bool isOrder() const;
 
 signals:
     void isBlockChanged(bool isBlock);
     void isDarkThemeChanged(bool isDarkTheme);
     void keyboardChanged(int keyboardHeight);
     void commit();
-
     void fontChanged(QString font);
+    void isOrderChanged(bool isOrder);
 
 public slots:
     void setIsBlock(bool isBlock);
@@ -60,4 +63,5 @@ public slots:
     bool comparePassword(QString pass);
     void commitInputMethod();
     void setFont(QString font);
+    void setIsOrder(bool isOrder);
 };

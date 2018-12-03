@@ -36,6 +36,7 @@ void ApplicationSettings::setDefault()
     j_object.insert("passwordHash",QJsonValue::fromVariant(""));
     j_object.insert("isDarkTheme",QJsonValue::fromVariant(false));
     j_object.insert("font",QJsonValue::fromVariant("Arial"));
+    j_object.insert("isOrder",QJsonValue::fromVariant(false));
 
     saveToFile();
 }
@@ -114,6 +115,7 @@ void ApplicationSettings::setFile(QString filepath)
     m_isDarkTheme = j_object.value("isDarkTheme").toBool();
     m_isBlock = j_object.value("isBlock").toBool();
     m_font = j_object.value("font").toString();
+    m_isOrder = j_object.value("isOrder").toBool();
     passwordHash = j_object.value("passwordHash").toString();
 
 }
@@ -121,6 +123,11 @@ void ApplicationSettings::setFile(QString filepath)
 QString ApplicationSettings::font() const
 {
     return m_font;
+}
+
+bool ApplicationSettings::isOrder() const
+{
+    return m_isOrder;
 }
 
 void ApplicationSettings::setIsBlock(bool isBlock)
@@ -135,7 +142,6 @@ void ApplicationSettings::setIsBlock(bool isBlock)
     j_object.insert("isBlock",m_isBlock);
 
     saveToFile();
-
     emit isBlockChanged(m_isBlock);
 }
 
@@ -156,7 +162,6 @@ void ApplicationSettings::setIsDarkTheme(bool isDarkTheme)
     j_object.insert("isDarkTheme",m_isDarkTheme);
 
     saveToFile();
-
     emit isDarkThemeChanged(m_isDarkTheme);
 }
 
@@ -194,4 +199,19 @@ void ApplicationSettings::setFont(QString font)
 
     m_font = font;
     emit fontChanged(m_font);
+}
+
+void ApplicationSettings::setIsOrder(bool isOrder)
+{
+    if (m_isOrder == isOrder)
+        return;
+
+    m_isOrder = isOrder;
+
+    j_file.resize(0);
+    j_object.remove("isOrder");
+    j_object.insert("isOrder",m_isDarkTheme);
+
+    saveToFile();
+    emit isOrderChanged(m_isOrder);
 }

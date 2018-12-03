@@ -34,7 +34,7 @@ public:
     void createTable();
     bool setNoteAt(int,Note);
     QVector<Note> getNote() const;
-    void getNotesDatabase();
+    void getNotesDatabase(bool);
     bool isEmpty() const;
 
 signals:
@@ -45,10 +45,11 @@ signals:
     void deleteNoteEnd();
 
     void isEmptyChanged(bool isEmpty);
+    void resetList(bool);
 
 public slots:
     bool addNote(QString sql_date, QString month_s, QString day_w, int day_n);
     void deleteNote(QString, int);
-
+    void reorderList(bool);
     void setIsEmpty(bool isEmpty);
 };

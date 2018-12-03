@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     TableAction tableAction;
     Database db(tableNote,tableAction);
 
-    tableNote.getNotesDatabase();
+    tableNote.getNotesDatabase(settings->isOrder());
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("tableNote",&tableNote);
