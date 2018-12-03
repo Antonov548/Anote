@@ -112,13 +112,13 @@ ScrollablePage{
             Label{
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: {
-                    var days_count = Math.round((new Date(date+"T24:00:00") - Date.now())/(1000*60*60*24))
-                    if(days_count<0)
+                    var hours_count = (new Date(date+"T24:00:00") - Date.now())/(1000*60*60)
+                    if(hours_count<0)
                         return "Заметка устарела"
-                    if(days_count == 0)
+                    if(hours_count >0 && hours_count < 24)
                         return "Сегодня"
-                    if(days_count>0)
-                        getLabel(days_count)
+                    if(hours_count > 24)
+                        getLabel(Math.round(hours_count/24))
                 }
                 color: "#909090"
                 font.family: ApplicationSettings.font
