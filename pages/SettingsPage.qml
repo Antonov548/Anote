@@ -11,6 +11,10 @@ ScrollablePage{
     }
 
     function popSignal(){
+        if(dialogPassword.isOpen){
+            dialogPassword.isOpen = false
+            return
+        }
         stackView.pop()
     }
 
@@ -77,6 +81,10 @@ ScrollablePage{
 
     backgroundColor: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "white"
 
+    SetPasswordDialog{
+        id: dialogPassword
+    }
+
     content: Column{
         anchors.fill: parent
         topPadding: 40
@@ -94,7 +102,7 @@ ScrollablePage{
             }
 
             property var handlers : {"Использовать пароль": function(){if(!ApplicationSettings.isBlock)handlers["Изменить пароль"](); else ApplicationSettings.setIsBlock(false)},
-                "Изменить пароль": function(){var dialog = Qt.createComponent("qrc:/qml/pages/SetPasswordDialog.qml").createObject(); connectionDialogPass.target = dialog; stackView.push(dialog);},
+                "Изменить пароль": function(){dialogPassword.clear(); dialogPassword.isOpen = true},
                 "Темное оформление": function(){ApplicationSettings.setIsDarkTheme(!ApplicationSettings.isDarkTheme)},
                 "Сортировать по дате": function(){ApplicationSettings.setIsOrder(!ApplicationSettings.isOrder); tableNote.resetList(ApplicationSettings.isOrder)}
             }

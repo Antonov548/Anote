@@ -4,8 +4,7 @@
 
 ApplicationSettings* ApplicationSettings::instance = nullptr;
 
-bool ApplicationSettings::setJSON(QString file_path)
-{
+bool ApplicationSettings::setJSON(QString file_path){
     j_file.setFileName(file_path);
 
     if(!j_file.exists())
@@ -30,8 +29,7 @@ bool ApplicationSettings::setJSON(QString file_path)
     return true;
 }
 
-void ApplicationSettings::setDefault()
-{
+void ApplicationSettings::setDefault(){
     j_object.insert("isBlock",QJsonValue::fromVariant(false));
     j_object.insert("passwordHash",QJsonValue::fromVariant(""));
     j_object.insert("isDarkTheme",QJsonValue::fromVariant(false));
@@ -41,29 +39,24 @@ void ApplicationSettings::setDefault()
     saveToFile();
 }
 
-void ApplicationSettings::saveToFile()
-{
+void ApplicationSettings::saveToFile(){
     j_file.open(QFile::ReadWrite);
     QJsonDocument document(j_object);
     j_file.write(document.toJson());
     j_file.close();
 }
 
-ApplicationSettings::ApplicationSettings(QObject *parent) : QObject(parent)
-{
+ApplicationSettings::ApplicationSettings(QObject *parent) : QObject(parent){
 }
 
-ApplicationSettings::~ApplicationSettings()
-{
+ApplicationSettings::~ApplicationSettings(){
 }
 
-bool ApplicationSettings::isBlock() const
-{
+bool ApplicationSettings::isBlock() const{
     return m_isBlock;
 }
 
-bool ApplicationSettings::isDarkTheme() const
-{
+bool ApplicationSettings::isDarkTheme() const{
     return m_isDarkTheme;
 }
 
@@ -100,15 +93,13 @@ void ApplicationSettings::keyboardAndroidChanged(JNIEnv *env, jobject thiz, jint
 }
 */
 
-ApplicationSettings *ApplicationSettings::AppSettingsInstance()
-{
+ApplicationSettings *ApplicationSettings::AppSettingsInstance(){
     if(!instance)
         instance = new ApplicationSettings();
     return instance;
 }
 
-void ApplicationSettings::setFile(QString filepath)
-{
+void ApplicationSettings::setFile(QString filepath){
     if(!setJSON(filepath))
         setDefault();
 
@@ -120,18 +111,15 @@ void ApplicationSettings::setFile(QString filepath)
 
 }
 
-QString ApplicationSettings::font() const
-{
+QString ApplicationSettings::font() const{
     return m_font;
 }
 
-bool ApplicationSettings::isOrder() const
-{
+bool ApplicationSettings::isOrder() const{
     return m_isOrder;
 }
 
-void ApplicationSettings::setIsBlock(bool isBlock)
-{
+void ApplicationSettings::setIsBlock(bool isBlock){
     if (m_isBlock == isBlock)
         return;
 
@@ -145,13 +133,11 @@ void ApplicationSettings::setIsBlock(bool isBlock)
     emit isBlockChanged(m_isBlock);
 }
 
-bool ApplicationSettings::blockAppOnStart()
-{
+bool ApplicationSettings::blockAppOnStart(){
     return m_isBlock;
 }
 
-void ApplicationSettings::setIsDarkTheme(bool isDarkTheme)
-{
+void ApplicationSettings::setIsDarkTheme(bool isDarkTheme){
     if (m_isDarkTheme == isDarkTheme)
         return;
 
@@ -165,8 +151,7 @@ void ApplicationSettings::setIsDarkTheme(bool isDarkTheme)
     emit isDarkThemeChanged(m_isDarkTheme);
 }
 
-void ApplicationSettings::setPassword(QString pass)
-{
+void ApplicationSettings::setPassword(QString pass){
     if(passwordHash == pass)
         return;
 
@@ -179,21 +164,18 @@ void ApplicationSettings::setPassword(QString pass)
     saveToFile();
 }
 
-bool ApplicationSettings::comparePassword(QString pass)
-{
+bool ApplicationSettings::comparePassword(QString pass){
     if(QCryptographicHash::hash(pass.toUtf8(),QCryptographicHash::Md5) == passwordHash)
         return true;
     else
         return false;
 }
 
-void ApplicationSettings::commitInputMethod()
-{
+void ApplicationSettings::commitInputMethod(){
     emit commit();
 }
 
-void ApplicationSettings::setFont(QString font)
-{
+void ApplicationSettings::setFont(QString font){
     if (m_font == font)
         return;
 
@@ -201,8 +183,7 @@ void ApplicationSettings::setFont(QString font)
     emit fontChanged(m_font);
 }
 
-void ApplicationSettings::setIsOrder(bool isOrder)
-{
+void ApplicationSettings::setIsOrder(bool isOrder){
     if (m_isOrder == isOrder)
         return;
 
