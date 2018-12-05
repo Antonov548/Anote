@@ -47,7 +47,7 @@ Item{
     }
     MouseArea{
         anchors.fill: parent
-        onClicked: tableAction.setDone(model.date,index,!model.done)
+        onClicked: {tableNote.setNCompleted(model.date,indexNote,model.done); tableAction.setDone(model.date,index,!model.done)}
     }
 
     Column{

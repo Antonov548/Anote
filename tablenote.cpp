@@ -9,7 +9,7 @@ void TableNote::createTable(){
     QString str_query;
     QSqlQuery sql_query;
 
-    str_query = "CREATE TABLE " TABLE_NOTE " ( " TABLE_MONTH " VARCHAR(255) , " TABLE_DAY_N " int , "
+    str_query = "CREATE TABLE " TABLE_NOTE " ( " TABLE_MONTH " VARCHAR(255) , " TABLE_DAY_N " int , " TABLE_COMPLETED " int , "
             TABLE_DAY_W " VARCHAR(255) , " TABLE_DATE " VARCHAR(255) NOT NULL PRIMARY KEY )";
 
     sql_query.exec(str_query);
@@ -32,7 +32,7 @@ bool TableNote::isEmpty() const{
     return m_isEmpty;
 }
 
-bool TableNote::addNote(QString sql_date, QString month_s, QString day_w, int day_n){
+bool TableNote::addNote(QString sql_date, QString month_s, QString day_w, int day_n, int count_comp){
     for(auto &note : note_list){
         if(note.date == sql_date)
             return false;
@@ -43,12 +43,13 @@ bool TableNote::addNote(QString sql_date, QString month_s, QString day_w, int da
 
     emit addNoteStart();
 
-    str_query = "INSERT INTO " TABLE_NOTE " ( " TABLE_MONTH " , " TABLE_DAY_N " , " TABLE_DAY_W  " , " TABLE_DATE " ) VALUES ( :month , :day , :day_w , :date )";
+    str_query = "INSERT INTO " TABLE_NOTE " ( " TABLE_MONTH " , " TABLE_DAY_N " , " TABLE_COMPLETED " , " TABLE_DAY_W  " , " TABLE_DATE " ) VALUES ( :month , :day , :count , :day_w , :date )";
 
     sql_query.prepare(str_query);
 
     sql_query.bindValue(":month",month_s);
     sql_query.bindValue(":day",day_n);
+    sql_query.bindValue(":count",count_comp);
     sql_query.bindValue(":day_w",day_w);
     sql_query.bindValue(":date",sql_date);
 
@@ -58,6 +59,7 @@ bool TableNote::addNote(QString sql_date, QString month_s, QString day_w, int da
     new_note.month = month_s;
     new_note.day = day_n;
     new_note.day_w = day_w;
+    new_note.count_c = count_comp;
     new_note.date = sql_date;
 
     note_list.insert(0,new_note);
@@ -119,6 +121,7 @@ void TableNote::reorderList(bool isOrder){
 
         new_note.month = sql_query.value(sql_query.record().indexOf(TABLE_MONTH)).toString();
         new_note.day_w = sql_query.value(sql_query.record().indexOf(TABLE_DAY_W)).toString();
+        new_note.count_c = sql_query.value(sql_query.record().indexOf(TABLE_COMPLETED)).toInt();
         new_note.day = sql_query.value(sql_query.record().indexOf(TABLE_DAY_N)).toInt();
         new_note.date = sql_query.value(sql_query.record().indexOf(TABLE_DATE)).toString();
 
@@ -127,6 +130,28 @@ void TableNote::reorderList(bool isOrder){
         else
             note_list.insert(0,new_note);
     }
+}
+
+void TableNote::setNCompleted(QString date, int index, bool completed){
+    QString str_query;
+    QSqlQuery sql_query;
+
+    str_query = "UPDATE " TABLE_NOTE " SET " TABLE_COMPLETED " = :count WHERE " TABLE_DATE "=:date";
+    sql_query.prepare(str_query);
+
+    int new_count = note_list[index].count_c;
+    if(completed)
+        new_count++;
+    else
+        new_count--;
+
+    sql_query.bindValue(":date",date);
+    sql_query.bindValue(":count",new_count);
+
+    qDebug() << sql_query.exec();
+    note_list[index].count_c = new_count;
+
+    emit updateData("count_c",index);
 }
 
 void TableNote::getNotesDatabase(bool isOrder){
@@ -152,6 +177,7 @@ void TableNote::getNotesDatabase(bool isOrder){
         new_note.month = sql_query.value(sql_query.record().indexOf(TABLE_MONTH)).toString();
         new_note.day_w = sql_query.value(sql_query.record().indexOf(TABLE_DAY_W)).toString();
         new_note.day = sql_query.value(sql_query.record().indexOf(TABLE_DAY_N)).toInt();
+        new_note.count_c = sql_query.value(sql_query.record().indexOf(TABLE_COMPLETED)).toInt();
         new_note.date = sql_query.value(sql_query.record().indexOf(TABLE_DATE)).toString();
 
         if(isOrder)

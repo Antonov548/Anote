@@ -191,7 +191,7 @@ void ApplicationSettings::setIsOrder(bool isOrder){
 
     j_file.resize(0);
     j_object.remove("isOrder");
-    j_object.insert("isOrder",m_isDarkTheme);
+    j_object.insert("isOrder",m_isOrder);
 
     saveToFile();
     emit isOrderChanged(m_isOrder);

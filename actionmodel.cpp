@@ -83,8 +83,7 @@ void ActionModel::setList(TableAction *list)
     endResetModel();
 }
 
-bool ActionModel::setProperty(QString role, int index)
-{
+bool ActionModel::setProperty(QString role, int index){
     if(!m_list)
         return  false;
 

@@ -27,61 +27,61 @@ Item{
     Column{
         id: mainColumn
         width: parent.width
+
         Rectangle{
+            height: 63
             width: parent.width/1.05
-            height: 60
             radius: 8
             anchors.horizontalCenter: parent.horizontalCenter
+            color: ApplicationSettings.isDarkTheme ? "#121212" : "#D0D0D0"
+            Rectangle{
+                width: parent.width
+                height: 60
+                radius: 8
+                anchors.horizontalCenter: parent.horizontalCenter
 
-            color: ApplicationSettings.isDarkTheme ?  mouseArea.pressed ? "#292929" : "#323232" : mouseArea.pressed ? "#DEDEDE" : "white"
+                color: ApplicationSettings.isDarkTheme ?  mouseArea.pressed ? "#292929" : "#323232" : mouseArea.pressed ? "#DEDEDE" : "white"
 
-            Row{
-                anchors.fill: parent
-                leftPadding: 40
-                Column{
-                    anchors.verticalCenter: parent.verticalCenter
-                    spacing: 2
-                    Label{
-                        text: model.day + " " + model.month + ", " + model.day_w
-                        font.family: ApplicationSettings.font
-                        font.pixelSize: 16
-                        color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-                    }
-                    Label{
-                        text: "10 не завершенных дел"
-                        font.family: "Arial"
-                        font.pixelSize: 12
-                        color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                Row{
+                    anchors.fill: parent
+                    leftPadding: 40
+                    Column{
+                        anchors.verticalCenter: parent.verticalCenter
+                        spacing: 2
+                        Label{
+                            text: model.day + " " + model.month + ", " + model.day_w
+                            font.family: ApplicationSettings.font
+                            font.pixelSize: 16
+                            color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                        }
+                        Label{
+                            text: model.count_c + " не завершенных дел"
+                            font.family: "Arial"
+                            font.pixelSize: 12
+                            color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                        }
                     }
                 }
-            }
 
-            MouseArea{
-                id: mouseArea
-                width: parent.width
-                height: parent.height
-                anchors.horizontalCenter: parent.horizontalCenter
-                hoverEnabled: true
-                onPressAndHold: {stackInitial.indexChange = index}
-                pressAndHoldInterval: 300
-                onClicked: {tableAction.getActionsDatabase(model.date); stackView.notePage = stackView.push("qrc:/qml/pages/NotePage.qml",{"month":model.month, "day":model.day, "day_w":model.day_w, "date":model.date})}
+                MouseArea{
+                    id: mouseArea
+                    width: parent.width
+                    height: parent.height
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    hoverEnabled: true
+                    onPressAndHold: {stackInitial.indexChange = index}
+                    pressAndHoldInterval: 300
+                    onClicked: {tableAction.getActionsDatabase(model.date); stackView.notePage = stackView.push("qrc:/qml/pages/NotePage.qml",{"month":model.month, "day":model.day, "day_w":model.day_w, "date":model.date, "indexNote":index})}
+                }
             }
         }
+
         Rectangle{
             id: bottomSpacing
             height: 8
             width: parent.width
             color: "transparent"
         }
-    }
-    DropShadow{
-        anchors.fill: mainColumn
-        horizontalOffset: 1
-        verticalOffset: 2
-        radius: 4.0
-        samples: 20
-        color: ApplicationSettings.isDarkTheme ? "#151515" : "silver"
-        source: mainColumn
     }
 }
 

@@ -145,8 +145,11 @@ ApplicationWindow{
                 }
 
                 header: Page{
+                    id: listHeader
                     height: appWindow.height/4
                     width: appWindow.width
+                    clip: true
+                    z: 2
 
                     background: Rectangle{
                         anchors.fill: parent
@@ -154,6 +157,7 @@ ApplicationWindow{
                     }
 
                     Rectangle{
+                        id: infoHeader
                         width: parent.width/1.05
                         height: parent.height/1.1
                         anchors.centerIn: parent
@@ -180,7 +184,6 @@ ApplicationWindow{
                 Column{
                     width: parent.width
                     spacing: 60
-                    topPadding: 200
                     opacity: tableNote.isEmpty ? 1 : 0
 
                     Behavior on opacity {
@@ -194,6 +197,7 @@ ApplicationWindow{
                     Column{
                         width: parent.width
                         spacing: 10
+                        topPadding: appWindow.height/4
 
                         Button{
                             height: 40

@@ -12,12 +12,14 @@
 #define TABLE_DAY_N "day_n"
 #define TABLE_MONTH "month"
 #define TABLE_DATE "date"
+#define TABLE_COMPLETED "completed"
 
 
 struct Note{
     QString month;
     QString day_w;
     int day;
+    int count_c;
     QString date;
 };
 
@@ -46,10 +48,12 @@ signals:
 
     void isEmptyChanged(bool isEmpty);
     void resetList(bool);
+    void updateData(QString role,int index);
 
 public slots:
-    bool addNote(QString sql_date, QString month_s, QString day_w, int day_n);
+    bool addNote(QString sql_date, QString month_s, QString day_w, int day_n, int count_comp);
     void deleteNote(QString, int);
     void reorderList(bool);
+    void setNCompleted(QString,int,bool);
     void setIsEmpty(bool isEmpty);
 };

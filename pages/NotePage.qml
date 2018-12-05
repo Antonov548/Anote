@@ -10,6 +10,7 @@ ScrollablePage{
     property string day_w: ""
     property string date: ""
     property real day: -1
+    property real indexNote: -1
 
     signal signalClose()
 

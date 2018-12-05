@@ -37,7 +37,7 @@ ScrollablePage{
         }
 
         var sql_date = getSQLDateFormat(arr_year[tumblerYear.currentIndex],tumblerMonth.currentIndex+1,tumblerDay.currentIndex+1)
-        if(tableNote.addNote(sql_date,lblMonth.text,lblDay_w.text.slice(0,2),tumblerDay.currentIndex+1)){
+        if(tableNote.addNote(sql_date,lblMonth.text,lblDay_w.text.slice(0,2),tumblerDay.currentIndex+1,createNoteModel.rowCount())){
             tableAction.addActionsDatabase(sql_date)
             signalClose()
         }
@@ -167,6 +167,7 @@ ScrollablePage{
 
                 delegate: ListActionComponent{itemText: model.info}
                 model: ActionModel{
+                    id: createNoteModel
                     list: tableAction
                 }
             }
