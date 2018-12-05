@@ -55,7 +55,7 @@ Item{
                             color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
                         }
                         Label{
-                            text: model.count_c + " не завершенных дел"
+                            text: (model.count_c === 0) ? "Все дела завершены" : model.count_c + " не завершенных дел"
                             font.family: "Arial"
                             font.pixelSize: 12
                             color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"

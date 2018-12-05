@@ -148,7 +148,7 @@ void TableNote::setNCompleted(QString date, int index, bool completed){
     sql_query.bindValue(":date",date);
     sql_query.bindValue(":count",new_count);
 
-    qDebug() << sql_query.exec();
+    sql_query.exec();
     note_list[index].count_c = new_count;
 
     emit updateData("count_c",index);

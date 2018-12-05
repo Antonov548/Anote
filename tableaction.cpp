@@ -49,7 +49,7 @@ void TableAction::deleteAction(int index){
 
 void TableAction::addActionsDatabase(QString date){
 
-    int index = 0;
+    int index = action_list.count()-1;
 
     for(auto &action : action_list){
 
@@ -66,7 +66,7 @@ void TableAction::addActionsDatabase(QString date){
         sql_query.bindValue(":date",date);
 
         sql_query.exec();
-        index++;
+        index--;
     }
     action_list.clear();
 }
@@ -80,7 +80,7 @@ void TableAction::getActionsDatabase(QString date){
     str_query = "SELECT * FROM " TABLE_ACTION " WHERE " TABLE_DATE "='" + date + "'";
     sql_query.exec(str_query);
 
-    if(!sql_query.first()){
+    if(!sql_query.last()){
         setIsEmpty(true);
         return;
     }
@@ -94,7 +94,7 @@ void TableAction::getActionsDatabase(QString date){
 
         action_list.append(new_action);
 
-    }while((sql_query.next()));
+    }while((sql_query.previous()));
 
     setIsEmpty(false);
 }

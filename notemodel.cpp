@@ -126,8 +126,6 @@ bool NoteModel::setProperty(QString role, int index){
     QVector<int> changed_role;
     changed_role << number_role;
 
-    qDebug() << index;
-
     emit dataChanged(NoteModel::index(index), NoteModel::index(index), changed_role);
     return true;
 }
