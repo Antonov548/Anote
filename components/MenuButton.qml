@@ -1,0 +1,75 @@
+import QtQuick 2.11
+import QtQuick.Controls 2.4
+
+Item{
+    id: item
+
+    property var onClicked : function(){}
+
+    MouseArea{
+        id: mouseArea
+        anchors.fill: parent
+        onClicked: item.onClicked()
+
+        Rectangle{
+            width: mouseArea.pressed ? Math.max(item.height,item.width)+10 : 0
+            height: mouseArea.pressed ? Math.max(item.height,item.width)+10 : 0
+            color: "#EEEEEE"
+            radius: height/2
+            anchors.centerIn: parent
+
+            Behavior on width{
+                SequentialAnimation{
+                    PauseAnimation {
+                        duration: 200
+                    }
+                    NumberAnimation{
+                        duration: 800
+                        easing.type: Easing.OutExpo
+                    }
+                }
+            }
+            Behavior on height{
+                SequentialAnimation{
+                    PauseAnimation {
+                        duration: 200
+                    }
+                    NumberAnimation{
+                        duration: 800
+                        easing.type: Easing.OutExpo
+                    }
+                }
+            }
+        }
+
+        Rectangle{
+            id: button
+            anchors.centerIn: parent
+            width: item.width - 5
+            height: item.height - 5
+            color: "transparent"
+
+            Rectangle{
+                width: button.width
+                height: 2.2
+                radius: height/2
+                color: ApplicationSettings.isDarkTheme ? "#D7D7D7" : "#444444"
+            }
+            Rectangle{
+                x:0
+                y: (button.height - height)/2
+                width: button.width
+                height: 2.2
+                radius: height/2
+                color: ApplicationSettings.isDarkTheme ? "#D7D7D7" : "#444444"
+            }
+            Rectangle{
+                width: button.width
+                y: button.height-height;
+                height: 2.2
+                radius: height/2
+                color: ApplicationSettings.isDarkTheme ? "#D7D7D7" : "#444444"
+            }
+        }
+    }
+}

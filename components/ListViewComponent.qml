@@ -29,18 +29,18 @@ Item{
         width: parent.width
 
         Rectangle{
-            height: 63
+            height: 62
             width: parent.width/1.05
             radius: 8
             anchors.horizontalCenter: parent.horizontalCenter
-            color: ApplicationSettings.isDarkTheme ? "#121212" : "#D0D0D0"
+            color: ApplicationSettings.isDarkTheme ? "#121212" : "#D6D6D6"
             Rectangle{
                 width: parent.width
                 height: 60
                 radius: 8
                 anchors.horizontalCenter: parent.horizontalCenter
 
-                color: ApplicationSettings.isDarkTheme ?  mouseArea.pressed ? "#292929" : "#323232" : mouseArea.pressed ? "#DEDEDE" : "white"
+                color: ApplicationSettings.isDarkTheme ?  mouseArea.pressed ? "#292929" : "#323232" : mouseArea.pressed ? "#DEDEDE" : "#E6E6E6"
 
                 Row{
                     anchors.fill: parent
@@ -78,7 +78,7 @@ Item{
 
         Rectangle{
             id: bottomSpacing
-            height: 8
+            height: 12
             width: parent.width
             color: "transparent"
         }

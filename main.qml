@@ -55,7 +55,7 @@ ApplicationWindow{
 
         background: Rectangle{
             anchors.fill: parent
-            color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "#E9E9E9"
+            color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "white"
         }
 
         pushEnter: Transition {
@@ -94,10 +94,6 @@ ApplicationWindow{
             padding: 0
 
             function popSignal(){
-                if(menu.isOpen){
-                    menu.isOpen = false
-                    return
-                }
                 if(indexChange >= 0){
                     indexChange = -1
                     return
@@ -107,7 +103,7 @@ ApplicationWindow{
 
             background: Rectangle{
                 anchors.fill: parent
-                color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "#E9E9E9"
+                color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "white"
             }
             ListView{
 
@@ -124,7 +120,7 @@ ApplicationWindow{
                     list: tableNote
                 }
 
-                headerPositioning: ListView.OverlayHeader
+                headerPositioning: ListView.PullBackHeader
                 boundsBehavior: Flickable.StopAtBounds
                 boundsMovement: Flickable.StopAtBounds
 
@@ -146,23 +142,160 @@ ApplicationWindow{
 
                 header: Page{
                     id: listHeader
-                    height: appWindow.height/4
+                    height: headerColumn.implicitHeight
                     width: appWindow.width
                     clip: true
                     z: 2
 
                     background: Rectangle{
                         anchors.fill: parent
-                        color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "#E9E9E9"
+                        color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "white"
                     }
 
-                    Rectangle{
-                        id: infoHeader
-                        width: parent.width/1.05
-                        height: parent.height/1.1
-                        anchors.centerIn: parent
-                        radius: 8
-                        color: ApplicationSettings.isDarkTheme ? "#323232" : "white"
+                    Column{
+                        id: headerColumn
+                        width: parent.width
+                        spacing: 50
+                        bottomPadding: 20
+                        Pane{
+                            width: parent.width
+                            height: 60
+                            padding: 0
+                            MenuButton{
+                                height: 21
+                                width: 30
+                                anchors.left: parent.left
+                                anchors.leftMargin: 15
+                                anchors.verticalCenter: parent.verticalCenter
+                                onClicked: function(){console.log("work")}
+                            }
+                            Button{
+                                id: addButton
+                                height: 38
+                                padding: 0
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                anchors.verticalCenter: parent.verticalCenter
+
+                                onClicked: {tableAction.resetList(); stackView.createNotePage = stackView.push("qrc:/qml/pages/CreateNotePage.qml",{"appHeight": appWindow.height}); stackInitial.indexChange = -1}
+
+                                background: Rectangle{
+                                    width: addButton.width
+                                    height: addButton.height+3
+                                    radius: addButton.height/2
+                                    color: "#DBDBDB"
+                                    Rectangle{
+                                        width: addButton.width
+                                        height: addButton.height
+                                        radius: height/2
+                                        color: ApplicationSettings.isDarkTheme ? "silver" : "#3073FA"
+                                        Rectangle{
+                                            height: addButton.pressed ? parent.height : parent.height/2
+                                            width: addButton.pressed ? parent.width : 0
+                                            radius: height/2
+                                            color: "#3083FA"
+                                            opacity: addButton.pressed ? 1 : 0
+                                            anchors.centerIn: parent
+                                            Behavior on width{
+                                                SequentialAnimation{
+                                                    PauseAnimation {
+                                                        duration: 200
+                                                    }
+                                                    NumberAnimation{
+                                                        duration: 800
+                                                        easing.type: Easing.OutExpo
+                                                    }
+                                                }
+                                            }
+                                            Behavior on opacity{
+                                                SequentialAnimation{
+                                                    PauseAnimation {
+                                                        duration: 200
+                                                    }
+                                                    NumberAnimation{
+                                                        duration: 400
+                                                        easing.type: Easing.OutExpo
+                                                    }
+                                                }
+                                            }
+                                            Behavior on height{
+                                                SequentialAnimation{
+                                                    PauseAnimation {
+                                                        duration: 200
+                                                    }
+                                                    NumberAnimation{
+                                                        duration: 800
+                                                        easing.type: Easing.OutExpo
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                contentItem: Row{
+                                    Rectangle{
+                                        width: addButton.height
+                                        height: addButton.height
+                                        color: "transparent"
+                                        Rectangle{
+                                            width: 2
+                                            height: parent.height/2.4
+                                            color: ApplicationSettings.isDarkTheme ? "black" : "white"
+                                            anchors.centerIn: parent
+                                        }
+                                        Rectangle{
+                                            width: parent.width/2.4
+                                            height: 2
+                                            color: ApplicationSettings.isDarkTheme ? "black" : "white"
+                                            anchors.centerIn: parent
+                                        }
+                                    }
+                                    Label{
+                                        text: "Новая заметка"
+                                        height: parent.height
+                                        font.pixelSize: height/2.5
+                                        font.family: ApplicationSettings.font
+                                        leftPadding: 0
+                                        rightPadding: 15
+                                        horizontalAlignment: Text.AlignHCenter
+                                        verticalAlignment: Text.AlignVCenter
+                                        color: ApplicationSettings.isDarkTheme ? "black" : "white"
+                                    }
+                                }
+                            }
+                            SettingsButton{
+                                height: 23
+                                width: 30
+                                anchors.right: parent.right
+                                anchors.rightMargin: 8
+                                anchors.verticalCenter: parent.verticalCenter
+                                onClicked: function(){console.log("work")}
+                            }
+                        }
+                        Column{
+                            width: parent.width/1.05
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            leftPadding: 20
+
+                            FontLoader{
+                                id: headerFont
+                                source: "qrc:/font/font/header_font.ttf"
+                            }
+
+                            Label{
+                                text: "Мои заметки"
+                                font.pixelSize: 35
+                                font.family: headerFont.name
+                                color: "#4E4E4E"
+                            }
+                            Label{
+                                property var date: new Date()
+                                text: date.getDate() + " Декабря, Пн"
+                                font.pixelSize: 25
+                                font.family: headerFont.name
+                                color: "#6F6F6F"
+                            }
+                        }
                     }
                 }
 
@@ -199,51 +332,6 @@ ApplicationWindow{
                         spacing: 10
                         topPadding: appWindow.height/4
 
-                        Button{
-                            height: 40
-                            padding: 0
-                            anchors.horizontalCenter: parent.horizontalCenter
-
-                            onClicked: {tableAction.resetList(); stackView.createNotePage = stackView.push("qrc:/qml/pages/CreateNotePage.qml",{"appHeight": appWindow.height}); stackInitial.indexChange = -1}
-
-                            background: Rectangle{
-                                anchors.fill: parent
-                                radius: 4
-                                color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-                            }
-
-                            contentItem: Row{
-                                Rectangle{
-                                    width: 40
-                                    height: 40
-                                    color: "transparent"
-                                    Rectangle{
-                                        width: 2.2
-                                        height: parent.height/2.5
-                                        color: ApplicationSettings.isDarkTheme ? "black" : "white"
-                                        anchors.centerIn: parent
-                                    }
-                                    Rectangle{
-                                        width: parent.width/2.5
-                                        height: 2.2
-                                        color: ApplicationSettings.isDarkTheme ? "black" : "white"
-                                        anchors.centerIn: parent
-                                    }
-                                }
-                                Label{
-                                    text: "Добавить"
-                                    height: parent.height
-                                    font.pixelSize: height/2
-                                    font.family: ApplicationSettings.font
-                                    leftPadding: 0
-                                    rightPadding: 15
-                                    horizontalAlignment: Text.AlignHCenter
-                                    verticalAlignment: Text.AlignVCenter
-                                    color: ApplicationSettings.isDarkTheme ? "black" : "white"
-                                }
-                            }
-                        }
-
                         Label{
                             text: "Добавить заметки на день"
                             font.pixelSize: 16
@@ -254,7 +342,6 @@ ApplicationWindow{
                     }
                 }
             }
-            MenuPage{id: menu}
         }
     }
 

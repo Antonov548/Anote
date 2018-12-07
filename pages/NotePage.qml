@@ -119,7 +119,7 @@ ScrollablePage{
                     if(hours_count >0 && hours_count < 24)
                         return "Сегодня"
                     if(hours_count > 24)
-                        getLabel(Math.round(hours_count/24))
+                        getLabel(Math.floor(hours_count/24))
                 }
                 color: "#909090"
                 font.family: ApplicationSettings.font
