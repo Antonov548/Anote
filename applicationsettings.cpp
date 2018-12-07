@@ -47,6 +47,8 @@ void ApplicationSettings::saveToFile(){
 }
 
 ApplicationSettings::ApplicationSettings(QObject *parent) : QObject(parent){
+    list_month = {"Января","Февраля","Марта","Апреля","Мая","Июня","Июля","Августа","Сентября","Октября","Ноября","Декабря"};
+    list_week = {"Вс","Пн","Вт","Ср","Чт","Пт","Сб"};
 }
 
 ApplicationSettings::~ApplicationSettings(){
@@ -195,4 +197,22 @@ void ApplicationSettings::setIsOrder(bool isOrder){
 
     saveToFile();
     emit isOrderChanged(m_isOrder);
+}
+
+QString ApplicationSettings::getMonth(int number){
+    if(number >= 0 && number<=11){
+        return list_month.at(number);
+    }
+    else {
+        return "invalid number";
+    }
+}
+
+QString ApplicationSettings::getDayOfWeek(int number){
+    if(number>=0 && number<=6){
+        return list_week.at(number);
+    }
+    else {
+        return "invalid number";
+    }
 }

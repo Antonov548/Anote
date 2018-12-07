@@ -10,9 +10,7 @@ ScrollablePage{
 
     signal signalClose()
 
-    property var arr_month: ["Января","Февраля","Марта","Апреля","Мая","Июня","Июля","Августа","Сентября","Октября","Ноября","Декабря"]
     property var arr_year: [2018,2019,2020,2021,2022,2023,2024,2025]
-    property var arr_week: ["Вс","Пн","Вт","Ср","Чт","Пт","Сб"]
 
     property var date: new Date()
 
@@ -241,7 +239,7 @@ ScrollablePage{
                     Tumbler {
                         id: tumblerMonth
                         wrap: false
-                        model: arr_month.length
+                        model: 12
 
                         Component.onCompleted: {
                             tumblerMonth.contentItem.currentIndex = dateMonth
@@ -266,7 +264,7 @@ ScrollablePage{
                         delegate: Text{
                             font.pixelSize: 17
                             font.family: ApplicationSettings.font
-                            text: arr_month[index].slice(0,3)
+                            text: ApplicationSettings.getMonth(index).slice(0,3)
                             color: ApplicationSettings.isDarkTheme ? "silver" : "black"
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
@@ -370,7 +368,7 @@ ScrollablePage{
 
                 Label{
                     id: lblDay_w
-                    text: arr_week[new Date(arr_year[tumblerYear.currentIndex],tumblerMonth.currentIndex,tumblerDay.currentIndex+1).getDay()]+","
+                    text: ApplicationSettings.getDayOfWeek(new Date(arr_year[tumblerYear.currentIndex],tumblerMonth.currentIndex,tumblerDay.currentIndex+1).getDay())+","
                     font.pixelSize: 18
                     font.family: ApplicationSettings.font
                     horizontalAlignment: Text.AlignHCenter
@@ -389,7 +387,7 @@ ScrollablePage{
                 }
                 Label{
                     id: lblMonth
-                    text: arr_month[tumblerMonth.currentIndex]
+                    text: ApplicationSettings.getMonth(tumblerMonth.currentIndex)
                     font.pixelSize: 18
                     font.family: ApplicationSettings.font
                     horizontalAlignment: Text.AlignHCenter

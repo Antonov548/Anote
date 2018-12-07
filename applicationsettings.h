@@ -6,6 +6,7 @@
 #include <QTextStream>
 #include <QString>
 #include <QObject>
+#include <QList>
 //#include <QtAndroidExtras>
 
 class ApplicationSettings : public QObject
@@ -26,6 +27,9 @@ class ApplicationSettings : public QObject
     static ApplicationSettings* instance;
     QJsonObject j_object;
     QFile j_file;
+    QList<QString> list_month;
+    QList<QString> list_week;
+
 
     bool setJSON(QString);
     void setDefault();
@@ -64,4 +68,6 @@ public slots:
     void commitInputMethod();
     void setFont(QString font);
     void setIsOrder(bool isOrder);
+    QString getMonth(int number);
+    QString getDayOfWeek(int number);
 };

@@ -155,7 +155,7 @@ ApplicationWindow{
                     Column{
                         id: headerColumn
                         width: parent.width
-                        spacing: 50
+                        spacing: 40
                         bottomPadding: 20
                         Pane{
                             width: parent.width
@@ -171,7 +171,7 @@ ApplicationWindow{
                             }
                             Button{
                                 id: addButton
-                                height: 38
+                                height: 39
                                 padding: 0
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 anchors.verticalCenter: parent.verticalCenter
@@ -182,7 +182,7 @@ ApplicationWindow{
                                     width: addButton.width
                                     height: addButton.height+3
                                     radius: addButton.height/2
-                                    color: "#DBDBDB"
+                                    color: "#D6D6D6"
                                     Rectangle{
                                         width: addButton.width
                                         height: addButton.height
@@ -290,10 +290,10 @@ ApplicationWindow{
                             }
                             Label{
                                 property var date: new Date()
-                                text: date.getDate() + " Декабря, Пн"
+                                text: date.getDate() + " " + ApplicationSettings.getMonth(date.getMonth()) + ", " + ApplicationSettings.getDayOfWeek(date.getDay())
                                 font.pixelSize: 25
                                 font.family: headerFont.name
-                                color: "#6F6F6F"
+                                color: "#7C7C7C"
                             }
                         }
                     }
