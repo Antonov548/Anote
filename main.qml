@@ -109,8 +109,6 @@ ApplicationWindow{
 
                 id: listView
 
-                topMargin: tableNote.isEmpty ? 0 : 8
-                bottomMargin: tableNote.isEmpty ? 0 : 8
                 clip: true
 
                 anchors.fill: parent
@@ -304,7 +302,7 @@ ApplicationWindow{
             Pane{
                 anchors.fill: parent
                 padding: 0
-                visible: tableNote.isEmpty
+                visible: false // tableNote.isEmpty
 
                 clip: true
                 anchors.centerIn: parent
@@ -317,7 +315,7 @@ ApplicationWindow{
                 Column{
                     width: parent.width
                     spacing: 60
-                    opacity: tableNote.isEmpty ? 1 : 0
+                    //opacity: tableNote.isEmpty ? 1 : 0
 
                     Behavior on opacity {
                         enabled: !tableNote.isEmpty

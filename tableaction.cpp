@@ -9,7 +9,7 @@ void TableAction::createTable(){
     QString str_query;
     QSqlQuery sql_query;
 
-    str_query = "CREATE TABLE " TABLE_ACTION " ( " TABLE_INFO " VARCHAR(255), " TABLE_DONE " int , " TABLE_INDEX " int , " TABLE_DATE " VARCHAR(255) NOT NULL)";
+    str_query = "CREATE TABLE " TABLE_ACTION " ( " TABLE_INFO " text, " TABLE_DONE " int , " TABLE_INDEX " int , " TABLE_DATE " text NOT NULL)";
     sql_query.exec(str_query);
 }
 

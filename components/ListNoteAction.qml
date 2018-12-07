@@ -66,6 +66,7 @@ Item{
                 width: parent.width/1.1
                 font.family: ApplicationSettings.font
                 font.pixelSize: 16
+                font.strikeout: model.done
                 wrapMode: Text.Wrap
                 padding: 10
             }

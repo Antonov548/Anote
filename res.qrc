@@ -23,13 +23,7 @@
         <file>components/MenuButton.qml</file>
         <file>components/SettingsButton.qml</file>
     </qresource>
-    <qresource prefix="/image">
-        <file>icons/add.png</file>
-        <file>icons/delete.png</file>
-        <file>icons/drawer.png</file>
-        <file>icons/edit.png</file>
-        <file>icons/settings.png</file>
-    </qresource>
+    <qresource prefix="/image"/>
     <qresource prefix="/font">
         <file>font/header_font.ttf</file>
     </qresource>

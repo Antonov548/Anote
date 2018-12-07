@@ -9,8 +9,8 @@ void TableNote::createTable(){
     QString str_query;
     QSqlQuery sql_query;
 
-    str_query = "CREATE TABLE " TABLE_NOTE " ( " TABLE_MONTH " VARCHAR(255) , " TABLE_DAY_N " int , " TABLE_COMPLETED " int , "
-            TABLE_DAY_W " VARCHAR(255) , " TABLE_DATE " VARCHAR(255) NOT NULL PRIMARY KEY )";
+    str_query = "CREATE TABLE " TABLE_NOTE " ( " TABLE_MONTH " text , " TABLE_DAY_N " int , " TABLE_COMPLETED " int , "
+            TABLE_DAY_W " text , " TABLE_DATE " text NOT NULL PRIMARY KEY )";
 
     sql_query.exec(str_query);
 }
@@ -52,6 +52,8 @@ bool TableNote::addNote(QString sql_date, QString month_s, QString day_w, int da
     sql_query.bindValue(":count",count_comp);
     sql_query.bindValue(":day_w",day_w);
     sql_query.bindValue(":date",sql_date);
+
+    qDebug() << sql_date;
 
     sql_query.exec();
 
@@ -109,7 +111,7 @@ void TableNote::reorderList(bool isOrder){
     QSqlQuery sql_query;
 
     if(isOrder)
-        str_query = "SELECT * FROM " TABLE_NOTE " ORDER BY " TABLE_DATE;
+        str_query = "SELECT * FROM " TABLE_NOTE " ORDER BY date(" TABLE_DATE")";
     else
         str_query = "SELECT * FROM " TABLE_NOTE;
 
