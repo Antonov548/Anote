@@ -15,9 +15,9 @@ Component{
         contentItem: Label{
             anchors.fill: parent
             text: delegateTitle
-            font.pixelSize: 16
+            font.pixelSize: 14
             font.family: ApplicationSettings.font
-            color: ApplicationSettings.isDarkTheme ? delegateCheck ? "silver" : "grey" : delegateCheck ? "black" : "silver"
+            color: ApplicationSettings.isDarkTheme ? delegateCheck ? "silver" : "grey" : delegateCheck ? "#454545" : "silver"
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter
             leftPadding: 30

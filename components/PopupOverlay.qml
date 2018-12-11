@@ -3,23 +3,23 @@ import QtQuick.Controls 2.4
 
 Item{
     id: item
-    visible: isOpen
     property alias content: page.contentData
     property bool isOpen: false
+    property bool fromTop: true
 
     state: isOpen ? "open" : "close"
 
     states: [
         State {
             name: "close"
-            PropertyChanges{target: page.contentItem; visible: false}
-            PropertyChanges{target: background; opacity: 0}
+            PropertyChanges{target: page.contentItem; opacity: 0.4; y: fromTop ? -page.contentHeight : page.height + page.contentHeight}
+            PropertyChanges{target: background; opacity: 0; visible: false}
             PropertyChanges{target: page; visible: false}
         },
         State {
             name: "open"
-            PropertyChanges{target: page.contentItem; visible: true}
-            PropertyChanges{target: background; opacity: 0.6}
+            PropertyChanges{target: page.contentItem; opacity: 1; y: fromTop ? 0 : page.height - page.contentHeight}
+            PropertyChanges{target: background; opacity: 0.6; visible: true}
             PropertyChanges{target: page; visible: true}
         }
     ]
@@ -29,9 +29,11 @@ Item{
             from: "close"
             to: "open"
             SequentialAnimation{
-                PropertyAction {targets: [background,page.contentItem,page]; property: "visible"; value: true}
+                PropertyAction{targets: [page,background]; properties: "visible"; value: true}
+                PropertyAction{target: page.contentItem; property: "opacity"; value: 1}
                 ParallelAnimation{
-                    PropertyAnimation{target:background; property:"opacity"; duration: 250; easing.type: Easing.OutCirc}
+                    PropertyAnimation{target:background; property: "opacity"; duration: 400; easing.type: Easing.OutCirc}
+                    PropertyAnimation{target: page.contentItem; property: "y"; duration: 300; easing.type: Easing.OutCirc}
                 }
             }
         },
@@ -39,9 +41,9 @@ Item{
             from: "open"
             to: "close"
             SequentialAnimation{
-                PropertyAction {target: page.contentItem; property: "visible"; value: false}
                 ParallelAnimation{
-                    PropertyAnimation{target:background; property:"opacity"; duration: 150; easing.type: Easing.OutCirc}
+                    PropertyAnimation{target:background; property: "opacity"; duration: 300; easing.type: Easing.OutCirc}
+                    PropertyAnimation{target: page.contentItem; properties: "y,opacity"; duration: 300; easing.type: Easing.OutCirc}
                 }
                 PropertyAction{targets: [background,page]; properties: "visible"; value: false}
             }

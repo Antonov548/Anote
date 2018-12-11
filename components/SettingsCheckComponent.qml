@@ -19,9 +19,9 @@ Component{
         contentItem: Label{
             anchors.fill: parent
             text: delegateTitle
-            font.pixelSize: 16
+            font.pixelSize: 14
             font.family: ApplicationSettings.font
-            color: ApplicationSettings.isDarkTheme ? "silver" : "black"
+            color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter
             leftPadding: 30
@@ -29,43 +29,30 @@ Component{
         }
 
         indicator: Rectangle {
-            width: 40
+            id: backgroundCheck
+            width: 45
             height: parent.height/2.5
             x: check.width - width - check.rightPadding
             y: check.topPadding + check.availableHeight / 2 - height / 2
             radius: height/2
-            color: delegateCheck ? "#6D88D3" : "#969696"
+            color: delegateCheck ? "#A6C4FF" : "#C2C2C2"
 
             Rectangle{
                 id: indicatorCircle
-                width: parent.height*1.2
-                height: parent.height*1.2
+                width: parent.height*1.3
+                height: parent.height*1.3
                 radius: height/2
-                color: delegateCheck ? "#2D395B" : "#CFCFCF"
-                x: 0
+                color: "#3073FA"
+                x: delegateCheck ? backgroundCheck.width - indicatorCircle.width : 0
                 y: -(height - parent.height)/2
 
-                PropertyAnimation{
-                    running: delegateCheck
-                    property: "x"
-                    target: indicatorCircle
-                    to: 20
-                    duration: 100
-
+                Behavior on x{
+                    NumberAnimation{
+                        duration: 150
+                        easing.type: Easing.InOutSine
+                    }
                 }
-
-                PropertyAnimation{
-                    running: !delegateCheck
-                    property: "x"
-                    target: indicatorCircle
-                    to: 0
-                    duration: 100
-
-                }
-
             }
-
         }
-
     }
 }

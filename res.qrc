@@ -3,7 +3,6 @@
         <file>main.qml</file>
         <file>pages/ScrollablePage.qml</file>
         <file>components/ListViewComponent.qml</file>
-        <file>pages/SettingsPage.qml</file>
         <file>pages/NotePage.qml</file>
         <file>components/SettingsButtonCompoment.qml</file>
         <file>components/SettingsCheckComponent.qml</file>
@@ -18,10 +17,11 @@
         <file>components/TextEditAction.qml</file>
         <file>components/MenuComponent.qml</file>
         <file>pages/DialogPage.qml</file>
-        <file>components/ApplicationOverlay.qml</file>
-        <file>pages/OverlayMenu.qml</file>
         <file>components/MenuButton.qml</file>
         <file>components/SettingsButton.qml</file>
+        <file>pages/SettingsOverlay.qml</file>
+        <file>pages/MenuOverlay.qml</file>
+        <file>components/PopupOverlay.qml</file>
     </qresource>
     <qresource prefix="/image"/>
     <qresource prefix="/font">

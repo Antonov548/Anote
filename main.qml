@@ -29,8 +29,6 @@ ApplicationWindow{
         id: stackView
         anchors.fill: parent
 
-        SettingsPage{id: settings}
-
         Connections{
             target: stackView.createNotePage
             onSignalClose:{
@@ -49,9 +47,6 @@ ApplicationWindow{
 
         property var createNotePage: null
         property var notePage: null
-        property var page: {
-            "Настройки": settings
-        }
 
         background: Rectangle{
             anchors.fill: parent
@@ -94,6 +89,10 @@ ApplicationWindow{
             padding: 0
 
             function popSignal(){
+                if(settings.isOpen){
+                    settings.isOpen = false
+                    return
+                }
                 if(indexChange >= 0){
                     indexChange = -1
                     return
@@ -105,6 +104,7 @@ ApplicationWindow{
                 anchors.fill: parent
                 color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "white"
             }
+
             ListView{
 
                 id: listView
@@ -267,7 +267,7 @@ ApplicationWindow{
                                 anchors.right: parent.right
                                 anchors.rightMargin: 8
                                 anchors.verticalCenter: parent.verticalCenter
-                                onClicked: function(){console.log("work")}
+                                onClicked: function(){settings.isOpen = true}
                             }
                         }
                         Column{
@@ -296,9 +296,9 @@ ApplicationWindow{
                         }
                     }
                 }
-
                 delegate: ListViewComponent{}
             }
+
             Pane{
                 anchors.fill: parent
                 padding: 0
@@ -343,6 +343,9 @@ ApplicationWindow{
         }
     }
 
+    SettingsOverlay{
+        id: settings; isOpen: false
+    }
     PasswordPage{
         id: passwordPage
         visible: ApplicationSettings.blockAppOnStart()
