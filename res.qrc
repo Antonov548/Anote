@@ -23,7 +23,10 @@
         <file>pages/MenuOverlay.qml</file>
         <file>components/PopupOverlay.qml</file>
     </qresource>
-    <qresource prefix="/image"/>
+    <qresource prefix="/icons">
+        <file>icons/back.png</file>
+        <file>icons/delete.png</file>
+    </qresource>
     <qresource prefix="/font">
         <file>font/header_font.ttf</file>
     </qresource>

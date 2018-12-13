@@ -30,23 +30,12 @@ ApplicationWindow{
         anchors.fill: parent
 
         Connections{
-            target: stackView.createNotePage
+            target: stackView.currentItem
             onSignalClose:{
                 stackView.pop()
             }
             ignoreUnknownSignals: true
         }
-
-        Connections{
-            target: stackView.notePage
-            onSignalClose:{
-                stackView.pop()
-            }
-            ignoreUnknownSignals: true
-        }
-
-        property var createNotePage: null
-        property var notePage: null
 
         background: Rectangle{
             anchors.fill: parent
@@ -174,7 +163,7 @@ ApplicationWindow{
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 anchors.verticalCenter: parent.verticalCenter
 
-                                onClicked: {tableAction.resetList(); stackView.createNotePage = stackView.push("qrc:/qml/pages/CreateNotePage.qml",{"appHeight": appWindow.height}); stackInitial.indexChange = -1}
+                                onClicked: {tableAction.resetList(); stackView.push("qrc:/qml/pages/CreateNotePage.qml",{"appHeight": appWindow.height}); stackInitial.indexChange = -1}
 
                                 background: Rectangle{
                                     width: addButton.width

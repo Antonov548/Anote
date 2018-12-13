@@ -71,7 +71,7 @@ Item{
                     hoverEnabled: true
                     onPressAndHold: {stackInitial.indexChange = index}
                     pressAndHoldInterval: 300
-                    onClicked: {tableAction.getActionsDatabase(model.date); stackView.notePage = stackView.push("qrc:/qml/pages/NotePage.qml",{"month":model.month, "day":model.day, "day_w":model.day_w, "date":model.date, "indexNote":index})}
+                    onClicked: {tableAction.getActionsDatabase(model.date); stackView.push("qrc:/qml/pages/NotePage.qml",{"month":model.month, "day":model.day, "day_w":model.day_w, "date":model.date, "indexNote":index})}
                 }
             }
         }
@@ -84,12 +84,3 @@ Item{
         }
     }
 }
-
-/*
-                    onClicked: {
-                        var data = listModel.getProperty("date",stackInitial.indexChange)
-                        tableNote.deleteNote(data,stackInitial.indexChange)
-                        tableAction.deleteActionsDatabase(data)
-                        stackInitial.indexChange = -1
-                    }
-*/

@@ -29,60 +29,114 @@ ScrollablePage{
             return "Осталось " + parse_date + " дней"
     }
 
+    FontLoader{
+        id: titleFont
+        source: "qrc:/font/font/header_font.ttf"
+    }
+
     header: Rectangle{
         width: parent.width
         height: 50
         color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "white"
         visible: true
 
-        Row{
-            anchors.fill: parent
-            spacing: 20
+        Button{
+            id: btn_back
+            width: height
+            height: parent.height/1.8
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+            anchors.verticalCenter: parent.verticalCenter
+            icon.source: "qrc:/icons/icons/back.png"
+            icon.height: 25
+            icon.width: 25
             padding: 0
+            background: Rectangle{
+                width: btn_back.pressed ? Math.max(btn_back.height,btn_back.width)+10 : 0
+                height: btn_back.pressed ? Math.max(btn_back.height,btn_back.width)+10 : 0
+                color: "#EEEEEE"
+                radius: height/2
+                anchors.centerIn: parent
 
-            Button{
-                id: button
-                width: parent.height
-                height: parent.height
-                background: Rectangle{
-                    anchors.fill: parent
-                    color: ApplicationSettings.isDarkTheme ?  button.pressed ? "#292929" : "#1B1B1B" : button.pressed ? "#DEDEDE" : "white"
-                    Rectangle{
-                        height: 18
-                        width: 2
-                        color: ApplicationSettings.isDarkTheme? "silver" : "black"
-                        anchors.centerIn: parent
-                        transform: Rotation { origin.x: 1; origin.y: 9; angle: 45}
-                    }
-                    Rectangle{
-                        height: 18
-                        width: 2
-                        color: ApplicationSettings.isDarkTheme? "silver" : "black"
-                        anchors.centerIn: parent
-                        transform: Rotation { origin.x: 1; origin.y: 9; angle: 135}
+                Behavior on width{
+                    SequentialAnimation{
+                        PauseAnimation {
+                            duration: 200
+                        }
+                        NumberAnimation{
+                            duration: 800
+                            easing.type: Easing.OutExpo
+                        }
                     }
                 }
-
-                onClicked: {stackView.pop()}
+                Behavior on height{
+                    SequentialAnimation{
+                        PauseAnimation {
+                            duration: 200
+                        }
+                        NumberAnimation{
+                            duration: 800
+                            easing.type: Easing.OutExpo
+                        }
+                    }
+                }
             }
 
-            Label{
-                text: "Заметка"
-                color: ApplicationSettings.isDarkTheme? "silver" : "black"
-                width: contentWidth
-                height: parent.height
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                font.pixelSize: 17
+            onClicked: {signalClose()}
+        }
+
+        Button{
+            id: btn_delete
+            width: height
+            height: parent.height/1.8
+            anchors.right: parent.right
+            anchors.rightMargin: 10
+            anchors.verticalCenter: parent.verticalCenter
+            icon.source: "qrc:/icons/icons/delete.png"
+            icon.height: 25
+            icon.width: 25
+            padding: 0
+            background: Rectangle{
+                width: btn_delete.pressed ? Math.max(btn_delete.height,btn_delete.width)+10 : 0
+                height: btn_delete.pressed ? Math.max(btn_delete.height,btn_delete.width)+10 : 0
+                color: "#EEEEEE"
+                radius: height/2
+                anchors.centerIn: parent
+
+                Behavior on width{
+                    SequentialAnimation{
+                        PauseAnimation {
+                            duration: 200
+                        }
+                        NumberAnimation{
+                            duration: 800
+                            easing.type: Easing.OutExpo
+                        }
+                    }
+                }
+                Behavior on height{
+                    SequentialAnimation{
+                        PauseAnimation {
+                            duration: 200
+                        }
+                        NumberAnimation{
+                            duration: 800
+                            easing.type: Easing.OutExpo
+                        }
+                    }
+                }
             }
+
+            onClicked: {signalClose()}
         }
 
         Rectangle{
             width: parent.width
             height: 1
-            color: ApplicationSettings.isDarkTheme ? "silver" : "black"
+            visible: page.contentYPosition
+            color: "#C5C5C5"
             anchors.bottom: parent.bottom
-            opacity: 0.2
+            opacity: Math.abs(page.contentYPosition)/100
         }
     }
 
@@ -91,19 +145,18 @@ ScrollablePage{
     content: Column{
         anchors.fill: parent
         spacing: 40
-        topPadding: 40
+        topPadding: 10
         bottomPadding: 20
 
         Column{
             anchors.horizontalCenter: parent.horizontalCenter
-            spacing: 5
             width: parent.width
             Label{
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: day + " " + month + ", " + day_w
                 color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-                font.family: ApplicationSettings.font
-                font.pixelSize: 18
+                font.family: titleFont.name
+                font.pixelSize: 30
             }
             Label{
                 anchors.horizontalCenter: parent.horizontalCenter
