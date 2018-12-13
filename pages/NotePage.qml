@@ -127,7 +127,11 @@ ScrollablePage{
                 }
             }
 
-            onClicked: {signalClose()}
+            onClicked:{
+                tableNote.deleteNote(date,indexNote)
+                tableAction.deleteActionsDatabase(date)
+                signalClose()
+            }
         }
 
         Rectangle{
