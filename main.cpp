@@ -4,11 +4,11 @@
 #include <QInputMethod>
 #include <QDebug>
 
-#include "database.h"
-#include "notemodel.h"
-#include "actionmodel.h"
-#include "tablenote.h"
-#include "applicationsettings.h"
+#include "src/database.h"
+#include "src/notemodel.h"
+#include "src/actionmodel.h"
+#include "src/tablenote.h"
+#include "src/applicationsettings.h"
 
 int main(int argc, char *argv[])
 {

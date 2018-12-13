@@ -12,7 +12,7 @@ Item{
     states: [
         State {
             name: "close"
-            PropertyChanges{target: page.contentItem; opacity: 0.4; y: fromTop ? -page.contentHeight : page.height + page.contentHeight}
+            PropertyChanges{target: page.contentItem; opacity: 0.3; y: fromTop ? -page.contentHeight : page.height + page.contentHeight}
             PropertyChanges{target: background; opacity: 0; visible: false}
             PropertyChanges{target: page; visible: false}
         },
@@ -53,6 +53,7 @@ Item{
     Page{
         id: page
         parent: ApplicationWindow.overlay
+        visible: false
         anchors.fill: parent
         padding: 0
         background: Rectangle{

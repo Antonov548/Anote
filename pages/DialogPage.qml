@@ -12,7 +12,7 @@ Item {
     property var onCancel: function(){}
     property alias text: information.text
 
-    ApplicationOverlay{
+    PopupOverlay{
         id: overlay
         isOpen: item.isOpen
         content:Page{

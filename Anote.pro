@@ -14,12 +14,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
-    notemodel.cpp \
-    database.cpp \
-    tablenote.cpp \
-    applicationsettings.cpp \
-    tableaction.cpp \
-    actionmodel.cpp
+    src/notemodel.cpp \
+    src/database.cpp \
+    src/tablenote.cpp \
+    src/applicationsettings.cpp \
+    src/tableaction.cpp \
+    src/actionmodel.cpp
 
 RESOURCES += \
     res.qrc
@@ -49,11 +49,11 @@ DISTFILES += \
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
 HEADERS += \
-    notemodel.h \
-    database.h \
-    tablenote.h \
-    applicationsettings.h \
-    tableaction.h \
-    actionmodel.h
+    src/notemodel.h \
+    src/database.h \
+    src/tablenote.h \
+    src/applicationsettings.h \
+    src/tableaction.h \
+    src/actionmodel.h
 
 STATECHARTS +=

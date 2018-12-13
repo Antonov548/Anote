@@ -21,16 +21,11 @@ ScrollablePage{
     function getLabel(parse_date){
         var string_date = parse_date.toString()
 
-        if(string_date.length >= 2){
-            if(parseInt(string_date[string_date.length-2]) === 1)
-                return "Осталось " + parse_date + " дней"
-        }
-
         if(parseInt(string_date[string_date.length-1]) === 1)
             return "Остался " + parse_date + " день"
         if(parseInt(string_date[string_date.length-1]) >1 && parseInt(string_date[string_date.length-1]) <5)
             return "Осталось " + parse_date + " дня"
-        if(parseInt(string_date[string_date.length-1]) >= 5)
+        if(parseInt(string_date[string_date.length-1]) >= 5 || parseInt(string_date[string_date.length-1]) === 0)
             return "Осталось " + parse_date + " дней"
     }
 
