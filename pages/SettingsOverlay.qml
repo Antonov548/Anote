@@ -6,11 +6,24 @@ Item{
     id: item
     property alias isOpen: overlay.isOpen
 
-    PopupOverlay{
+    OverlayPage{
         id: overlay
-        fromTop: true
+        duration: 300
         content: Page{
             id: page
+            y: overlay.isOpen ? 0 : -page.implicitHeight
+            Behavior on y{
+                NumberAnimation{
+                    duration: overlay.duration; easing.type: Easing.OutCirc
+                }
+            }
+            opacity: overlay.isOpen ? 1 : 0
+            Behavior on opacity {
+                NumberAnimation{
+                    duration: overlay.duration; easing.type: Easing.OutCirc
+                }
+            }
+
             width: parent.width
             height: settingsColumn.implicitHeight
             clip: true

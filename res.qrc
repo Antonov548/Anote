@@ -21,7 +21,7 @@
         <file>components/SettingsButton.qml</file>
         <file>pages/SettingsOverlay.qml</file>
         <file>pages/MenuOverlay.qml</file>
-        <file>components/PopupOverlay.qml</file>
+        <file>components/OverlayPage.qml</file>
     </qresource>
     <qresource prefix="/icons">
         <file>icons/back.png</file>

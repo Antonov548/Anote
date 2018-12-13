@@ -18,7 +18,7 @@ Item{
             property: "height"
             target: item
             to: 0
-            duration: 300
+            duration: 150
             easing.type: Easing.InOutQuad
         }
         PropertyAction { target: item; property: "ListView.delayRemove"; value: false }
