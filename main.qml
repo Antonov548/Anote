@@ -166,54 +166,18 @@ ApplicationWindow{
                                 onClicked: {tableAction.resetList(); stackView.push("qrc:/qml/pages/CreateNotePage.qml",{"appHeight": appWindow.height}); stackInitial.indexChange = -1}
 
                                 background: Rectangle{
-                                    width: addButton.width
-                                    height: addButton.height+3
-                                    radius: addButton.height/2
-                                    color: "#D6D6D6"
+                                    anchors.fill: parent
+                                    radius: height/2
+                                    color: ApplicationSettings.isDarkTheme ? "silver" : "#3073FA"
+                                    clip: true
                                     Rectangle{
-                                        width: addButton.width
-                                        height: addButton.height
+                                        anchors.fill: parent
+                                        color: "#408DFB"
                                         radius: height/2
-                                        color: ApplicationSettings.isDarkTheme ? "silver" : "#3073FA"
-                                        Rectangle{
-                                            height: addButton.pressed ? parent.height : parent.height/2
-                                            width: addButton.pressed ? parent.width : 0
-                                            radius: height/2
-                                            color: "#3083FA"
-                                            opacity: addButton.pressed ? 1 : 0
-                                            anchors.centerIn: parent
-                                            Behavior on width{
-                                                SequentialAnimation{
-                                                    PauseAnimation {
-                                                        duration: 200
-                                                    }
-                                                    NumberAnimation{
-                                                        duration: 800
-                                                        easing.type: Easing.OutExpo
-                                                    }
-                                                }
-                                            }
-                                            Behavior on opacity{
-                                                SequentialAnimation{
-                                                    PauseAnimation {
-                                                        duration: 200
-                                                    }
-                                                    NumberAnimation{
-                                                        duration: 400
-                                                        easing.type: Easing.OutExpo
-                                                    }
-                                                }
-                                            }
-                                            Behavior on height{
-                                                SequentialAnimation{
-                                                    PauseAnimation {
-                                                        duration: 200
-                                                    }
-                                                    NumberAnimation{
-                                                        duration: 800
-                                                        easing.type: Easing.OutExpo
-                                                    }
-                                                }
+                                        opacity: addButton.pressed ? 1 : 0
+                                        Behavior on opacity {
+                                            NumberAnimation{
+                                                duration: 200
                                             }
                                         }
                                     }
@@ -266,7 +230,7 @@ ApplicationWindow{
 
                             FontLoader{
                                 id: headerFont
-                                source: "qrc:/font/font/header_font.ttf"
+                                source: "qrc:/font/header_font.ttf"
                             }
 
                             Label{

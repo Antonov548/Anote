@@ -31,7 +31,7 @@ ScrollablePage{
 
     FontLoader{
         id: titleFont
-        source: "qrc:/font/font/header_font.ttf"
+        source: "qrc:/font/header_font.ttf"
     }
 
     header: Rectangle{
@@ -47,9 +47,7 @@ ScrollablePage{
             anchors.left: parent.left
             anchors.leftMargin: 10
             anchors.verticalCenter: parent.verticalCenter
-            icon.source: "qrc:/icons/icons/back.png"
-            icon.height: 25
-            icon.width: 25
+            icon.name: "delete"
             padding: 0
             background: Rectangle{
                 width: btn_back.pressed ? Math.max(btn_back.height,btn_back.width)+10 : 0
@@ -92,7 +90,7 @@ ScrollablePage{
             anchors.right: parent.right
             anchors.rightMargin: 10
             anchors.verticalCenter: parent.verticalCenter
-            icon.source: "qrc:/icons/icons/delete.png"
+            icon.name: "delete"
             icon.height: 25
             icon.width: 25
             padding: 0

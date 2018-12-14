@@ -13,28 +13,22 @@ Item{
         Rectangle{
             width: mouseArea.pressed ? Math.max(item.height,item.width)+10 : 0
             height: mouseArea.pressed ? Math.max(item.height,item.width)+10 : 0
-            color: "#EEEEEE"
+            color: "#F5F5F5"
             radius: height/2
             anchors.centerIn: parent
 
             Behavior on width{
                 SequentialAnimation{
-                    PauseAnimation {
-                        duration: 200
-                    }
                     NumberAnimation{
-                        duration: 800
+                        duration: 400
                         easing.type: Easing.OutExpo
                     }
                 }
             }
             Behavior on height{
                 SequentialAnimation{
-                    PauseAnimation {
-                        duration: 200
-                    }
                     NumberAnimation{
-                        duration: 800
+                        duration: 400
                         easing.type: Easing.OutExpo
                     }
                 }

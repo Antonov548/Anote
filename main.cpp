@@ -1,8 +1,8 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-#include <QInputMethod>
-#include <QDebug>
+#include <QIcon>
+#include <QStringList>
 
 #include "src/database.h"
 #include "src/notemodel.h"
@@ -16,6 +16,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_DisableShaderDiskCache);
 
     QGuiApplication app(argc, argv);
+
+    QIcon::setThemeName("anote");
 
     ApplicationSettings *settings = ApplicationSettings::AppSettingsInstance();
     settings->setFile("settings.json");
