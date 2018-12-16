@@ -30,5 +30,9 @@
         <file>icons/anote/20x20@4/delete.png</file>
         <file>font/header_font.ttf</file>
         <file>icons/anote/index.theme</file>
+        <file>icons/anote/20x20/back.png</file>
+        <file>icons/anote/20x20@2/back.png</file>
+        <file>icons/anote/20x20@3/back.png</file>
+        <file>icons/anote/20x20@4/back.png</file>
     </qresource>
 </RCC>

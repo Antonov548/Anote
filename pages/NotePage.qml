@@ -47,35 +47,21 @@ ScrollablePage{
             anchors.left: parent.left
             anchors.leftMargin: 10
             anchors.verticalCenter: parent.verticalCenter
-            icon.name: "delete"
+            icon.name: "back"
+            icon.color: "#454545"
             padding: 0
             background: Rectangle{
-                width: btn_back.pressed ? Math.max(btn_back.height,btn_back.width)+10 : 0
-                height: btn_back.pressed ? Math.max(btn_back.height,btn_back.width)+10 : 0
-                color: "#EEEEEE"
+                width: Math.max(btn_back.height,btn_back.width)+10
+                height: Math.max(btn_back.height,btn_back.width)+10
+                color: "#ECECEC"
                 radius: height/2
                 anchors.centerIn: parent
+                opacity: btn_back.pressed ? 1 : 0
 
-                Behavior on width{
-                    SequentialAnimation{
-                        PauseAnimation {
-                            duration: 200
-                        }
-                        NumberAnimation{
-                            duration: 800
-                            easing.type: Easing.OutExpo
-                        }
-                    }
-                }
-                Behavior on height{
-                    SequentialAnimation{
-                        PauseAnimation {
-                            duration: 200
-                        }
-                        NumberAnimation{
-                            duration: 800
-                            easing.type: Easing.OutExpo
-                        }
+                Behavior on opacity{
+                    NumberAnimation{
+                        duration: 500
+                        easing.type: Easing.OutExpo
                     }
                 }
             }
@@ -91,36 +77,19 @@ ScrollablePage{
             anchors.rightMargin: 10
             anchors.verticalCenter: parent.verticalCenter
             icon.name: "delete"
-            icon.height: 25
-            icon.width: 25
+            icon.color: "#454545"
             padding: 0
             background: Rectangle{
-                width: btn_delete.pressed ? Math.max(btn_delete.height,btn_delete.width)+10 : 0
-                height: btn_delete.pressed ? Math.max(btn_delete.height,btn_delete.width)+10 : 0
-                color: "#EEEEEE"
+                width: Math.max(btn_delete.height,btn_delete.width)+10
+                height: Math.max(btn_delete.height,btn_delete.width)+10
+                color: "#ECECEC"
                 radius: height/2
                 anchors.centerIn: parent
-
-                Behavior on width{
-                    SequentialAnimation{
-                        PauseAnimation {
-                            duration: 200
-                        }
-                        NumberAnimation{
-                            duration: 800
-                            easing.type: Easing.OutExpo
-                        }
-                    }
-                }
-                Behavior on height{
-                    SequentialAnimation{
-                        PauseAnimation {
-                            duration: 200
-                        }
-                        NumberAnimation{
-                            duration: 800
-                            easing.type: Easing.OutExpo
-                        }
+                opacity: btn_delete.pressed ? 1 : 0
+                Behavior on opacity {
+                    NumberAnimation{
+                        duration: 500
+                        easing.type: Easing.OutExpo
                     }
                 }
             }

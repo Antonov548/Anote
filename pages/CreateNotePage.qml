@@ -68,55 +68,41 @@ ScrollablePage{
         color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "white"
         visible: true
 
-        Row{
-            anchors.fill: parent
-            spacing: 40
+        Button{
+            id: btn_back
+            width: height
+            height: parent.height/1.8
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+            anchors.verticalCenter: parent.verticalCenter
+            icon.name: "back"
+            icon.color: "#454545"
             padding: 0
+            background: Rectangle{
+                width: Math.max(btn_back.height,btn_back.width)+10
+                height: Math.max(btn_back.height,btn_back.width)+10
+                color: "#ECECEC"
+                radius: height/2
+                anchors.centerIn: parent
+                opacity: btn_back.pressed ? 1 : 0
 
-            Button{
-                id: button
-                width: parent.height
-                height: parent.height
-                background: Rectangle{
-                    anchors.fill: parent
-                    color: ApplicationSettings.isDarkTheme ?  button.pressed ? "#292929" : "#1B1B1B" : button.pressed ? "#DEDEDE" : "white"
-                    Rectangle{
-                        height: 18
-                        width: 2
-                        color: ApplicationSettings.isDarkTheme? "silver" : "black"
-                        anchors.centerIn: parent
-                        transform: Rotation { origin.x: 1; origin.y: 9; angle: 45}
-                    }
-                    Rectangle{
-                        height: 18
-                        width: 2
-                        color: ApplicationSettings.isDarkTheme? "silver" : "black"
-                        anchors.centerIn: parent
-                        transform: Rotation { origin.x: 1; origin.y: 9; angle: 135}
+                Behavior on opacity{
+                    NumberAnimation{
+                        duration: 400
+                        easing.type: Easing.OutExpo
                     }
                 }
-
-                onClicked: {popSignal()}
             }
-
-            Label{
-                text: "Добавить запись"
-                color: ApplicationSettings.isDarkTheme? "silver" : "black"
-                width: contentWidth
-                height: parent.height
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                font.pixelSize: 17
-                font.family: ApplicationSettings.font
-            }
+            onClicked: {popSignal()}
         }
 
         Rectangle{
             width: parent.width
             height: 1
-            color: ApplicationSettings.isDarkTheme ? "silver" : "black"
+            visible: page.contentYPosition
+            color: "#C5C5C5"
             anchors.bottom: parent.bottom
-            opacity: 0.2
+            opacity: Math.abs(page.contentYPosition)/100
         }
     }
 
