@@ -148,6 +148,11 @@ ApplicationWindow{
                             width: parent.width
                             height: 60
                             padding: 0
+                            background: Rectangle{
+                                anchors.fill: parent
+                                color: "transparent"
+                            }
+
                             MenuButton{
                                 height: 21
                                 width: 30
@@ -168,7 +173,7 @@ ApplicationWindow{
                                 background: Rectangle{
                                     anchors.fill: parent
                                     radius: height/2
-                                    color: ApplicationSettings.isDarkTheme ? "silver" : "#3073FA"
+                                    color: "#3073FA"
                                     clip: true
                                     Rectangle{
                                         anchors.fill: parent
@@ -191,13 +196,13 @@ ApplicationWindow{
                                         Rectangle{
                                             width: 2
                                             height: parent.height/2.4
-                                            color: ApplicationSettings.isDarkTheme ? "black" : "white"
+                                            color: "white"
                                             anchors.centerIn: parent
                                         }
                                         Rectangle{
                                             width: parent.width/2.4
                                             height: 2
-                                            color: ApplicationSettings.isDarkTheme ? "black" : "white"
+                                            color: "white"
                                             anchors.centerIn: parent
                                         }
                                     }
@@ -210,7 +215,7 @@ ApplicationWindow{
                                         rightPadding: 15
                                         horizontalAlignment: Text.AlignHCenter
                                         verticalAlignment: Text.AlignVCenter
-                                        color: ApplicationSettings.isDarkTheme ? "black" : "white"
+                                        color: "white"
                                     }
                                 }
                             }
@@ -237,7 +242,7 @@ ApplicationWindow{
                                 text: "Мои заметки"
                                 font.pixelSize: 35
                                 font.family: headerFont.name
-                                color: "#4E4E4E"
+                                color: ApplicationSettings.isDarkTheme ? "silver" : "#4E4E4E"
                             }
                             Label{
                                 property var date: new Date()

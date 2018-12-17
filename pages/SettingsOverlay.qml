@@ -12,6 +12,11 @@ Item{
         content: Page{
             id: page
             y: overlay.isOpen ? 0 : -page.implicitHeight
+            background: Rectangle{
+                anchors.fill: parent
+                color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "white"
+            }
+
             Behavior on y{
                 NumberAnimation{
                     duration: overlay.duration; easing.type: Easing.OutCirc

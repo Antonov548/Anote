@@ -48,12 +48,12 @@ ScrollablePage{
             anchors.leftMargin: 10
             anchors.verticalCenter: parent.verticalCenter
             icon.name: "back"
-            icon.color: "#454545"
+            icon.color: ApplicationSettings.isDarkTheme ? "#D7D7D7" : "#444444"
             padding: 0
             background: Rectangle{
                 width: Math.max(btn_back.height,btn_back.width)+10
                 height: Math.max(btn_back.height,btn_back.width)+10
-                color: "#ECECEC"
+                color: ApplicationSettings.isDarkTheme ? "#3F3F3F" : "#ECECEC"
                 radius: height/2
                 anchors.centerIn: parent
                 opacity: btn_back.pressed ? 1 : 0
@@ -70,8 +70,8 @@ ScrollablePage{
         }
 
         SettingsButton{
-            height: 23
-            width: parent.height/1.8
+            height: parent.height/1.8 - 5
+            width: height + 5
             anchors.right: parent.right
             anchors.rightMargin: 10
             anchors.verticalCenter: parent.verticalCenter
