@@ -22,6 +22,7 @@
         <file>pages/SettingsOverlay.qml</file>
         <file>pages/MenuOverlay.qml</file>
         <file>components/OverlayPage.qml</file>
+        <file>pages/NoteOptionsOverlay.qml</file>
     </qresource>
     <qresource prefix="/">
         <file>icons/anote/20x20/delete.png</file>
@@ -34,5 +35,9 @@
         <file>icons/anote/20x20@2/back.png</file>
         <file>icons/anote/20x20@3/back.png</file>
         <file>icons/anote/20x20@4/back.png</file>
+        <file>icons/anote/20x20/edit.png</file>
+        <file>icons/anote/20x20@2/edit.png</file>
+        <file>icons/anote/20x20@3/edit.png</file>
+        <file>icons/anote/20x20@4/edit.png</file>
     </qresource>
 </RCC>

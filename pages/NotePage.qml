@@ -69,36 +69,13 @@ ScrollablePage{
             onClicked: {signalClose()}
         }
 
-        Button{
-            id: btn_delete
-            width: height
-            height: parent.height/1.8
+        SettingsButton{
+            height: 23
+            width: parent.height/1.8
             anchors.right: parent.right
             anchors.rightMargin: 10
             anchors.verticalCenter: parent.verticalCenter
-            icon.name: "delete"
-            icon.color: "#454545"
-            padding: 0
-            background: Rectangle{
-                width: Math.max(btn_delete.height,btn_delete.width)+10
-                height: Math.max(btn_delete.height,btn_delete.width)+10
-                color: "#ECECEC"
-                radius: height/2
-                anchors.centerIn: parent
-                opacity: btn_delete.pressed ? 1 : 0
-                Behavior on opacity {
-                    NumberAnimation{
-                        duration: 500
-                        easing.type: Easing.OutExpo
-                    }
-                }
-            }
-
-            onClicked:{
-                tableNote.deleteNote(date,indexNote)
-                tableAction.deleteActionsDatabase(date)
-                signalClose()
-            }
+            onClicked: function(){noteOptions.isOpen = true}
         }
 
         Rectangle{
@@ -158,4 +135,5 @@ ScrollablePage{
             }
         }
     }
+    NoteOptionsOverlay{id: noteOptions; isOpen: false}
 }
