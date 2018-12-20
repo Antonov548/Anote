@@ -20,7 +20,6 @@ bool TableNote::setNoteAt(int index, Note note){
         return false;
 
     note_list[index] = note;
-
     return true;
 }
 
@@ -52,8 +51,6 @@ bool TableNote::addNote(QString sql_date, QString month_s, QString day_w, int da
     sql_query.bindValue(":count",count_comp);
     sql_query.bindValue(":day_w",day_w);
     sql_query.bindValue(":date",sql_date);
-
-    qDebug() << sql_date;
 
     sql_query.exec();
 

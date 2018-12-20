@@ -13,8 +13,13 @@ ScrollablePage{
     property real indexNote: -1
 
     signal signalClose()
+    signal editNote(string date)
 
     function popSignal(){
+        if(noteOptions.isOpen){
+            noteOptions.isOpen = false
+            return
+        }
         signalClose()
     }
 
@@ -82,7 +87,7 @@ ScrollablePage{
             width: parent.width
             height: 1
             visible: page.contentYPosition
-            color: "#C5C5C5"
+            color: ApplicationSettings.isDarkTheme ? "#626262" : "#C5C5C5"
             anchors.bottom: parent.bottom
             opacity: Math.abs(page.contentYPosition)/100
         }

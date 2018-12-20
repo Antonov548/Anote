@@ -4,6 +4,8 @@ import QtQuick.Controls 2.4
 Item{
     id: item
 
+    property bool isEnable: true
+
     width: mainRow.width
     height: 40
 
@@ -20,13 +22,13 @@ Item{
             Rectangle{
                 width: 2
                 height: 14
-                color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                color: ApplicationSettings.isDarkTheme ? item.isEnable ? "silver" : "#717171" : item.isEnable ? "#454545" : "#929292"
                 anchors.centerIn: rect
             }
             Rectangle{
                 width: 14
                 height: 2
-                color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                color: ApplicationSettings.isDarkTheme ? item.isEnable ? "silver" : "#717171" : item.isEnable ? "#454545" : "#929292"
                 anchors.centerIn: rect
             }
         }
@@ -35,11 +37,12 @@ Item{
             text: "Добавить пункт"
             font.pixelSize: 16
             verticalAlignment: Text.AlignVCenter
-            color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+            color: ApplicationSettings.isDarkTheme ? item.isEnable ? "silver" : "#717171" : item.isEnable ? "#454545" : "#929292"
         }
     }
     MouseArea{
         anchors.fill: item
+        enabled: item.isEnable
         onClicked: {
             ApplicationSettings.commitInputMethod()
             if(fieldAction.text.length == 0){

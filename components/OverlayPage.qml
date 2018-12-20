@@ -5,7 +5,14 @@ Item{
     id: item
     property alias content: page.contentData
     property bool isOpen: false
+    property real overlayOpacity: 0.6
     property real duration: 200
+    property bool isClose: false
+
+    function close(){
+        isClose = true
+        isOpen = false
+    }
 
     state: isOpen ? "open" : "close"
 
@@ -17,7 +24,7 @@ Item{
         },
         State {
             name: "open"
-            PropertyChanges{target: background; opacity: 0.6; visible: true}
+            PropertyChanges{target: background; opacity: item.overlayOpacity; visible: true}
             PropertyChanges{target: page; visible: true}
         }
     ]
@@ -29,7 +36,7 @@ Item{
             SequentialAnimation{
                 PropertyAction{targets: [page,background]; properties: "visible"; value: true}
                 ParallelAnimation{
-                    PropertyAnimation{target:background; property: "opacity"; duration: item.duration; easing.type: Easing.OutCirc}
+                    PropertyAnimation{target:background; property: "opacity"; duration: isClose ? 0 : item.duration; easing.type: Easing.OutCirc}
                 }
             }
         },
@@ -38,9 +45,10 @@ Item{
             to: "close"
             SequentialAnimation{
                 ParallelAnimation{
-                    PropertyAnimation{target:background; property: "opacity"; duration: item.duration; easing.type: Easing.OutCirc}
+                    PropertyAnimation{target:background; property: "opacity"; duration: isClose ? 0 : item.duration; easing.type: Easing.OutCirc}
                 }
                 PropertyAction{targets: [background,page]; properties: "visible"; value: false}
+                PropertyAction{target: item; property: "isClose"; value: false}
             }
         }
     ]

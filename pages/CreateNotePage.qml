@@ -12,7 +12,7 @@ ScrollablePage{
 
     property var arr_year: [2018,2019,2020,2021,2022,2023,2024,2025]
 
-    property var date: new Date()
+    property var date: isEdit ? new Date(str_date) : new Date()
 
     property real dateYear: date.getFullYear()
     property real dateMonth: date.getMonth()
@@ -21,6 +21,8 @@ ScrollablePage{
 
     property bool date_valid: false
     property bool list_valid: false
+    property bool isEdit: false
+    property string str_date: ""
     property real appHeight: 0
 
     function popSignal(){
@@ -139,7 +141,7 @@ ScrollablePage{
                 width: parent.width
                 anchors.horizontalCenter: parent.horizontalCenter
                 TextEditAction{id: fieldAction; anchors.horizontalCenter: parent.horizontalCenter}
-                AddActionsComponent{anchors.horizontalCenter: parent.horizontalCenter}
+                AddActionsComponent{anchors.horizontalCenter: parent.horizontalCenter; isEnable: (fieldAction.text.length != 0)}
             }
 
             ListView{

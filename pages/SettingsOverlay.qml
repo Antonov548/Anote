@@ -9,6 +9,8 @@ Item{
     OverlayPage{
         id: overlay
         duration: 300
+        overlayOpacity: ApplicationSettings.isDarkTheme ? 0.75 : 0.6
+
         content: Page{
             id: page
             y: overlay.isOpen ? 0 : -page.implicitHeight
