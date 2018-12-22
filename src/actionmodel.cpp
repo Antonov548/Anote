@@ -94,3 +94,7 @@ bool ActionModel::setProperty(QString role, int index){
     emit dataChanged(ActionModel::index(index), ActionModel::index(index), changed_role);
     return true;
 }
+
+int ActionModel::getCount(){
+    return m_list->getAction().count();
+}

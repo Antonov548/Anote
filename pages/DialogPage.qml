@@ -14,35 +14,41 @@ Item {
 
     OverlayPage{
         id: overlay
-        isOpen: item.isOpen
-        content:Page{
+        overlayOpacity: ApplicationSettings.isDarkTheme ? 0.75 : 0.6
+
+        content: Page{
             id: content
             clip: true
             width: item.width/1.4
-            height: item.height/3
+            height: dialogColumn.implicitHeight//item.height/3
             anchors.centerIn: parent
+            opacity: overlay.isOpen ? 1 : 0
             background: Rectangle{
                 anchors.fill: parent
-                radius: 6
+                radius: 8
                 color: ApplicationSettings.isDarkTheme ? "#333333" : "#E9E9E9"
             }
-
-            contentItem: Text{
-                id: information
+            Behavior on opacity{
+                NumberAnimation{
+                    duration: overlay.duration; easing.type: Easing.OutCirc
+                }
+            }
+            Column{
+                id: dialogColumn
                 width: parent.width
-                height: parent.height
+                spacing: 50
+                topPadding: 40
                 leftPadding: 20
                 rightPadding: 20
-                font.pixelSize: 16
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                wrapMode: Text.Wrap
-                font.family: ApplicationSettings.font
-                color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-            }
-
-            footer: Column{
-                width: parent.width
+                Text{
+                    id: information
+                    width: parent.width
+                    font.pixelSize: 16
+                    wrapMode: Text.Wrap
+                    font.family: ApplicationSettings.font
+                    color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                    horizontalAlignment: Text.AlignHCenter
+                }
                 Row{
                     anchors.right: parent.right
                     topPadding: 10

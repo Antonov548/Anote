@@ -25,6 +25,7 @@ class TableAction : public QObject
     Q_PROPERTY(bool isEmpty READ isEmpty WRITE setIsEmpty NOTIFY isEmptyChanged)
     QList<Action> action_list;
     bool m_isEmpty;
+    int getCountFromTable();
 
 public:
     explicit TableAction(QObject *parent = nullptr);

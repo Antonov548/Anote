@@ -10,15 +10,6 @@ ScrollablePage{
 
     signal signalClose()
 
-    property var arr_year: [2018,2019,2020,2021,2022,2023,2024,2025]
-
-    property var date: isEdit ? new Date(str_date) : new Date()
-
-    property real dateYear: date.getFullYear()
-    property real dateMonth: date.getMonth()
-    property real dateDay: date.getDate()
-    property real dateCountDays: new Date(dateYear,dateMonth,0).getDate()
-
     property bool date_valid: false
     property bool list_valid: false
     property bool isEdit: false
@@ -44,13 +35,16 @@ ScrollablePage{
                 return
             }
 
-            var sql_date = getSQLDateFormat(arr_year[calendar.year],calendar.month+1,calendar.day+1)
-            if(tableNote.addNote(sql_date,lblMonth.text,lblDay_w.text.slice(0,2),calendar.day+1,createNoteModel.rowCount())){
+            var sql_date = getSQLDateFormat(calendar.arr_year[calendar.year],calendar.month+1,calendar.day+1)
+            if(tableNote.addNote(sql_date,lblMonth.text,lblDay_w.text,calendar.day+1,createNoteModel.rowCount())){
                 tableAction.addActionsDatabase(sql_date)
                 signalClose()
             }
-            else
-                dialog.isOpen = true
+            else{
+                tableNote.addActionsCount(sql_date,tableNote.getIndexByDate(sql_date),createNoteModel.getCount())
+                tableAction.addActionsDatabase(sql_date)
+                signalClose()
+            }
         }
     }
 
@@ -125,21 +119,6 @@ ScrollablePage{
 
     backgroundColor: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "white"
 
-    ErrorMessage{
-        id: msgError
-        width: parent.width
-        fullHeight: parent.height
-        onCloseError: function(){msgError.hide()}
-    }
-
-    DialogPage{
-        id: dialog
-        text: "Текущая дата занята.\nЗапись не будет сохранена."
-        onOkey: function(){dialog.isOpen = false; signalClose()}
-        onCancel: function(){dialog.isOpen = false}
-    }
-
-
     content: Column{
         anchors.fill: parent
         spacing: 40
@@ -162,18 +141,29 @@ ScrollablePage{
                     Row{
                         padding: 0
                         spacing: 0
-                        Label{
-                            id: lblDay
-                            text: calendar.day+1 + " "
-                            font.pixelSize: 30
-                            font.family: titleFont.name
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                            color: ApplicationSettings.isDarkTheme ? "silver" : "#4E4E4E"
+                        Row{
+                            spacing: 10
+                            Label{
+                                id: lblDay
+                                text: calendar.day+1
+                                font.pixelSize: 30
+                                font.family: titleFont.name
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+                                color: ApplicationSettings.isDarkTheme ? "silver" : "#4E4E4E"
+                            }
+                            Label{
+                                id: lblMonth
+                                text: ApplicationSettings.getMonth(calendar.month)
+                                font.pixelSize: 30
+                                font.family: titleFont.name
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+                                color: ApplicationSettings.isDarkTheme ? "silver" : "#4E4E4E"
+                            }
                         }
                         Label{
-                            id: lblMonth
-                            text: ApplicationSettings.getMonth(calendar.month) + ", "
+                            text: ", "
                             font.pixelSize: 30
                             font.family: titleFont.name
                             horizontalAlignment: Text.AlignHCenter
@@ -182,7 +172,7 @@ ScrollablePage{
                         }
                         Label{
                             id: lblDay_w
-                            text: ApplicationSettings.getDayOfWeek(new Date(arr_year[calendar.year],calendar.month,calendar.day+1).getDay())
+                            text: ApplicationSettings.getDayOfWeek(new Date(calendar.arr_year[calendar.year],calendar.month,calendar.day+1).getDay())
                             font.pixelSize: 30
                             font.family: titleFont.name
                             horizontalAlignment: Text.AlignHCenter
@@ -207,7 +197,7 @@ ScrollablePage{
                 width: parent.width
                 anchors.horizontalCenter: parent.horizontalCenter
                 TextEditAction{id: fieldAction; anchors.horizontalCenter: parent.horizontalCenter}
-                AddActionsComponent{anchors.horizontalCenter: parent.horizontalCenter; isEnable: (fieldAction.text.length != 0)}
+                AddActionsComponent{anchors.horizontalCenter: parent.horizontalCenter}
             }
 
             ListView{
@@ -225,5 +215,15 @@ ScrollablePage{
             }
         }
     }
-    CalendarPage{id: calendar}
+    CalendarPage{
+        id: calendar
+        date: isEdit ? new Date(str_date) : new Date()
+    }
+
+    DialogPage{
+        id: dialog
+        text: "Заметка с такой датой \n уже существует. \n Добавить дела к существующий."
+        onOkey: function(){dialog.isOpen = false; signalClose()}
+        onCancel: function(){dialog.isOpen = false}
+    }
 }

@@ -68,7 +68,6 @@ bool TableNote::addNote(QString sql_date, QString month_s, QString day_w, int da
     emit addNoteEnd();
 
     return true;
-
 }
 
 void TableNote::deleteNote(QString date, int index){
@@ -89,7 +88,6 @@ void TableNote::deleteNote(QString date, int index){
         setIsEmpty(true);
 
     emit deleteNoteEnd();
-
 }
 
 void TableNote::setIsEmpty(bool isEmpty){
@@ -98,6 +96,14 @@ void TableNote::setIsEmpty(bool isEmpty){
 
     m_isEmpty = isEmpty;
     emit isEmptyChanged(m_isEmpty);
+}
+
+int TableNote::getIndexByDate(QString date){
+    for (int i=0; i<note_list.count(); i++){
+        if(note_list[i].date == date)
+            return i;
+    }
+    return -1;
 }
 
 void TableNote::reorderList(bool isOrder){
@@ -143,6 +149,24 @@ void TableNote::setNCompleted(QString date, int index, bool completed){
         new_count++;
     else
         new_count--;
+
+    sql_query.bindValue(":date",date);
+    sql_query.bindValue(":count",new_count);
+
+    sql_query.exec();
+    note_list[index].count_c = new_count;
+
+    emit updateData("count_c",index);
+}
+
+void TableNote::addActionsCount(QString date, int index, int count){
+    QString str_query;
+    QSqlQuery sql_query;
+
+    str_query = "UPDATE " TABLE_NOTE " SET " TABLE_COMPLETED " = :count WHERE " TABLE_DATE "=:date";
+    sql_query.prepare(str_query);
+
+    int new_count = note_list[index].count_c + count;
 
     sql_query.bindValue(":date",date);
     sql_query.bindValue(":count",new_count);

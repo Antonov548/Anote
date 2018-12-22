@@ -5,6 +5,15 @@ import "../components"
 Item{
     id: item
 
+    property var arr_year: [2018,2019,2020,2021,2022,2023,2024,2025]
+
+    property var date: isEdit ? new Date(str_date) : new Date()
+
+    property real dateYear: date.getFullYear()
+    property real dateMonth: date.getMonth()
+    property real dateDay: date.getDate()
+    property real dateCountDays: new Date(dateYear,dateMonth,0).getDate()
+
     property alias isOpen: overlay.isOpen
     property alias day: tumblerDay.currentIndex
     property alias month: tumblerMonth.currentIndex
@@ -21,8 +30,8 @@ Item{
 
         content: Page{
             id: page
-            width: overlay.isOpen ? calendarColumn.implicitWidth : 0
-            height: overlay.isOpen ? calendarColumn.implicitHeight : 0
+            width: calendarColumn.implicitWidth
+            height: calendarColumn.implicitHeight
             opacity: overlay.isOpen ? 1 : 0
             anchors.centerIn: parent
             clip: true
@@ -36,22 +45,14 @@ Item{
                     duration: overlay.duration; easing.type: Easing.OutCirc
                 }
             }
-            Behavior on width{
-                NumberAnimation{
-                    duration: overlay.duration; easing.type: Easing.OutCirc
-                }
-            }
-            Behavior on height{
-                NumberAnimation{
-                    duration: overlay.duration; easing.type: Easing.OutCirc
-                }
-            }
 
             Column{
                 id: calendarColumn
-                width: parent.width
                 spacing: 20
-                topPadding: 10
+                leftPadding: 40
+                rightPadding: 40
+                topPadding: 20
+                bottomPadding: 40
                 Label{
                     text: "Выбор даты"
                     font.pixelSize: 30
@@ -72,11 +73,12 @@ Item{
                         Tumbler {
                             id: tumblerDay
                             wrap: false
-                            model: dateCountDays
+                            model: item.dateCountDays
+                            width: 40
 
                             Component.onCompleted: {
-                                tumblerDay.contentItem.currentIndex = dateDay - 1
-                                tumblerDay.contentItem.positionViewAtIndex(dateDay - 1,ListView.Center)
+                                tumblerDay.contentItem.currentIndex = item.dateDay - 1
+                                tumblerDay.contentItem.positionViewAtIndex(item.dateDay - 1,ListView.Center)
                             }
 
                             background: Rectangle{
@@ -96,6 +98,7 @@ Item{
                             }
                             delegate: Text {
                                 text: index+1
+                                padding: 0
                                 font.pixelSize: 17
                                 font.family: ApplicationSettings.font
                                 color: ApplicationSettings.isDarkTheme ? "silver" : "black"
@@ -122,10 +125,11 @@ Item{
                             id: tumblerMonth
                             wrap: false
                             model: 12
+                            width: 40
 
                             Component.onCompleted: {
-                                tumblerMonth.contentItem.currentIndex = dateMonth
-                                tumblerMonth.contentItem.positionViewAtIndex(dateMonth,ListView.Center)
+                                tumblerMonth.contentItem.currentIndex = item.dateMonth
+                                tumblerMonth.contentItem.positionViewAtIndex(item.dateMonth,ListView.Center)
                             }
 
                             background: Rectangle{
@@ -182,9 +186,11 @@ Item{
                         Tumbler{
                             id: tumblerYear
                             model: arr_year.length
+                            width: 40
+
                             Component.onCompleted: {
-                                tumblerYear.contentItem.currentIndex = arr_year.indexOf(dateYear)
-                                tumblerYear.contentItem.positionViewAtIndex(arr_year.indexOf(dateYear),ListView.Center)
+                                tumblerYear.contentItem.currentIndex = arr_year.indexOf(item.dateYear)
+                                tumblerYear.contentItem.positionViewAtIndex(arr_year.indexOf(item.dateYear),ListView.Center)
                             }
 
                             background: Rectangle{

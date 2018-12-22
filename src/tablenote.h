@@ -54,6 +54,8 @@ public slots:
     bool addNote(QString sql_date, QString month_s, QString day_w, int day_n, int count_comp);
     void deleteNote(QString, int);
     void reorderList(bool);
-    void setNCompleted(QString,int,bool);
+    void setNCompleted(QString date,int index,bool completed);
+    void addActionsCount(QString date, int index, int count);
     void setIsEmpty(bool isEmpty);
+    int getIndexByDate(QString date);
 };

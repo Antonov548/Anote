@@ -5,6 +5,7 @@ Item{
     id: item
 
     property alias text: field.text
+    property bool isIncorrect: false
 
     width: parent.width/1.2
     height: field.height + 20
@@ -23,24 +24,53 @@ Item{
         easing.type: Easing.InOutQuad
     }
 
-    Rectangle{
+    Column{
         width: item.width
         height: item.height
-        color: ApplicationSettings.isDarkTheme ? "#3A3A3A" : "#E1E1E1"
-        radius: 4
-        TextArea{
-            id: field
-            width: parent.width/1.1
-            height: text.length == 0 ? implicitHeight + 1 : implicitHeight
-            topPadding: 0
-            bottomPadding: 0
-            leftPadding: 10
-            font.pixelSize: 16
-            font.family: "Arial"
-            anchors.verticalCenter: parent.verticalCenter
+        spacing: 5
+        Row{
+            width: parent.width
+            TextArea{
+                id: field
+                width: parent.width/1.1
+                height: text.length == 0 ? implicitHeight + 1 : implicitHeight
+                topPadding: 0
+                bottomPadding: 0
+                leftPadding: 10
+                font.pixelSize: 16
+                font.family: "Arial"
+                color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                wrapMode: TextArea.Wrap
+                placeholderText: "Текст заметки"
+                onTextChanged: {
+                    if(item.isIncorrect)
+                        item.isIncorrect = false
+                }
+            }
+            Rectangle{
+                visible: false
+                color: "red"
+                width: 20
+                height: 20
+            }
+        }
+        Rectangle{
+            width: parent.width
+            height: 1
             color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-            wrapMode: TextArea.Wrap
-            placeholderText: "Текст заметки"
+        }
+        Text {
+            text: "Введите текст"
+            font.family: ApplicationSettings.font
+            font.pixelSize: 12
+            color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+            leftPadding: 10
+            opacity: item.isIncorrect ? 1 : 0
+            Behavior on opacity {
+                NumberAnimation{
+                    duration: 150
+                }
+            }
         }
     }
 }

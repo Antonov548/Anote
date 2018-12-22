@@ -49,24 +49,23 @@ void TableAction::deleteAction(int index){
 
 void TableAction::addActionsDatabase(QString date){
 
-    int index = action_list.count()-1;
+    int index = getCountFromTable();
+    QString str_query;
+    QSqlQuery sql_query;
 
-    for(auto &action : action_list){
-
-        QString str_query;
-        QSqlQuery sql_query;
+    for(int i=action_list.count()-1; i>=0; i--){
 
         str_query = "INSERT INTO " TABLE_ACTION " ( " TABLE_INFO " , " TABLE_DONE " , " TABLE_INDEX " , " TABLE_DATE  "  ) VALUES ( :info, :done, :index, :date )";
 
         sql_query.prepare(str_query);
 
-        sql_query.bindValue(":info",action.information);
-        sql_query.bindValue(":done",action.isDone);
+        sql_query.bindValue(":info",action_list[i].information);
+        sql_query.bindValue(":done",action_list[i].isDone);
         sql_query.bindValue(":index",index);
         sql_query.bindValue(":date",date);
 
         sql_query.exec();
-        index--;
+        index++;
     }
     action_list.clear();
 }
@@ -111,12 +110,14 @@ void TableAction::setDone(QString date, int index, bool done){
     QString str_query;
     QSqlQuery sql_query;
 
+    int reverse_index = action_list.count()-index-1;
+
     str_query = "UPDATE " TABLE_ACTION " SET " TABLE_DONE " = :done WHERE " TABLE_DATE "=:date AND " TABLE_INDEX "=:index";
     sql_query.prepare(str_query);
 
     sql_query.bindValue(":done",int(done));
     sql_query.bindValue(":date",date);
-    sql_query.bindValue(":index",index);
+    sql_query.bindValue(":index",reverse_index);
 
     sql_query.exec();
     action_list[index].isDone = done;
@@ -130,4 +131,17 @@ void TableAction::setIsEmpty(bool isEmpty){
 
     m_isEmpty = isEmpty;
     emit isEmptyChanged(m_isEmpty);
+}
+
+int TableAction::getCountFromTable(){
+    QString str_query;
+    QSqlQuery sql_query;
+
+    str_query = "SELECT " TABLE_INDEX " FROM " TABLE_ACTION " ORDER BY " TABLE_INDEX;
+    sql_query.exec(str_query);
+    if(sql_query.last()){
+        return sql_query.value(sql_query.record().indexOf(TABLE_INDEX)).toInt()+1;
+    }
+    else
+        return 0;
 }

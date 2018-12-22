@@ -4,8 +4,6 @@ import QtQuick.Controls 2.4
 Item{
     id: item
 
-    property bool isEnable: true
-
     width: mainRow.width
     height: 40
 
@@ -22,24 +20,14 @@ Item{
             Rectangle{
                 width: 2
                 height: 14
-                color: ApplicationSettings.isDarkTheme ? item.isEnable ? "silver" : "#717171" : item.isEnable ? "#454545" : "#929292"
+                color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
                 anchors.centerIn: rect
-                Behavior on color {
-                    ColorAnimation{
-                        duration: 200
-                    }
-                }
             }
             Rectangle{
                 width: 14
                 height: 2
-                color: ApplicationSettings.isDarkTheme ? item.isEnable ? "silver" : "#717171" : item.isEnable ? "#454545" : "#929292"
+                color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
                 anchors.centerIn: rect
-                Behavior on color {
-                    ColorAnimation{
-                        duration: 200
-                    }
-                }
             }
         }
         Label{
@@ -47,25 +35,20 @@ Item{
             text: "Добавить пункт"
             font.pixelSize: 16
             verticalAlignment: Text.AlignVCenter
-            color: ApplicationSettings.isDarkTheme ? item.isEnable ? "silver" : "#717171" : item.isEnable ? "#454545" : "#929292"
-            Behavior on color {
-                ColorAnimation{
-                    duration: 200
-                }
-            }
+            color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
         }
     }
     MouseArea{
         anchors.fill: item
-        enabled: item.isEnable
         onClicked: {
             ApplicationSettings.commitInputMethod()
             if(fieldAction.text.length == 0){
-                msgError.showMessage("Введите текст заметки")
+                fieldAction.isIncorrect = true
                 page.contentYPosition = 0
             }
             else{
                 tableAction.addAction(fieldAction.text)
+                fieldAction.isIncorrect = false
                 fieldAction.clear()
             }
         }

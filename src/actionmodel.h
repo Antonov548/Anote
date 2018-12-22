@@ -27,6 +27,7 @@ public:
 public slots:
     void setList(TableAction* list);
     bool setProperty(QString, int);
+    int getCount();
 
 signals:
     void listChanged(TableAction* list);
