@@ -24,12 +24,22 @@ Item{
                 height: 14
                 color: ApplicationSettings.isDarkTheme ? item.isEnable ? "silver" : "#717171" : item.isEnable ? "#454545" : "#929292"
                 anchors.centerIn: rect
+                Behavior on color {
+                    ColorAnimation{
+                        duration: 200
+                    }
+                }
             }
             Rectangle{
                 width: 14
                 height: 2
                 color: ApplicationSettings.isDarkTheme ? item.isEnable ? "silver" : "#717171" : item.isEnable ? "#454545" : "#929292"
                 anchors.centerIn: rect
+                Behavior on color {
+                    ColorAnimation{
+                        duration: 200
+                    }
+                }
             }
         }
         Label{
@@ -38,6 +48,11 @@ Item{
             font.pixelSize: 16
             verticalAlignment: Text.AlignVCenter
             color: ApplicationSettings.isDarkTheme ? item.isEnable ? "silver" : "#717171" : item.isEnable ? "#454545" : "#929292"
+            Behavior on color {
+                ColorAnimation{
+                    duration: 200
+                }
+            }
         }
     }
     MouseArea{

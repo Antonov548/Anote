@@ -30,19 +30,33 @@ ScrollablePage{
             dialog.isOpen = false
             return
         }
-
-        if(tableAction.isEmpty){
-            signalClose()
+        if(calendar.isOpen){
+            calendar.isOpen = false
             return
         }
 
-        var sql_date = getSQLDateFormat(arr_year[tumblerYear.currentIndex],tumblerMonth.currentIndex+1,tumblerDay.currentIndex+1)
-        if(tableNote.addNote(sql_date,lblMonth.text,lblDay_w.text.slice(0,2),tumblerDay.currentIndex+1,createNoteModel.rowCount())){
-            tableAction.addActionsDatabase(sql_date)
+        if(isEdit){
             signalClose()
         }
-        else
-            dialog.isOpen = true
+        else{
+            if(tableAction.isEmpty){
+                signalClose()
+                return
+            }
+
+            var sql_date = getSQLDateFormat(arr_year[calendar.year],calendar.month+1,calendar.day+1)
+            if(tableNote.addNote(sql_date,lblMonth.text,lblDay_w.text.slice(0,2),calendar.day+1,createNoteModel.rowCount())){
+                tableAction.addActionsDatabase(sql_date)
+                signalClose()
+            }
+            else
+                dialog.isOpen = true
+        }
+    }
+
+    FontLoader{
+        id: titleFont
+        source: "qrc:/font/header_font.ttf"
     }
 
     Connections{
@@ -78,23 +92,24 @@ ScrollablePage{
             anchors.leftMargin: 10
             anchors.verticalCenter: parent.verticalCenter
             icon.name: "back"
-            icon.color: "#454545"
+            icon.color: ApplicationSettings.isDarkTheme ? "#D7D7D7" : "#444444"
             padding: 0
             background: Rectangle{
                 width: Math.max(btn_back.height,btn_back.width)+10
                 height: Math.max(btn_back.height,btn_back.width)+10
-                color: "#ECECEC"
+                color: ApplicationSettings.isDarkTheme ? "#3F3F3F" : "#ECECEC"
                 radius: height/2
                 anchors.centerIn: parent
                 opacity: btn_back.pressed ? 1 : 0
 
                 Behavior on opacity{
                     NumberAnimation{
-                        duration: 400
+                        duration: 500
                         easing.type: Easing.OutExpo
                     }
                 }
             }
+
             onClicked: {popSignal()}
         }
 
@@ -102,7 +117,7 @@ ScrollablePage{
             width: parent.width
             height: 1
             visible: page.contentYPosition
-            color: "#C5C5C5"
+            color: ApplicationSettings.isDarkTheme ? "#505050" : "#C5C5C5"
             anchors.bottom: parent.bottom
             opacity: Math.abs(page.contentYPosition)/100
         }
@@ -126,18 +141,69 @@ ScrollablePage{
 
 
     content: Column{
-        id: mainColumn
-        width: parent.width
+        anchors.fill: parent
+        spacing: 40
+        topPadding: 10
         bottomPadding: 20
 
         Column{
-            id: listViewColumn
             width: parent.width
             anchors.horizontalCenter: parent.horizontalCenter
+
+            Column{
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width
+
+                MouseArea{
+                    width: childrenRect.width
+                    height: childrenRect.height
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    onClicked: calendar.isOpen = true
+                    Row{
+                        padding: 0
+                        spacing: 0
+                        Label{
+                            id: lblDay
+                            text: calendar.day+1 + " "
+                            font.pixelSize: 30
+                            font.family: titleFont.name
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            color: ApplicationSettings.isDarkTheme ? "silver" : "#4E4E4E"
+                        }
+                        Label{
+                            id: lblMonth
+                            text: ApplicationSettings.getMonth(calendar.month) + ", "
+                            font.pixelSize: 30
+                            font.family: titleFont.name
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            color: ApplicationSettings.isDarkTheme ? "silver" : "#4E4E4E"
+                        }
+                        Label{
+                            id: lblDay_w
+                            text: ApplicationSettings.getDayOfWeek(new Date(arr_year[calendar.year],calendar.month,calendar.day+1).getDay())
+                            font.pixelSize: 30
+                            font.family: titleFont.name
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            color: ApplicationSettings.isDarkTheme ? "silver" : "#4E4E4E"
+                        }
+                    }
+                }
+                Label{
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text: isEdit ? "Редактирование записи" : "Создание заметки"
+                    color: "#909090"
+                    font.family: ApplicationSettings.font
+                    font.pixelSize: 14
+                }
+            }
+
             Column{
                 spacing: 10
                 topPadding: 40
-                bottomPadding: 10
+                bottomPadding: 30
                 width: parent.width
                 anchors.horizontalCenter: parent.horizontalCenter
                 TextEditAction{id: fieldAction; anchors.horizontalCenter: parent.horizontalCenter}
@@ -158,262 +224,6 @@ ScrollablePage{
                 }
             }
         }
-
-        Column{
-            id: tumblerColumn
-            topPadding: 20
-            bottomPadding: 20
-            spacing: 20
-            anchors.horizontalCenter: parent.horizontalCenter
-
-            Pane{
-                id: tumblers
-                anchors.horizontalCenter: parent.horizontalCenter
-                background: Rectangle{
-                    anchors.fill: parent
-                    color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "white"
-                }
-
-                Row{
-                    Tumbler {
-                        id: tumblerDay
-                        wrap: false
-                        model: dateCountDays
-
-                        Component.onCompleted: {
-                            tumblerDay.contentItem.currentIndex = dateDay - 1
-                            tumblerDay.contentItem.positionViewAtIndex(dateDay - 1,ListView.Center)
-                        }
-
-                        background: Rectangle{
-                            anchors.fill: parent
-                            color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "white"
-                        }
-                        contentItem: ListView {
-                            model: tumblerDay.model
-                            delegate: tumblerDay.delegate
-                            height: parent.height
-
-                            snapMode: ListView.SnapToItem
-                            highlightRangeMode: ListView.StrictlyEnforceRange
-                            preferredHighlightBegin: height / 2 - (height / tumblerDay.visibleItemCount / 2)
-                            preferredHighlightEnd: height / 2 + (height / tumblerDay.visibleItemCount / 2)
-                            clip: true
-                        }
-                        delegate: Text {
-                            text: index+1
-                            font.pixelSize: 17
-                            font.family: ApplicationSettings.font
-                            color: ApplicationSettings.isDarkTheme ? "silver" : "black"
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                            opacity: 1 - (Math.abs(tumblerDay.currentIndex-index))*0.4
-                        }
-                        Rectangle {
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            y: parent.height * 0.4
-                            width: 40
-                            height: 1
-                            color: "#21be2b"
-                        }
-                        Rectangle {
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            y: parent.height * 0.6
-                            width: 40
-                            height: 1
-                            color: "#21be2b"
-                        }
-                    }
-                    Tumbler {
-                        id: tumblerMonth
-                        wrap: false
-                        model: 12
-
-                        Component.onCompleted: {
-                            tumblerMonth.contentItem.currentIndex = dateMonth
-                            tumblerMonth.contentItem.positionViewAtIndex(dateMonth,ListView.Center)
-                        }
-
-                        background: Rectangle{
-                            anchors.fill: parent
-                            color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "white"
-                        }
-                        contentItem: ListView {
-                            model: tumblerMonth.model
-                            delegate: tumblerMonth.delegate
-                            height: parent.height
-
-                            snapMode: ListView.SnapToItem
-                            highlightRangeMode: ListView.StrictlyEnforceRange
-                            preferredHighlightBegin: height / 2 - (height / tumblerMonth.visibleItemCount / 2)
-                            preferredHighlightEnd: height / 2 + (height / tumblerMonth.visibleItemCount / 2)
-                            clip: true
-                        }
-                        delegate: Text{
-                            font.pixelSize: 17
-                            font.family: ApplicationSettings.font
-                            text: ApplicationSettings.getMonth(index).slice(0,3)
-                            color: ApplicationSettings.isDarkTheme ? "silver" : "black"
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                            opacity: 1 - (Math.abs(tumblerMonth.currentIndex-index))*0.4
-                        }
-                        onCurrentIndexChanged: {
-                            var countDays = new Date(arr_year[tumblerYear.currentIndex],tumblerMonth.currentIndex+1,0).getDate()
-                            var currDay = tumblerDay.currentIndex+1
-                            if(countDays < currDay){
-                                tumblerDay.model = countDays
-                                tumblerDay.contentItem.positionViewAtIndex(countDays-1,ListView.Center)
-                            }
-                            else{
-                                tumblerDay.model = countDays
-                                tumblerDay.contentItem.positionViewAtIndex(currDay-1,ListView.Center)
-                            }
-                        }
-                        Rectangle {
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            y: parent.height * 0.4
-                            width: 40
-                            height: 1
-                            color: "#21be2b"
-                        }
-                        Rectangle {
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            y: parent.height * 0.6
-                            width: 40
-                            height: 1
-                            color: "#21be2b"
-                        }
-                    }
-                    Tumbler{
-                        id: tumblerYear
-                        model: arr_year.length
-                        Component.onCompleted: {
-                            tumblerYear.contentItem.currentIndex = arr_year.indexOf(dateYear)
-                            tumblerYear.contentItem.positionViewAtIndex(arr_year.indexOf(dateYear),ListView.Center)
-                        }
-
-                        background: Rectangle{
-                            anchors.fill: parent
-                            color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "white"
-                        }
-                        contentItem: ListView {
-                            model: tumblerYear.model
-                            delegate: tumblerYear.delegate
-                            height: parent.height
-
-                            snapMode: ListView.SnapToItem
-                            highlightRangeMode: ListView.StrictlyEnforceRange
-                            preferredHighlightBegin: height / 2 - (height / tumblerYear.visibleItemCount / 2)
-                            preferredHighlightEnd: height / 2 + (height / tumblerYear.visibleItemCount / 2)
-                            clip: true
-                        }
-                        wrap: false
-                        delegate: Text{
-                            font.pixelSize: 17
-                            font.family: ApplicationSettings.font
-                            text: arr_year[index]
-                            color: ApplicationSettings.isDarkTheme ? "silver" : "black"
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                            opacity: 1 - (Math.abs(tumblerYear.currentIndex-index))*0.4
-                        }
-                        onCurrentIndexChanged: {
-                            var countDays = new Date(arr_year[currentIndex],tumblerMonth.currentIndex+1,0).getDate()
-                            var currDay = tumblerDay.currentIndex+1
-                            if(countDays < currDay){
-                                tumblerDay.model = countDays
-                                tumblerDay.contentItem.positionViewAtIndex(countDays-1,ListView.Center)
-                            }
-                            else{
-                                tumblerDay.model = countDays
-                                tumblerDay.contentItem.positionViewAtIndex(currDay-1,ListView.Center)
-                            }
-                        }
-                        Rectangle {
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            y: parent.height * 0.4
-                            width: 40
-                            height: 1
-                            color: "#21be2b"
-                        }
-
-                        Rectangle {
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            y: parent.height * 0.6
-                            width: 40
-                            height: 1
-                            color: "#21be2b"
-                        }
-                    }
-                }
-            }
-
-            Row{
-                anchors.horizontalCenter: parent.horizontalCenter
-                spacing: 10
-                bottomPadding: 10
-
-                Label{
-                    id: lblDay_w
-                    text: ApplicationSettings.getDayOfWeek(new Date(arr_year[tumblerYear.currentIndex],tumblerMonth.currentIndex,tumblerDay.currentIndex+1).getDay())+","
-                    font.pixelSize: 18
-                    font.family: ApplicationSettings.font
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    color: ApplicationSettings.isDarkTheme ? "silver" : "black"
-                }
-                Label{
-                    id: lblDay
-                    text: tumblerDay.currentIndex+1
-                    font.pixelSize: 18
-                    font.family: ApplicationSettings.font
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    color: ApplicationSettings.isDarkTheme ? "silver" : "black"
-
-                }
-                Label{
-                    id: lblMonth
-                    text: ApplicationSettings.getMonth(tumblerMonth.currentIndex)
-                    font.pixelSize: 18
-                    font.family: ApplicationSettings.font
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    color: ApplicationSettings.isDarkTheme ? "silver" : "black"
-                }
-            }
-
-            Button{
-                id: buttonToday
-                height: 40
-                padding: 0
-                anchors.horizontalCenter: parent.horizontalCenter
-
-                onClicked: {
-                    tumblerDay.contentItem.positionViewAtIndex(dateDay-1,ListView.Center)
-                    tumblerMonth.contentItem.positionViewAtIndex(dateMonth,ListView.Center)
-                    tumblerYear.contentItem.positionViewAtIndex(arr_year.indexOf(dateYear),ListView.Center)
-                }
-
-                background: Rectangle{
-                    anchors.fill: parent
-                    radius: 4
-                    color: ApplicationSettings.isDarkTheme ?  buttonToday.pressed ? "#292929" : "#323232" : buttonToday.pressed ? "#C7C7C7" : "#E1E1E1"
-                }
-
-                contentItem: Label{
-                    text: "Сегодня"
-                    height: parent.height
-                    font.family: ApplicationSettings.font
-                    font.pixelSize: 16
-                    leftPadding: 15
-                    rightPadding: 15
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-                }
-            }
-        }
     }
+    CalendarPage{id: calendar}
 }

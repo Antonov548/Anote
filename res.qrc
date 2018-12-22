@@ -23,6 +23,7 @@
         <file>pages/MenuOverlay.qml</file>
         <file>components/OverlayPage.qml</file>
         <file>pages/NoteOptionsOverlay.qml</file>
+        <file>pages/CalendarPage.qml</file>
     </qresource>
     <qresource prefix="/">
         <file>icons/anote/20x20/delete.png</file>

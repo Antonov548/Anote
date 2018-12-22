@@ -48,14 +48,14 @@ Item{
                     width: parent.width
                     boundsBehavior: ListView.StopAtBounds
                     model: ListModel{
-                        ListElement{icon: "edit"; text:"Изменить"; handler: function(){
+                        ListElement{text:"Редактировать"; handler: function(){
                             overlay.close()
                             editNote(date)
                         }}
-                        ListElement{icon: "delete"; text:"Удалить"; handler: function(){
+                        ListElement{text:"Удалить"; handler: function(){
                             tableNote.deleteNote(date,indexNote)
                             tableAction.deleteActionsDatabase(date)
-                            signalClose(indexNote)
+                            signalClose()
                         }}
                     }
                     delegate: Button{
@@ -63,8 +63,6 @@ Item{
                         width: parent.width
                         height: 40
                         display: AbstractButton.TextBesideIcon
-                        icon.name: model.icon
-                        icon.color: "white"
                         font.family: ApplicationSettings.font
                         font.pixelSize: 14
                         text: model.text
@@ -75,7 +73,7 @@ Item{
                                 width: contentWidth
                                 text: button.text
                                 font: button.font
-                                color: button.icon.color
+                                color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignHCenter
                                 anchors.horizontalCenter: parent.horizontalCenter
