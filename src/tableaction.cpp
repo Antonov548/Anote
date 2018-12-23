@@ -49,7 +49,7 @@ void TableAction::deleteAction(int index){
 
 void TableAction::addActionsDatabase(QString date){
 
-    int index = getCountFromTable();
+    int index = getCountFromNote(date);
     QString str_query;
     QSqlQuery sql_query;
 
@@ -86,7 +86,6 @@ void TableAction::getActionsDatabase(QString date){
 
     do{
         Action new_action;
-
         new_action.date = sql_query.value(sql_query.record().indexOf(TABLE_DATE)).toString();
         new_action.information = sql_query.value(sql_query.record().indexOf(TABLE_INFO)).toString();
         new_action.isDone = sql_query.value(sql_query.record().indexOf(TABLE_DONE)).toBool();
@@ -133,12 +132,14 @@ void TableAction::setIsEmpty(bool isEmpty){
     emit isEmptyChanged(m_isEmpty);
 }
 
-int TableAction::getCountFromTable(){
+int TableAction::getCountFromNote(QString date){
     QString str_query;
     QSqlQuery sql_query;
 
-    str_query = "SELECT " TABLE_INDEX " FROM " TABLE_ACTION " ORDER BY " TABLE_INDEX;
-    sql_query.exec(str_query);
+    str_query = "SELECT " TABLE_INDEX " FROM " TABLE_ACTION " WHERE " TABLE_DATE " =:date ORDER BY " TABLE_INDEX;
+    sql_query.prepare(str_query);
+    sql_query.bindValue(":date",date);
+    sql_query.exec();
     if(sql_query.last()){
         return sql_query.value(sql_query.record().indexOf(TABLE_INDEX)).toInt()+1;
     }

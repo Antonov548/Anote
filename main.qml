@@ -76,17 +76,12 @@ ApplicationWindow{
 
         initialItem: Pane{
             id: stackInitial
-            property real indexChange: -1
 
             padding: 0
 
             function popSignal(){
                 if(settings.isOpen){
                     settings.isOpen = false
-                    return
-                }
-                if(indexChange >= 0){
-                    indexChange = -1
                     return
                 }
                 Qt.quit()
@@ -171,7 +166,7 @@ ApplicationWindow{
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 anchors.verticalCenter: parent.verticalCenter
 
-                                onClicked: {tableAction.resetList(); stackView.push("qrc:/qml/pages/CreateNotePage.qml",{"appHeight": appWindow.height}); stackInitial.indexChange = -1}
+                                onClicked: {tableAction.resetList(); stackView.push("qrc:/qml/pages/CreateNotePage.qml",{"appHeight": appWindow.height})}
 
                                 background: Rectangle{
                                     anchors.fill: parent

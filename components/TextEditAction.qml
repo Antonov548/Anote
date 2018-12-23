@@ -1,5 +1,6 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.4
+import QtQuick.Controls.impl 2.4
 
 Item{
     id: item
@@ -32,11 +33,12 @@ Item{
             width: parent.width
             TextArea{
                 id: field
-                width: parent.width/1.1
+                width: parent.width - 20
                 height: text.length == 0 ? implicitHeight + 1 : implicitHeight
                 topPadding: 0
                 bottomPadding: 0
                 leftPadding: 10
+                rightPadding: 10
                 font.pixelSize: 16
                 font.family: "Arial"
                 color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
@@ -47,11 +49,19 @@ Item{
                         item.isIncorrect = false
                 }
             }
-            Rectangle{
-                visible: false
-                color: "red"
-                width: 20
-                height: 20
+            IconImage{
+                width: 15
+                height: 15
+                name: "field"
+                color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 0
+                opacity: item.isIncorrect ? 1 : 0
+                Behavior on opacity {
+                    NumberAnimation{
+                        duration: 150
+                    }
+                }
             }
         }
         Rectangle{

@@ -69,7 +69,6 @@ Item{
                     height: parent.height
                     anchors.horizontalCenter: parent.horizontalCenter
                     hoverEnabled: true
-                    onPressAndHold: {stackInitial.indexChange = index}
                     pressAndHoldInterval: 300
                     onClicked: {tableAction.getActionsDatabase(model.date); stackView.push("qrc:/qml/pages/NotePage.qml",{"month":model.month, "day":model.day, "day_w":model.day_w, "date":model.date, "indexNote":index})}
                 }
