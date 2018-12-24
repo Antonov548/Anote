@@ -26,22 +26,30 @@ ScrollablePage{
             return
         }
 
+        var sql_date = getSQLDateFormat(calendar.arr_year[calendar.year],calendar.month+1,calendar.day+1)
+        var note_index = tableNote.getIndexByDate(sql_date)
         if(isEdit){
-            signalClose()
+            if(tableAction.isEmpty){
+                tableAction.deleteActionsDatabase(sql_date)
+                signalClose()
+            }
+            else{
+                tableAction.deleteActionsDatabase(sql_date)
+                tableAction.addActionsDatabase(sql_date)
+                signalClose()
+            }
         }
         else{
             if(tableAction.isEmpty){
                 signalClose()
                 return
             }
-
-            var sql_date = getSQLDateFormat(calendar.arr_year[calendar.year],calendar.month+1,calendar.day+1)
-            if(tableNote.addNote(sql_date,lblMonth.text,lblDay_w.text,calendar.day+1,createNoteModel.rowCount())){
+            if(tableNote.addNote(sql_date,lblMonth.text,lblDay_w.text,calendar.day+1,createNoteModel.getCount())){
                 tableAction.addActionsDatabase(sql_date)
                 signalClose()
             }
             else{
-                tableNote.addActionsCount(sql_date,tableNote.getIndexByDate(sql_date),createNoteModel.getCount())
+                tableNote.setNotCompletedActionsCount(sql_date,note_index,createNoteModel.getCount()+tableNote.getCountNotCompletedByIndex(note_index))
                 tableAction.addActionsDatabase(sql_date)
                 signalClose()
             }

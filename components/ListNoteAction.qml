@@ -39,20 +39,15 @@ Item{
             ColorAnimation{targets: [textAction,checkBorder]; duration: 150;  easing.type: Easing.Linear}
         }
     ]
-
-    ListView.onRemove: SequentialAnimation {
-        PropertyAction { target: item; property: "ListView.delayRemove"; value: true }
-        NumberAnimation { target: item; property: "height"; to: 0; duration: 200; easing.type: Easing.InOutQuad }
-        PropertyAction { target: item; property: "ListView.delayRemove"; value: false }
-    }
     MouseArea{
         anchors.fill: parent
-        onClicked: {tableNote.setNCompleted(model.date,indexNote,model.done); tableAction.setDone(model.date,index,!model.done)}
+        onClicked: {tableAction.setDone(model.date,index,!model.done)}
     }
 
     Column{
         width: item.width
         height: item.height
+        clip: true
         Rectangle{
             width: item.width
             height: item.height - bottomSpaccing.height

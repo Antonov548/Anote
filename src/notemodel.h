@@ -39,7 +39,6 @@ signals:
 
 private:
     TableNote* m_list;
-
     mutable QHash<int,QByteArray> roles;
     int m_noteCount;
 };

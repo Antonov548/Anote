@@ -34,7 +34,7 @@ ApplicationWindow{
             onSignalClose:{
                 stackView.pop()
             }
-            onEditNote: {
+            onEditNote:{
                 stackView.push("qrc:/qml/pages/CreateNotePage.qml",{"appHeight": appWindow.height, "isEdit": true, "str_date": date})
             }
             ignoreUnknownSignals: true

@@ -50,8 +50,8 @@ Item{
                 }
             }
             IconImage{
-                width: 15
-                height: 15
+                width: 18
+                height: 18
                 name: "field"
                 color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
                 anchors.bottom: parent.bottom

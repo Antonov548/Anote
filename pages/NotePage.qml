@@ -20,7 +20,14 @@ ScrollablePage{
             noteOptions.isOpen = false
             return
         }
-        signalClose()
+        if(tableAction.isEmpty){
+            tableNote.deleteNote(date,indexNote)
+            signalClose()
+        }
+        else{
+            tableNote.setNotCompletedActionsCount(date,indexNote,tableAction.getCountNotCompleted())
+            signalClose()
+        }
     }
 
     function getLabel(parse_date){
@@ -71,7 +78,7 @@ ScrollablePage{
                 }
             }
 
-            onClicked: {signalClose()}
+            onClicked: {popSignal()}
         }
 
         SettingsButton{

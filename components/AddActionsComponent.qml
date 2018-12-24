@@ -10,7 +10,6 @@ Item{
     Row{
         id: mainRow
         height: item.height
-        spacing: 5
         anchors.horizontalCenter: item.horizontalCenter
         Rectangle{
             id: rect
@@ -34,6 +33,7 @@ Item{
             height: item.height
             text: "Добавить пункт"
             font.pixelSize: 16
+            padding: 0
             verticalAlignment: Text.AlignVCenter
             color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
         }

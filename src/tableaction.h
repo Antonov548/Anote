@@ -48,9 +48,10 @@ public slots:
     void addAction(QString);
     void resetList();
     void deleteAction(int);
-    void addActionsDatabase(QString);
+    void addActionsDatabase(QString date);
     void getActionsDatabase(QString);
-    void deleteActionsDatabase(QString);
+    void deleteActionsDatabase(QString date);
     void setDone(QString, int, bool);
     void setIsEmpty(bool isEmpty);
+    int getCountNotCompleted();
 };

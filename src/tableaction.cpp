@@ -32,6 +32,7 @@ void TableAction::addAction(QString text){
 
     action_list.insert(0,new_action);
     m_isEmpty = action_list.isEmpty();
+
     emit addNoteEnd();
 }
 
@@ -67,7 +68,6 @@ void TableAction::addActionsDatabase(QString date){
         sql_query.exec();
         index++;
     }
-    action_list.clear();
 }
 
 void TableAction::getActionsDatabase(QString date){
@@ -130,6 +130,19 @@ void TableAction::setIsEmpty(bool isEmpty){
 
     m_isEmpty = isEmpty;
     emit isEmptyChanged(m_isEmpty);
+}
+
+int TableAction::getCountNotCompleted(){
+    int count = 0;
+    if(action_list.count()==0)
+        return count;
+    else{
+        for(Action& action : action_list){
+            if(!action.isDone)
+                count++;
+        }
+    }
+    return count;
 }
 
 int TableAction::getCountFromNote(QString date){

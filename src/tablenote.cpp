@@ -106,6 +106,10 @@ int TableNote::getIndexByDate(QString date){
     return -1;
 }
 
+int TableNote::getCountNotCompletedByIndex(int index){
+    return note_list[index].count_c;
+}
+
 void TableNote::reorderList(bool isOrder){
     if(m_isEmpty)
         return;
@@ -137,42 +141,18 @@ void TableNote::reorderList(bool isOrder){
     }
 }
 
-void TableNote::setNCompleted(QString date, int index, bool completed){
+void TableNote::setNotCompletedActionsCount(QString date, int index, int count){
     QString str_query;
     QSqlQuery sql_query;
 
     str_query = "UPDATE " TABLE_NOTE " SET " TABLE_COMPLETED " = :count WHERE " TABLE_DATE "=:date";
     sql_query.prepare(str_query);
 
-    int new_count = note_list[index].count_c;
-    if(completed)
-        new_count++;
-    else
-        new_count--;
-
     sql_query.bindValue(":date",date);
-    sql_query.bindValue(":count",new_count);
+    sql_query.bindValue(":count",count);
 
     sql_query.exec();
-    note_list[index].count_c = new_count;
-
-    emit updateData("count_c",index);
-}
-
-void TableNote::addActionsCount(QString date, int index, int count){
-    QString str_query;
-    QSqlQuery sql_query;
-
-    str_query = "UPDATE " TABLE_NOTE " SET " TABLE_COMPLETED " = :count WHERE " TABLE_DATE "=:date";
-    sql_query.prepare(str_query);
-
-    int new_count = note_list[index].count_c + count;
-
-    sql_query.bindValue(":date",date);
-    sql_query.bindValue(":count",new_count);
-
-    sql_query.exec();
-    note_list[index].count_c = new_count;
+    note_list[index].count_c = count;
 
     emit updateData("count_c",index);
 }
