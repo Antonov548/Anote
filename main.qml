@@ -93,13 +93,9 @@ ApplicationWindow{
             }
 
             ListView{
-
                 id: listView
-
-                clip: true
-
                 anchors.fill: parent
-
+                clip: true
                 model: NoteModel{
                     id: listModel
                     list: tableNote
@@ -255,44 +251,34 @@ ApplicationWindow{
                 delegate: ListViewComponent{}
             }
 
-            Pane{
-                anchors.fill: parent
-                padding: 0
-                visible: false // tableNote.isEmpty
-
-                clip: true
+            Column{
+                width: parent.width
+                visible: tableNote.isEmpty
                 anchors.centerIn: parent
-
-                background: Rectangle{
-                    anchors.fill: parent
-                    color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "#E9E9E9"
+                opacity: tableNote.isEmpty ? 1 : 0
+                Behavior on opacity{
+                    NumberAnimation{
+                        duration: 300
+                    }
                 }
 
                 Column{
-                    width: parent.width
-                    spacing: 60
-                    //opacity: tableNote.isEmpty ? 1 : 0
-
-                    Behavior on opacity {
-                        enabled: !tableNote.isEmpty
-                        OpacityAnimator{
-                            duration: 250
-                            easing.type: Easing.InOutQuad
-                        }
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    spacing: 5
+                    Label{
+                        text: "Распланируйте свои дни"
+                        font.pixelSize: 18
+                        font.family: ApplicationSettings.font
+                        font.bold: true
+                        color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                        anchors.horizontalCenter: parent.horizontalCenter
                     }
-
-                    Column{
-                        width: parent.width
-                        spacing: 10
-                        topPadding: appWindow.height/4
-
-                        Label{
-                            text: "Добавить заметки на день"
-                            font.pixelSize: 16
-                            font.family: ApplicationSettings.font
-                            color: ApplicationSettings.isDarkTheme ? "silver" : "black"
-                            anchors.horizontalCenter: parent.horizontalCenter
-                        }
+                    Label{
+                        text: "Совсем нету дел?"
+                        font.pixelSize: 15
+                        font.family: ApplicationSettings.font
+                        color: "#909090" //ApplicationSettings.isDarkTheme ? "silver" : "black"
+                        anchors.horizontalCenter: parent.horizontalCenter
                     }
                 }
             }
