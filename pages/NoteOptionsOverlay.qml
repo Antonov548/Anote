@@ -34,7 +34,7 @@ Item{
             opacity: overlay.isOpen ? 1 : 0
             Behavior on opacity {
                 NumberAnimation{
-                    duration: overlay.duration; easing.type: Easing.OutCirc
+                    duration: overlay.duration - 100; easing.type: Easing.OutCirc
                 }
             }
             Column{

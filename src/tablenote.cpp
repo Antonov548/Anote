@@ -98,6 +98,21 @@ void TableNote::setIsEmpty(bool isEmpty){
     emit isEmptyChanged(m_isEmpty);
 }
 
+void TableNote::updateDate(QString date, int index){
+    QString str_query;
+    QSqlQuery sql_query;
+
+    str_query = "UPDATE " TABLE_NOTE " SET " TABLE_DATE " = :date WHERE " TABLE_DATE "=:date";
+    sql_query.prepare(str_query);
+
+    sql_query.bindValue(":date",date);
+
+    sql_query.exec();
+    note_list[index].date = date;
+
+    emit updateData("date",index);
+}
+
 int TableNote::getIndexByDate(QString date){
     for (int i=0; i<note_list.count(); i++){
         if(note_list[i].date == date)

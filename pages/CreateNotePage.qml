@@ -144,6 +144,7 @@ ScrollablePage{
                 MouseArea{
                     width: childrenRect.width
                     height: childrenRect.height
+                    enabled: !isEdit
                     anchors.horizontalCenter: parent.horizontalCenter
                     onClicked: calendar.isOpen = true
                     Row{
@@ -199,7 +200,7 @@ ScrollablePage{
             }
 
             Column{
-                spacing: 10
+                spacing: 12
                 topPadding: 40
                 bottomPadding: 30
                 width: parent.width
@@ -209,13 +210,13 @@ ScrollablePage{
             }
 
             ListView{
-                id: listView
+                id: listActions
                 width: parent.width
                 height: contentHeight
                 anchors.horizontalCenter: parent.horizontalCenter
                 boundsBehavior: Flickable.StopAtBounds
 
-                delegate: ListActionComponent{itemText: model.info}
+                delegate: ListActionComponent{}
                 model: ActionModel{
                     id: createNoteModel
                     list: tableAction

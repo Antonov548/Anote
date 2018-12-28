@@ -12,13 +12,15 @@ Item{
     anchors.horizontalCenter: parent.horizontalCenter
     clip: true
 
+    property real list_index: index
+
     ListView.onRemove: SequentialAnimation {
         PropertyAction { target: item; property: "ListView.delayRemove"; value: true }
         PropertyAnimation {
             property: "height"
             target: item
             to: 0
-            duration: 150
+            duration: (listView.count == 1) ? 0 : 150
             easing.type: Easing.InOutQuad
         }
         PropertyAction { target: item; property: "ListView.delayRemove"; value: false }

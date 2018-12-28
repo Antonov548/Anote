@@ -56,6 +56,7 @@ public slots:
     void reorderList(bool);
     void setNotCompletedActionsCount(QString date, int index, int count);
     void setIsEmpty(bool isEmpty);
+    void updateDate(QString date, int index);
     int getIndexByDate(QString date);
     int getCountNotCompletedByIndex(int index);
 };

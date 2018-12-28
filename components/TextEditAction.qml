@@ -72,7 +72,7 @@ Item{
         Text {
             text: "Введите текст"
             font.family: ApplicationSettings.font
-            font.pixelSize: 12
+            font.pixelSize: 14
             color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
             leftPadding: 10
             opacity: item.isIncorrect ? 1 : 0

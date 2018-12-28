@@ -5,8 +5,6 @@ import QtQuick.Window 2.11
 Item{
     id: item
 
-    property string itemText: ""
-
     height: textAction.implicitHeight + bottomSpaccing.height
     width: parent.width/1.2
     anchors.horizontalCenter: parent.horizontalCenter
@@ -24,8 +22,8 @@ Item{
     ListView.onRemove: SequentialAnimation {
         PropertyAction { target: item; property: "ListView.delayRemove"; value: true }
         ParallelAnimation{
-            NumberAnimation { target: item; property: "height"; to: 0; duration: 250; easing.type: Easing.InOutQuad }
-            NumberAnimation { target: mainColumn; property: "opacity"; to: 0; duration: 150; easing.type: Easing.InOutQuad }
+            NumberAnimation { target: item; property: "height"; to: 0; duration: (listActions.count == 1) ? 0 : 250; easing.type: Easing.InOutQuad }
+            NumberAnimation { target: mainColumn; property: "opacity"; to: 0; duration: (listActions.count == 1) ? 0 : 150; easing.type: Easing.InOutQuad }
         }
         PropertyAction { target: item; property: "ListView.delayRemove"; value: false }
     }
@@ -40,7 +38,7 @@ Item{
             radius: 4
             Text{
                 id: textAction
-                text: itemText
+                text: model.info
                 height: contentHeight
                 width: parent.width/1.1
                 color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
