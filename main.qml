@@ -84,11 +84,14 @@ ApplicationWindow{
                     settings.isOpen = false
                     return
                 }
+                if(menu.isOpen){
+                    menu.isOpen = false
+                    return
+                }
                 if(passwordDialog.isOpen){
                     passwordDialog.isOpen = false
                     return
                 }
-
                 Qt.quit()
             }
 
@@ -158,7 +161,7 @@ ApplicationWindow{
                                 anchors.left: parent.left
                                 anchors.leftMargin: 15
                                 anchors.verticalCenter: parent.verticalCenter
-                                onClicked: function(){console.log("work")}
+                                onClicked: function(){menu.isOpen = true}
                             }
                             Button{
                                 id: addButton
@@ -293,7 +296,10 @@ ApplicationWindow{
     SettingsOverlay{
         id: settings; isOpen: false
     }
-    SetPasswordDialog{
+    MenuOverlay{
+        id: menu; isOpen: false
+    }
+    SetPasswordOverlay{
         id: passwordDialog; isOpen: false
     }
     PasswordPage{

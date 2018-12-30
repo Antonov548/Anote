@@ -49,7 +49,7 @@ Item{
 
             Column{
                 id: setPasswordColumn
-                spacing: 20
+                spacing: 15
                 leftPadding: 40
                 rightPadding: 40
                 topPadding: 20
@@ -170,41 +170,48 @@ Item{
                             list.activatedCount++
                         }
                     }
-                }
-                Button{
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    background: Rectangle{
-                        anchors.fill: parent
-                        color: "transparent"
-                    }
-                    contentItem: Row{
-                        topPadding: 10
-                        bottomPadding: 10
-                        spacing: 10
-                        IconImage{
-                            name: "okey"
-                            color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-                            anchors.verticalCenter: parent.verticalCenter
-                            width: 18
-                            height: 18
+                    Button{
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        background: Rectangle{
+                            anchors.fill: parent
+                            color: "transparent"
                         }
-                        Text{
-                            text: "Сохранить"
-                            font.family: ApplicationSettings.font
-                            font.pixelSize: 16
-                            padding: 0
-                            color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-                            anchors.verticalCenter: parent.verticalCenter
+                        contentItem: Row{
+                            topPadding: 10
+                            bottomPadding: 10
+                            spacing: 10
+                            IconImage{
+                                name: "okey"
+                                color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                                anchors.verticalCenter: parent.verticalCenter
+                                width: 18
+                                height: 18
+                            }
+                            Text{
+                                text: "Сохранить"
+                                font.family: ApplicationSettings.font
+                                font.pixelSize: 16
+                                padding: 0
+                                color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
                         }
-                    }
-                    onClicked: {
-                        if(list.activatedCount === listModel.count){
-                            ApplicationSettings.setPassword(list.pass)
-                            ApplicationSettings.setIsBlock(true)
-                            item.isOpen = false
+                        onClicked: {
+                            if(list.activatedCount === listModel.count){
+                                ApplicationSettings.setPassword(list.pass)
+                                ApplicationSettings.setIsBlock(true)
+                                item.isOpen = false
+                            }
+                            else{
+                                list.isIncorrect = true
+                                list.isClear = true
+                                for(var i=0; i < listModel.count; i++)
+                                    listModel.setProperty(i,"text","")
+                                list.activatedCount = 0
+                                list.pass = ""
+                                list.isClear = false
+                            }
                         }
-                        else
-                            list.isIncorrect = true
                     }
                 }
             }
