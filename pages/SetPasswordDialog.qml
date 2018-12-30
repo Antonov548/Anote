@@ -7,16 +7,15 @@ Item{
     id: item
 
     property alias isOpen: overlay.isOpen
-    property bool isClear: false
 
     function clear(){
-        item.isClear = true
+        list.isClear = true
         list.isIncorrect = false
         for(var i=0; i < listModel.count; i++)
             listModel.setProperty(i,"text","")
         list.activatedCount = 0
         list.pass = ""
-        item.isClear = false
+        list.isClear = false
     }
 
     FontLoader{
@@ -70,6 +69,7 @@ Item{
                         property real activatedCount: 0
                         property string pass: ""
                         property bool isIncorrect: false
+                        property bool isClear: false
 
                         id: list
                         width: contentWidth
@@ -85,7 +85,7 @@ Item{
                                 id: label
                                 anchors.fill: parent
                                 padding: 0
-                                font.pointSize: 16
+                                font.pixelSize: 20
                                 font.family: ApplicationSettings.font
                                 text: model.text
                                 horizontalAlignment: Text.AlignHCenter
@@ -102,9 +102,9 @@ Item{
                             Rectangle{
                                 width: (label.text==="") ? 0 : parent.width
                                 Behavior on width {
-                                    enabled: !isClear
+                                    enabled: !list.isClear
                                     NumberAnimation{
-                                        duration: 200
+                                        duration: 150
                                     }
                                 }
 
@@ -132,7 +132,7 @@ Item{
                             anchors.verticalCenter: parent.verticalCenter
                             opacity: list.isIncorrect ? 1 : 0
                             Behavior on opacity {
-                                enabled: !isClear
+                                enabled: !list.isClear
                                 NumberAnimation{
                                     duration: 150
                                 }
@@ -147,7 +147,7 @@ Item{
                         leftPadding: 3
                         opacity: list.isIncorrect ? 1 : 0
                         Behavior on opacity {
-                            enabled: !isClear
+                            enabled: !list.isClear
                             NumberAnimation{
                                 duration: 150
                             }
@@ -211,13 +211,3 @@ Item{
         }
     }
 }
-
-/*
-onClicked: {
-    if(list.isIncorrect)
-        list.isIncorrect = false
-    listModel.setProperty(list.activatedCount,"text",model.text)
-    list.pass += model.text
-    list.activatedCount++
-}
-*/

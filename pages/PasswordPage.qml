@@ -11,8 +11,7 @@ Page{
 
     background: Rectangle{
         anchors.fill: parent
-
-        color: "#1E263E"
+        color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "white"
     }
 
     ErrorMessage{
@@ -33,7 +32,7 @@ Page{
             text: "Введите пароль"
             font.pixelSize: 18
             font.family: ApplicationSettings.font
-            color: "silver"
+            color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
         }
 
         ListView{
@@ -49,19 +48,18 @@ Page{
                 height: 20
                 width: 20
                 color: "transparent"
-                border.color: "white"
+                border.color: ApplicationSettings.isDarkTheme ? "white" : "#454545"
                 border.width: 1
-                radius: 2
+                radius: 10
 
                 PropertyAnimation{
                     running: model.activated
                     target: rect
                     property: "color"
-                    to: "white"
+                    to: ApplicationSettings.isDarkTheme ? "white" : "#454545"
                     duration: 200
 
                     onStopped: {
-
                         if(lengthEntered === passListModel.count)
                             if(ApplicationSettings.comparePassword(strPassword))
                                 passwordPage.visible = false
@@ -74,7 +72,6 @@ Page{
                                 lengthEntered = 0
                                 gridPassword.enabled = true
                             }
-
                     }
 
                 }
@@ -96,13 +93,12 @@ Page{
                 ListElement{activated: false}
                 ListElement{activated: false}
             }
-
         }
 
         GridPasswordComponent{
             id: gridPassword
 
-            width: parent.width/1.7
+            width: 200
             anchors.horizontalCenter: parent.horizontalCenter
             click: onClick
 

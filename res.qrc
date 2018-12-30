@@ -26,20 +26,12 @@
         <file>pages/CalendarPage.qml</file>
     </qresource>
     <qresource prefix="/">
-        <file>icons/anote/20x20/delete.png</file>
-        <file>icons/anote/20x20@2/delete.png</file>
-        <file>icons/anote/20x20@3/delete.png</file>
-        <file>icons/anote/20x20@4/delete.png</file>
         <file>font/header_font.ttf</file>
         <file>icons/anote/index.theme</file>
         <file>icons/anote/20x20/back.png</file>
         <file>icons/anote/20x20@2/back.png</file>
         <file>icons/anote/20x20@3/back.png</file>
         <file>icons/anote/20x20@4/back.png</file>
-        <file>icons/anote/20x20/edit.png</file>
-        <file>icons/anote/20x20@2/edit.png</file>
-        <file>icons/anote/20x20@3/edit.png</file>
-        <file>icons/anote/20x20@4/edit.png</file>
         <file>icons/anote/20x20/field.png</file>
         <file>icons/anote/20x20@2/field.png</file>
         <file>icons/anote/20x20@3/field.png</file>

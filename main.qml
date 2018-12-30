@@ -84,6 +84,11 @@ ApplicationWindow{
                     settings.isOpen = false
                     return
                 }
+                if(passwordDialog.isOpen){
+                    passwordDialog.isOpen = false
+                    return
+                }
+
                 Qt.quit()
             }
 

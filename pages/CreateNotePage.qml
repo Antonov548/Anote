@@ -17,10 +17,6 @@ ScrollablePage{
     property real appHeight: 0
 
     function popSignal(){
-        if(dialog.isOpen){
-            dialog.isOpen = false
-            return
-        }
         if(calendar.isOpen){
             calendar.isOpen = false
             return
@@ -227,12 +223,5 @@ ScrollablePage{
     CalendarPage{
         id: calendar
         date: isEdit ? new Date(str_date) : new Date()
-    }
-
-    DialogPage{
-        id: dialog
-        text: "Заметка с такой датой \n уже существует. \n Добавить дела к существующий."
-        onOkey: function(){dialog.isOpen = false; signalClose()}
-        onCancel: function(){dialog.isOpen = false}
     }
 }

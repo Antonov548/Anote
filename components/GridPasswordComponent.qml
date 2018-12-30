@@ -47,8 +47,8 @@ GridView{
             id: delegateBack
             width: parent.width
             height: parent.height
-            color: "silver"
-            opacity: button.pressed ? 0.3 : 0
+            color: ApplicationSettings.isDarkTheme ? "#3F3F3F" : "#E4E4E4"
+            opacity: button.pressed ? 1 : 0
             radius: width/2
             anchors.centerIn: parent
             Behavior on opacity{

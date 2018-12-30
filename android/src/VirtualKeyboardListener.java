@@ -1,4 +1,4 @@
-package anote.java.keyboardsize;
+package anote.android;
 
 import android.app.Activity;
 import android.graphics.Rect;
