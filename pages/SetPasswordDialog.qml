@@ -1,224 +1,202 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.4
+import QtQuick.Controls.impl 2.4
 import "../components"
 
 Item{
     id: item
-    anchors.fill: parent
-    visible: overlay.isOpen
 
     property alias isOpen: overlay.isOpen
+    property bool isClear: false
 
     function clear(){
+        item.isClear = true
+        list.isIncorrect = false
         for(var i=0; i < listModel.count; i++)
             listModel.setProperty(i,"text","")
         list.activatedCount = 0
         list.pass = ""
+        item.isClear = false
     }
 
-    ApplicationOverlay{
+    FontLoader{
+        id: titleFont
+        source: "qrc:/font/header_font.ttf"
+    }
+
+    OverlayPage{
         id: overlay
-        isOpen: item.isOpen
+        durationOpen: 0
+        durationClose: 300
+        overlayOpacity: ApplicationSettings.isDarkTheme ? 0.75 : 0.6
 
         content: Page{
-            id: content
-            width: parent.width/1.2
-            height: parent.height/1.5
+            id: page
+            width: setPasswordColumn.implicitWidth
+            height: setPasswordColumn.implicitHeight
+            opacity: overlay.isOpen ? 1 : 0
             anchors.centerIn: parent
             clip: true
-
             background: Rectangle{
                 anchors.fill: parent
+                radius: 8
                 color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "white"
-                radius: 6
             }
-
-            header: Column{
-                width: parent.width
-                height: 40
-                topPadding: 5
-                Button{
-                    id: button
-                    width: parent.height
-                    height: parent.height
-                    anchors.right: parent.right
-                    anchors.rightMargin: 5
-                    background: Rectangle{
-                        anchors.fill: parent
-                        color: "transparent"
-                        Rectangle{
-                            height: 18
-                            width: 2
-                            color: ApplicationSettings.isDarkTheme? "#454545" : "silver"
-                            anchors.centerIn: parent
-                            transform: Rotation { origin.x: 1; origin.y: 9; angle: 45}
-                        }
-                        Rectangle{
-                            height: 18
-                            width: 2
-                            color: ApplicationSettings.isDarkTheme? "#454545" : "silver"
-                            anchors.centerIn: parent
-                            transform: Rotation { origin.x: 1; origin.y: 9; angle: 135}
-                        }
-                    }
-                    onClicked: {item.isOpen = false}
+            Behavior on opacity{
+                NumberAnimation{
+                    duration: 300; easing.type: Easing.OutCirc
                 }
             }
 
             Column{
-                width: parent.width
-                anchors.verticalCenter: parent.verticalCenter
-                spacing: 60
-
-                ListView{
-                    property real activatedCount: 0
-                    property string pass: ""
-
-                    id: list
-                    width: content.width/2.5
-                    height: contentHeight
+                id: setPasswordColumn
+                spacing: 20
+                leftPadding: 40
+                rightPadding: 40
+                topPadding: 20
+                bottomPadding: 20
+                Label{
+                    text: "Установка пароля"
+                    font.pixelSize: 30
+                    font.family: titleFont.name
                     anchors.horizontalCenter: parent.horizontalCenter
-                    orientation: ListView.Horizontal
-                    spacing: 5
+                    color: ApplicationSettings.isDarkTheme ? "silver" : "#4E4E4E"
+                }
 
-                    delegate: Rectangle{
-                        width: list.width/6
-                        height: width
-                        color: "transparent"
+                Column{
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    spacing: 3
+                    ListView{
+                        property real activatedCount: 0
+                        property string pass: ""
+                        property bool isIncorrect: false
 
-                        Label{
-                            id: label
-                            anchors.fill: parent
-                            font.pixelSize: 20
-                            font.family: ApplicationSettings.font
-                            bottomPadding: 5
-                            text: model.text
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
+                        id: list
+                        width: contentWidth
+                        height: 30
+                        orientation: ListView.Horizontal
+
+                        delegate: Rectangle{
+                            width: 30
+                            height: 30
+                            color: "transparent"
+
+                            Label{
+                                id: label
+                                anchors.fill: parent
+                                padding: 0
+                                font.pointSize: 16
+                                font.family: ApplicationSettings.font
+                                text: model.text
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+                                color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                            }
+
+                            Rectangle{
+                                width: parent.width
+                                height: 2
+                                anchors.bottom: parent.bottom
+                                color: ApplicationSettings.isDarkTheme ? "#6B6B6B" : "silver"
+                            }
+                            Rectangle{
+                                width: (label.text==="") ? 0 : parent.width
+                                Behavior on width {
+                                    enabled: !isClear
+                                    NumberAnimation{
+                                        duration: 200
+                                    }
+                                }
+
+                                height: 2
+                                anchors.bottom: parent.bottom
+                                color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                            }
+                        }
+
+                        model: ListModel{
+                            id: listModel
+                            ListElement{text: ""}
+                            ListElement{text: ""}
+                            ListElement{text: ""}
+                            ListElement{text: ""}
+                            ListElement{text: ""}
+                        }
+                        IconImage{
+                            width: 18
+                            height: 18
+                            name: "field"
                             color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-                        }
-
-                        Rectangle{
-                            width: parent.width
-                            height: 2
-                            color: ApplicationSettings.isDarkTheme ? (label.text==="") ? "#6B6B6B" : "silver" : (label.text==="") ? "silver" : "black"
-                            anchors.bottom: parent.bottom
-
-
+                            anchors.left: parent.right
+                            anchors.leftMargin: 5
+                            anchors.verticalCenter: parent.verticalCenter
+                            opacity: list.isIncorrect ? 1 : 0
+                            Behavior on opacity {
+                                enabled: !isClear
+                                NumberAnimation{
+                                    duration: 150
+                                }
+                            }
                         }
                     }
-
-                    model: ListModel{
-                        id: listModel
-                        ListElement{text: ""}
-                        ListElement{text: ""}
-                        ListElement{text: ""}
-                        ListElement{text: ""}
-                        ListElement{text: ""}
+                    Text{
+                        text: "Введите 5 символов"
+                        font.family: ApplicationSettings.font
+                        font.pixelSize: 14
+                        color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                        leftPadding: 3
+                        opacity: list.isIncorrect ? 1 : 0
+                        Behavior on opacity {
+                            enabled: !isClear
+                            NumberAnimation{
+                                duration: 150
+                            }
+                        }
                     }
-
                 }
 
                 Column{
                     anchors.horizontalCenter: parent.horizontalCenter
                     GridPasswordComponent{
-
                         id: grid
-                        width: content.width/2
+                        width: 180
                         anchors.horizontalCenter: parent.horizontalCenter
                         enabled: !(list.activatedCount === listModel.count)
-
-                        delegateGrid: Button{
-                            id: button
-                            width: grid.cellWidth-10
-                            height: width
-
-                            onClicked: {
-                                listModel.setProperty(list.activatedCount,"text",model.text)
-                                list.pass += model.text
-                                list.activatedCount++
-                            }
-
-                            background: Rectangle{
-                                anchors.fill: parent
-                                color: ApplicationSettings.isDarkTheme ?  button.pressed ? "#4C4C4C" : "transparent" : button.pressed ? "silver" : "transparent"
-                                radius: 2
-                            }
-
-                            contentItem: Text{
-                                anchors.fill: parent
-                                text: model.text
-                                color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-                                font.pixelSize: 22
-                                font.family: ApplicationSettings.font
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignHCenter
-                            }
-                        }
-                    }
-
-                    Button{
-                        id: btnClear
-
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        width: grid.cellWidth-10
-                        height: width
-                        enabled: !(list.activatedCount === 0)
-
-                        onClicked: {
-                            listModel.setProperty(list.activatedCount-1,"text","")
-                            list.pass = list.pass.slice(0,list.activatedCount-1)
-                            list.activatedCount--
-                        }
-
-                        background: Rectangle{
-                            anchors.fill: parent
-                            radius: 2
-                            color: ApplicationSettings.isDarkTheme ?  btnClear.pressed ? "#4C4C4C" : "transparent" : btnClear.pressed ? "silver" : "transparent"
-                        }
-
-                        contentItem: Rectangle{
-                            anchors.fill: parent
-                            color: "transparent"
-                            Rectangle{
-                                id: line_1
-                                width: parent.width/3
-                                height: 2
-                                color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-                                anchors.centerIn: parent
-                            }
-
-                            Rectangle{
-                                width: parent.width/6
-                                height: 2
-                                x: line_1.x
-                                y: line_1.y - line_1.height/4
-                                color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-                                transform: Rotation{origin.x: 0; origin.y: 1; angle: 45 }
-                            }
-
-                            Rectangle{
-                                width: parent.width/6
-                                height: 2
-                                x: line_1.x
-                                y: line_1.y + line_1.height/4
-                                color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-                                transform: Rotation{origin.x: 0; origin.y: 1; angle: 315 }
-                            }
+                        click: function(text){
+                            if(list.isIncorrect)
+                                list.isIncorrect = false
+                            listModel.setProperty(list.activatedCount,"text",text)
+                            list.pass += text
+                            list.activatedCount++
                         }
                     }
                 }
-            }
-
-            footer: Column{
-                width: parent.width
-                bottomPadding: 20
                 Button{
-                    id: btnAccept
                     anchors.horizontalCenter: parent.horizontalCenter
-                    font.pixelSize: 20
-                    font.family: ApplicationSettings.font
-                    text: "Подтвердить"
+                    background: Rectangle{
+                        anchors.fill: parent
+                        color: "transparent"
+                    }
+                    contentItem: Row{
+                        topPadding: 10
+                        bottomPadding: 10
+                        spacing: 10
+                        IconImage{
+                            name: "okey"
+                            color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                            anchors.verticalCenter: parent.verticalCenter
+                            width: 18
+                            height: 18
+                        }
+                        Text{
+                            text: "Сохранить"
+                            font.family: ApplicationSettings.font
+                            font.pixelSize: 16
+                            padding: 0
+                            color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+                    }
                     onClicked: {
                         if(list.activatedCount === listModel.count){
                             ApplicationSettings.setPassword(list.pass)
@@ -226,24 +204,20 @@ Item{
                             item.isOpen = false
                         }
                         else
-                            console.log("error")
-                    }
-                    contentItem: Text{
-                        width: parent.width
-                        horizontalAlignment: Text.AlignHCenter
-                        text: "Подтвердить"
-                        font.pixelSize: 16
-                        padding: 5
-                        font.family: ApplicationSettings.font
-                        color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-                    }
-                    background: Rectangle{
-                        anchors.fill: parent
-                        radius: 4
-                        color: ApplicationSettings.isDarkTheme ? btnAccept.pressed ? "#3C3C3C" : "#272727" : btnAccept.pressed ? "#C6C6C6" : "#DADADA"
+                            list.isIncorrect = true
                     }
                 }
             }
         }
     }
 }
+
+/*
+onClicked: {
+    if(list.isIncorrect)
+        list.isIncorrect = false
+    listModel.setProperty(list.activatedCount,"text",model.text)
+    list.pass += model.text
+    list.activatedCount++
+}
+*/

@@ -15,7 +15,7 @@ Item{
         background: Rectangle{
             width: Math.max(item.height,item.width)+10
             height: Math.max(item.height,item.width)+10
-            color: ApplicationSettings.isDarkTheme ? "#3F3F3F" : "#ECECEC"
+            color: ApplicationSettings.isDarkTheme ? "#3F3F3F" : "#E4E4E4"
             radius: height/2
             anchors.centerIn: parent
             opacity: button.pressed ? 1 : 0

@@ -28,48 +28,51 @@ Item{
     Column{
         width: item.width
         height: item.height
-        spacing: 5
-        Row{
-            width: parent.width
-            TextArea{
-                id: field
-                width: parent.width - 20
-                height: text.length == 0 ? implicitHeight + 1 : implicitHeight
-                topPadding: 0
-                bottomPadding: 0
-                leftPadding: 10
-                rightPadding: 10
-                font.pixelSize: 16
-                font.family: "Arial"
-                color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-                wrapMode: TextArea.Wrap
-                placeholderText: "Текст заметки"
-                onTextChanged: {
-                    if(item.isIncorrect)
-                        item.isIncorrect = false
+        spacing: 3
+        Column{
+            spacing: 5
+            Row{
+                width: item.width
+                TextArea{
+                    id: field
+                    width: parent.width - 20
+                    height: text.length == 0 ? implicitHeight + 1 : implicitHeight
+                    topPadding: 0
+                    bottomPadding: 0
+                    leftPadding: 10
+                    rightPadding: 10
+                    font.pixelSize: 16
+                    font.family: "Arial"
+                    color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                    wrapMode: TextArea.Wrap
+                    placeholderText: "Текст заметки"
+                    onTextChanged: {
+                        if(item.isIncorrect)
+                            item.isIncorrect = false
+                    }
                 }
-            }
-            IconImage{
-                width: 18
-                height: 18
-                name: "field"
-                color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 0
-                opacity: item.isIncorrect ? 1 : 0
-                Behavior on opacity {
-                    NumberAnimation{
-                        duration: 150
+                IconImage{
+                    width: 18
+                    height: 18
+                    name: "field"
+                    color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 0
+                    opacity: item.isIncorrect ? 1 : 0
+                    Behavior on opacity {
+                        NumberAnimation{
+                            duration: 150
+                        }
                     }
                 }
             }
+            Rectangle{
+                width: item.width
+                height: 1
+                color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+            }
         }
-        Rectangle{
-            width: parent.width
-            height: 1
-            color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-        }
-        Text {
+        Text{
             text: "Введите текст"
             font.family: ApplicationSettings.font
             font.pixelSize: 14

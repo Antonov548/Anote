@@ -7,8 +7,6 @@ GridView{
 
     property var click: function(){}
 
-    property alias delegateGrid: gridView.delegate
-
     boundsBehavior: Flickable.StopAtBounds
 
     cellWidth: width/3
@@ -38,8 +36,8 @@ GridView{
         contentItem: Label{
             anchors.fill: parent
             text: model.text
-            color: "white"
-            font.pixelSize: 18
+            color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+            font.pixelSize: 20
             font.family: ApplicationSettings.font
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
@@ -47,10 +45,17 @@ GridView{
 
         background: Rectangle{
             id: delegateBack
-            anchors.fill: parent
-            color: button.pressed ? "silver" : "transparent"
-            opacity: 0.3
-            radius: 2
+            width: parent.width
+            height: parent.height
+            color: "silver"
+            opacity: button.pressed ? 0.3 : 0
+            radius: width/2
+            anchors.centerIn: parent
+            Behavior on opacity{
+                OpacityAnimator{
+                    duration: 150
+                }
+            }
         }
     }
 }

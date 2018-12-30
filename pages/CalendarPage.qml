@@ -27,6 +27,8 @@ Item{
 
     OverlayPage{
         id: overlay
+        durationClose: 300
+        durationOpen: 300
         overlayOpacity: ApplicationSettings.isDarkTheme ? 0.75 : 0.6
 
         content: Page{
@@ -43,7 +45,7 @@ Item{
             }
             Behavior on opacity{
                 NumberAnimation{
-                    duration: overlay.duration; easing.type: Easing.OutCirc
+                    duration: 300; easing.type: Easing.OutCirc
                 }
             }
 

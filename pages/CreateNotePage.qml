@@ -99,7 +99,7 @@ ScrollablePage{
             background: Rectangle{
                 width: Math.max(btn_back.height,btn_back.width)+10
                 height: Math.max(btn_back.height,btn_back.width)+10
-                color: ApplicationSettings.isDarkTheme ? "#3F3F3F" : "#ECECEC"
+                color: ApplicationSettings.isDarkTheme ? "#3F3F3F" : "#E4E4E4"
                 radius: height/2
                 anchors.centerIn: parent
                 opacity: btn_back.pressed ? 1 : 0
@@ -146,7 +146,7 @@ ScrollablePage{
                     height: childrenRect.height
                     enabled: !isEdit
                     anchors.horizontalCenter: parent.horizontalCenter
-                    onClicked: calendar.isOpen = true
+                    onClicked: {forceActiveFocus(); calendar.isOpen = true}
                     Row{
                         padding: 0
                         spacing: 0

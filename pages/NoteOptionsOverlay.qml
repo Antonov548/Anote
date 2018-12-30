@@ -7,11 +7,11 @@ Item{
     anchors.fill: parent
 
     property alias isOpen: overlay.isOpen
-    property bool isClose: false
 
     OverlayPage{
         id: overlay
-        duration: 300
+        durationOpen: 300
+        durationClose: 300
         overlayOpacity: ApplicationSettings.isDarkTheme ? 0.75 : 0.6
 
         content: Page{
@@ -28,13 +28,13 @@ Item{
 
             Behavior on y{
                 NumberAnimation{
-                    duration: overlay.duration; easing.type: Easing.OutCirc
+                    duration: 300; easing.type: Easing.OutCirc
                 }
             }
             opacity: overlay.isOpen ? 1 : 0
             Behavior on opacity {
                 NumberAnimation{
-                    duration: overlay.duration - 100; easing.type: Easing.OutCirc
+                    duration: 200; easing.type: Easing.OutCirc
                 }
             }
             Column{

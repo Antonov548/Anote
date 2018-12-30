@@ -31,7 +31,7 @@ void TableAction::addAction(QString text){
     new_action.date = "";
 
     action_list.insert(0,new_action);
-    m_isEmpty = action_list.isEmpty();
+    setIsEmpty(false);
 
     emit addNoteEnd();
 }
@@ -44,7 +44,7 @@ void TableAction::resetList(){
 void TableAction::deleteAction(int index){
     emit deleteNoteStart(index);
     action_list.removeAt(index);
-    m_isEmpty = action_list.isEmpty();
+    setIsEmpty(action_list.isEmpty());
     emit deleteNoteEnd();
 }
 

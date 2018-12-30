@@ -48,5 +48,9 @@
         <file>icons/anote/20x20@2/today.png</file>
         <file>icons/anote/20x20@3/today.png</file>
         <file>icons/anote/20x20@4/today.png</file>
+        <file>icons/anote/20x20/okey.png</file>
+        <file>icons/anote/20x20@2/okey.png</file>
+        <file>icons/anote/20x20@3/okey.png</file>
+        <file>icons/anote/20x20@4/okey.png</file>
     </qresource>
 </RCC>

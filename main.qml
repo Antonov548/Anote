@@ -277,7 +277,7 @@ ApplicationWindow{
                         text: "Совсем нету дел?"
                         font.pixelSize: 15
                         font.family: ApplicationSettings.font
-                        color: "#909090" //ApplicationSettings.isDarkTheme ? "silver" : "black"
+                        color: "#909090"
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
                 }
@@ -287,6 +287,9 @@ ApplicationWindow{
 
     SettingsOverlay{
         id: settings; isOpen: false
+    }
+    SetPasswordDialog{
+        id: passwordDialog; isOpen: false
     }
     PasswordPage{
         id: passwordPage

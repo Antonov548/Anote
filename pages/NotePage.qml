@@ -65,7 +65,7 @@ ScrollablePage{
             background: Rectangle{
                 width: Math.max(btn_back.height,btn_back.width)+10
                 height: Math.max(btn_back.height,btn_back.width)+10
-                color: ApplicationSettings.isDarkTheme ? "#3F3F3F" : "#ECECEC"
+                color: ApplicationSettings.isDarkTheme ? "#3F3F3F" : "#E4E4E4"
                 radius: height/2
                 anchors.centerIn: parent
                 opacity: btn_back.pressed ? 1 : 0
@@ -145,6 +145,27 @@ ScrollablePage{
             model: ActionModel{
                 list: tableAction
             }
+        }
+    }
+    Column{
+        visible: tableAction.isEmpty
+        anchors.centerIn: parent
+
+        spacing: 5
+        Label{
+            text: "Дел больше не осталось"
+            font.pixelSize: 18
+            font.family: ApplicationSettings.font
+            font.bold: true
+            color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+        Label{
+            text: "Заметка будет удалена"
+            font.pixelSize: 15
+            font.family: ApplicationSettings.font
+            color: "#909090"
+            anchors.horizontalCenter: parent.horizontalCenter
         }
     }
     NoteOptionsOverlay{id: noteOptions; isOpen: false}

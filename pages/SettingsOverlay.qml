@@ -8,7 +8,8 @@ Item{
 
     OverlayPage{
         id: overlay
-        duration: 300
+        durationClose: 300
+        durationOpen: 300
         overlayOpacity: ApplicationSettings.isDarkTheme ? 0.75 : 0.6
 
         content: Page{
@@ -21,13 +22,13 @@ Item{
 
             Behavior on y{
                 NumberAnimation{
-                    duration: overlay.duration; easing.type: Easing.OutCirc
+                    duration: 300; easing.type: Easing.OutCirc
                 }
             }
             opacity: overlay.isOpen ? 1 : 0
             Behavior on opacity {
                 NumberAnimation{
-                    duration: overlay.duration; easing.type: Easing.OutCirc
+                    duration: 300; easing.type: Easing.OutCirc
                 }
             }
 
@@ -50,7 +51,7 @@ Item{
                     }
 
                     property var handlers : {"Использовать пароль": function(){if(!ApplicationSettings.isBlock)handlers["Изменить пароль"](); else ApplicationSettings.setIsBlock(false)},
-                        "Изменить пароль": function(){dialogPassword.clear();},
+                        "Изменить пароль": function(){overlay.close(); passwordDialog.isOpen = true; passwordDialog.clear()},
                         "Темное оформление": function(){ApplicationSettings.setIsDarkTheme(!ApplicationSettings.isDarkTheme)},
                         "Сортировать по дате": function(){ApplicationSettings.setIsOrder(!ApplicationSettings.isOrder); tableNote.resetList(ApplicationSettings.isOrder)}
                     }
