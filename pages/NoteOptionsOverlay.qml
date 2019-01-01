@@ -55,6 +55,7 @@ Item{
                         ListElement{text:"Удалить"; handler: function(){
                             tableNote.deleteNote(date,indexNote)
                             tableAction.deleteActionsDatabase(date)
+                            ApplicationSettings.showSnackBar("Заметка удалена")
                             signalClose()
                         }}
                     }

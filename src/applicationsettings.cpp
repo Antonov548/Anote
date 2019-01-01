@@ -216,3 +216,7 @@ QString ApplicationSettings::getDayOfWeek(int number){
         return "invalid number";
     }
 }
+
+void ApplicationSettings::showSnackBar(QString info){
+    emit snackBarShowed(info);
+}

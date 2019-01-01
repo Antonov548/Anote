@@ -21,8 +21,8 @@ Page{
         IconImage{
             id: img_lock
             name: "lock"
-            width: 40
-            height: 40
+            width: 35
+            height: 35
             anchors.horizontalCenter: parent.horizontalCenter
             color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
 
@@ -60,6 +60,7 @@ Page{
                     property: "color"
                     to: ApplicationSettings.isDarkTheme ? "white" : "#454545"
                     duration: 200
+                    alwaysRunToEnd: true
 
                     onStopped: {
                         if(lengthEntered === passListModel.count)
@@ -67,7 +68,7 @@ Page{
                                 passwordPage.visible = false
                             else{
                                 animationError.start()
-                                info.show("Неверный пароль")
+                                ApplicationSettings.showSnackBar("Неверный пароль")
                                 for(var i=0; i < passListModel.count; i++)
                                     passListModel.setProperty(i,"activated",false)
 

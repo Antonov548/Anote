@@ -5,8 +5,8 @@ import "../components"
 Item{
     id: item
 
-    function show(info){
-        info.text = info
+    function show(infoText){
+        info.text = infoText
         showAnimation.start()
     }
 

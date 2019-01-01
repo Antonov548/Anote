@@ -200,6 +200,7 @@ Item{
                             if(list.activatedCount === listModel.count){
                                 ApplicationSettings.setPassword(list.pass)
                                 ApplicationSettings.setIsBlock(true)
+                                ApplicationSettings.showSnackBar("Пароль установлен")
                                 item.isOpen = false
                             }
                             else{

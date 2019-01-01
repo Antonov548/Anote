@@ -22,6 +22,7 @@ ScrollablePage{
         }
         if(tableAction.isEmpty){
             tableNote.deleteNote(date,indexNote)
+            ApplicationSettings.showSnackBar("Заметка удалена")
             signalClose()
         }
         else{

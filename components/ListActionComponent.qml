@@ -12,11 +12,21 @@ Item{
 
     ListView.onRemove: SequentialAnimation {
         PropertyAction { target: item; property: "ListView.delayRemove"; value: true }
+        PropertyAction {target: button; property: "enabled"; value: false}
         ParallelAnimation{
             NumberAnimation { target: item; property: "height"; to: 0; duration: (listActions.count == 1) ? 0 : 250; easing.type: Easing.InOutQuad }
             NumberAnimation { target: mainColumn; property: "opacity"; to: 0; duration: (listActions.count == 1) ? 0 : 150; easing.type: Easing.InOutQuad }
         }
         PropertyAction { target: item; property: "ListView.delayRemove"; value: false }
+    }
+
+    ListView.onAdd: NumberAnimation {
+        target: item
+        property: "opacity"
+        from: 0
+        to: 1
+        duration: 300
+        easing.type: Easing.InOutQuad
     }
 
     Column{

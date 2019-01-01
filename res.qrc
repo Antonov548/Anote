@@ -22,7 +22,7 @@
         <file>pages/NoteOptionsOverlay.qml</file>
         <file>pages/CalendarPage.qml</file>
         <file>pages/SetPasswordOverlay.qml</file>
-        <file>pages/InfoOverlay.qml</file>
+        <file>pages/SnackBar.qml</file>
     </qresource>
     <qresource prefix="/">
         <file>font/header_font.ttf</file>

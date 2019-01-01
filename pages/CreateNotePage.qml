@@ -32,6 +32,7 @@ ScrollablePage{
             else{
                 tableAction.deleteActionsDatabase(sql_date)
                 tableAction.addActionsDatabase(sql_date)
+                ApplicationSettings.showSnackBar("Заметка изменена")
                 signalClose()
             }
         }
@@ -42,11 +43,13 @@ ScrollablePage{
             }
             if(tableNote.addNote(sql_date,lblMonth.text,lblDay_w.text,calendar.day+1,createNoteModel.getCount())){
                 tableAction.addActionsDatabase(sql_date)
+                ApplicationSettings.showSnackBar("Создана заметка")
                 signalClose()
             }
             else{
                 tableNote.setNotCompletedActionsCount(sql_date,note_index,createNoteModel.getCount()+tableNote.getCountNotCompletedByIndex(note_index))
                 tableAction.addActionsDatabase(sql_date)
+                ApplicationSettings.showSnackBar("Дела добавлены")
                 signalClose()
             }
         }
@@ -211,22 +214,12 @@ ScrollablePage{
                 height: contentHeight
                 anchors.horizontalCenter: parent.horizontalCenter
                 boundsBehavior: Flickable.StopAtBounds
-                add: Transition{
-                    NumberAnimation {
-                        property: "opacity"
-                        from: 0
-                        to: 1
-                        duration: 300
-                        easing.type: Easing.InOutQuad
-                    }
-                }
                 addDisplaced: Transition{
                     YAnimator{
                         duration: 200
                         easing.type: Easing.OutBack
                     }
                 }
-
                 delegate: ListActionComponent{}
                 model: ActionModel{
                     id: createNoteModel

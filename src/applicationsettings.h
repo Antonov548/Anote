@@ -58,6 +58,7 @@ signals:
     void commit();
     void fontChanged(QString font);
     void isOrderChanged(bool isOrder);
+    void snackBarShowed(QString info_text);
 
 public slots:
     void setIsBlock(bool isBlock);
@@ -70,4 +71,5 @@ public slots:
     void setIsOrder(bool isOrder);
     QString getMonth(int number);
     QString getDayOfWeek(int number);
+    void showSnackBar(QString info);
 };
