@@ -306,6 +306,10 @@ ApplicationWindow{
         id: passwordPage
         visible: ApplicationSettings.blockAppOnStart()
     }
+    AboutPage{
+        id: about; isOpen: false
+    }
+
     SnackBar{
         id: snackBar; anchors.fill: parent
         Connections{

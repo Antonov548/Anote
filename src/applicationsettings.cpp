@@ -62,9 +62,7 @@ bool ApplicationSettings::isDarkTheme() const{
     return m_isDarkTheme;
 }
 
-/*
-void ApplicationSettings::initializeAndroidKeyboard()
-{
+void ApplicationSettings::initializeAndroidKeyboard(){
     JNINativeMethod methods[] = {
         {
             "VirtualKeyboardStateChanged",
@@ -73,7 +71,7 @@ void ApplicationSettings::initializeAndroidKeyboard()
         }
     };
 
-    QAndroidJniObject javaClass("anote/java/keyboardsize/VirtualKeyboardListener");
+    QAndroidJniObject javaClass("anote/android/VirtualKeyboardListener");
     QAndroidJniEnvironment env;
 
     jclass objectClass = env->GetObjectClass(javaClass.object<jobject>());
@@ -83,17 +81,15 @@ void ApplicationSettings::initializeAndroidKeyboard()
                          sizeof(methods) / sizeof(methods[0]));
     env->DeleteLocalRef(objectClass);
 
-    QAndroidJniObject::callStaticMethod<void>("anote/java/keyboardsize/VirtualKeyboardListener", "InstallKeyboardListener");
+    QAndroidJniObject::callStaticMethod<void>("anote/android/VirtualKeyboardListener", "InstallKeyboardListener");
 }
 
-void ApplicationSettings::keyboardAndroidChanged(JNIEnv *env, jobject thiz, jint VirtualKeyboardHeight)
-{
+void ApplicationSettings::keyboardAndroidChanged(JNIEnv *env, jobject thiz, jint VirtualKeyboardHeight){
     Q_UNUSED(env)
     Q_UNUSED(thiz)
 
     instance->keyboardChanged(VirtualKeyboardHeight);
 }
-*/
 
 ApplicationSettings *ApplicationSettings::AppSettingsInstance(){
     if(!instance)

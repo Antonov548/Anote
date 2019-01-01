@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("ApplicationSettings",settings);
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
 
-    //settings->initializeAndroidKeyboard();
+    settings->initializeAndroidKeyboard();
 
     if (engine.rootObjects().isEmpty())
         return -1;
