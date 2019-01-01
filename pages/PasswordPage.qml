@@ -1,5 +1,6 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.4
+import QtQuick.Controls.impl 2.4
 import "../components/"
 
 Page{
@@ -14,25 +15,26 @@ Page{
         color: ApplicationSettings.isDarkTheme ? "#1B1B1B" : "white"
     }
 
-    ErrorMessage{
-        id: msgError
-        width: parent.width
-        fullHeight: parent.height
-        onCloseError: function(){msgError.hide()}
-        errorString: "Неверный пароль"
-    }
-
     Column{
-        anchors.fill: parent
-        topPadding: parent.height/3
+        anchors.centerIn: parent
         spacing: 20
-
-        Label{
+        IconImage{
+            id: img_lock
+            name: "lock"
+            width: 40
+            height: 40
             anchors.horizontalCenter: parent.horizontalCenter
-            text: "Введите пароль"
-            font.pixelSize: 18
-            font.family: ApplicationSettings.font
             color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+
+            SequentialAnimation{
+                id: animationError
+                ScaleAnimator{
+                    target: img_lock
+                    from: 0
+                    to: 1
+                    easing.type: Easing.InOutBack
+                }
+            }
         }
 
         ListView{
@@ -64,7 +66,8 @@ Page{
                             if(ApplicationSettings.comparePassword(strPassword))
                                 passwordPage.visible = false
                             else{
-                                msgError.show()
+                                animationError.start()
+                                info.show("Неверный пароль")
                                 for(var i=0; i < passListModel.count; i++)
                                     passListModel.setProperty(i,"activated",false)
 

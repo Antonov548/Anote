@@ -10,15 +10,6 @@ Item{
     anchors.horizontalCenter: parent.horizontalCenter
     clip: true
 
-    ListView.onAdd: NumberAnimation {
-        target: item
-        property: "opacity"
-        from: 0
-        to: 1
-        duration: 300
-        easing.type: Easing.InOutQuad
-    }
-
     ListView.onRemove: SequentialAnimation {
         PropertyAction { target: item; property: "ListView.delayRemove"; value: true }
         ParallelAnimation{
@@ -27,6 +18,7 @@ Item{
         }
         PropertyAction { target: item; property: "ListView.delayRemove"; value: false }
     }
+
     Column{
         id: mainColumn
         width: item.width

@@ -306,4 +306,7 @@ ApplicationWindow{
         id: passwordPage
         visible: ApplicationSettings.blockAppOnStart()
     }
+    InfoOverlay{
+        id: info; anchors.fill: parent
+    }
 }

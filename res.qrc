@@ -8,7 +8,6 @@
         <file>components/SettingsCheckComponent.qml</file>
         <file>pages/PasswordPage.qml</file>
         <file>components/GridPasswordComponent.qml</file>
-        <file>components/ErrorMessage.qml</file>
         <file>components/AddActionsComponent.qml</file>
         <file>components/ListActionComponent.qml</file>
         <file>components/ListNoteAction.qml</file>
@@ -23,6 +22,7 @@
         <file>pages/NoteOptionsOverlay.qml</file>
         <file>pages/CalendarPage.qml</file>
         <file>pages/SetPasswordOverlay.qml</file>
+        <file>pages/InfoOverlay.qml</file>
     </qresource>
     <qresource prefix="/">
         <file>font/header_font.ttf</file>
@@ -43,5 +43,9 @@
         <file>icons/anote/20x20@2/okey.png</file>
         <file>icons/anote/20x20@3/okey.png</file>
         <file>icons/anote/20x20@4/okey.png</file>
+        <file>icons/anote/20x20/lock.png</file>
+        <file>icons/anote/20x20@2/lock.png</file>
+        <file>icons/anote/20x20@3/lock.png</file>
+        <file>icons/anote/20x20@4/lock.png</file>
     </qresource>
 </RCC>

@@ -211,6 +211,21 @@ ScrollablePage{
                 height: contentHeight
                 anchors.horizontalCenter: parent.horizontalCenter
                 boundsBehavior: Flickable.StopAtBounds
+                add: Transition{
+                    NumberAnimation {
+                        property: "opacity"
+                        from: 0
+                        to: 1
+                        duration: 300
+                        easing.type: Easing.InOutQuad
+                    }
+                }
+                addDisplaced: Transition{
+                    YAnimator{
+                        duration: 200
+                        easing.type: Easing.OutBack
+                    }
+                }
 
                 delegate: ListActionComponent{}
                 model: ActionModel{

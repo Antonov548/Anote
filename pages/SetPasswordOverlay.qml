@@ -127,8 +127,8 @@ Item{
                             height: 18
                             name: "field"
                             color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-                            anchors.left: parent.right
-                            anchors.leftMargin: 5
+                            anchors.right: parent.right
+                            anchors.rightMargin: 0
                             anchors.verticalCenter: parent.verticalCenter
                             opacity: list.isIncorrect ? 1 : 0
                             Behavior on opacity {
