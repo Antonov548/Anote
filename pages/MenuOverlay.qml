@@ -48,8 +48,8 @@ Item{
                         "Оставить отзыв": btn_market
                     }
 
-                    property var handlers : {"О программе": function(){},
-                        "Оставить отзыв": function(){Qt.openUrlExternally("https://github.com/Antonov548")}
+                    property var handlers : {"О программе": function(){overlay.close(); about.isOpen = true},
+                        "Оставить отзыв": function(){Qt.openUrlExternally("https://play.google.com/store/apps/details?id=anote.android")}
                     }
 
                     property var check: {"О программе": true,

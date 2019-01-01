@@ -46,6 +46,7 @@ Item{
                     color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
                     wrapMode: TextArea.Wrap
                     placeholderText: "Текст заметки"
+                    inputMethodHints: Qt.ImhNoAutoUppercase
                     onTextChanged: {
                         if(item.isIncorrect)
                             item.isIncorrect = false
