@@ -76,12 +76,14 @@ ApplicationWindow{
 
         initialItem: Pane{
             id: stackInitial
-
             padding: 0
-
             function popSignal(){
                 if(settings.isOpen){
                     settings.isOpen = false
+                    return
+                }
+                if(about.isOpen){
+                    about.isOpen = false
                     return
                 }
                 if(menu.isOpen){
