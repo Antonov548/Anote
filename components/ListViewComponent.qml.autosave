@@ -114,8 +114,6 @@ Item{
         anchors.margins: 10
 
         onEntered: {
-            console.log("new" + drag.source.dragIndex)
-            console.log("old" + item.DelegateModel.itemsIndex)
             visualModel.items.move(
                     drag.source.dragIndex,
                     item.DelegateModel.itemsIndex)

@@ -3,6 +3,7 @@ import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import QtModel 1.0
+import QtQml.Models 2.1
 import "components"
 import "pages"
 
@@ -77,6 +78,7 @@ ApplicationWindow{
         initialItem: Pane{
             id: stackInitial
             padding: 0
+
             function popSignal(){
                 if(settings.isOpen){
                     settings.isOpen = false
@@ -106,9 +108,13 @@ ApplicationWindow{
                 id: listView
                 anchors.fill: parent
                 clip: true
-                model: NoteModel{
-                    id: listModel
-                    list: tableNote
+
+                model: DelegateModel{
+                    id: visualModel
+                    model: NoteModel{
+                        list: tableNote
+                    }
+                    delegate: ListViewComponent{}
                 }
 
                 headerPositioning: ListView.PullBackHeader
@@ -258,7 +264,6 @@ ApplicationWindow{
                         }
                     }
                 }
-                delegate: ListViewComponent{}
             }
 
             Column{

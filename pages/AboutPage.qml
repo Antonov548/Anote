@@ -42,7 +42,7 @@ Item{
 
             Column{
                 id: aboutColumn
-                spacing: 15
+                spacing: 30
                 leftPadding: 40
                 rightPadding: 40
                 topPadding: 20
@@ -54,38 +54,18 @@ Item{
                     anchors.horizontalCenter: parent.horizontalCenter
                     color: ApplicationSettings.isDarkTheme ? "silver" : "#4E4E4E"
                 }
-                Label{
-                    topPadding: 10
-                    bottomPadding: 10
-                    text: "Почта разработчика: \n antonov5551998@gmail.com"
-                    font.pixelSize: 16
+                Text{
+                    text: "Программа для создания заметок на день. Используйте программу для улучшения своей пунктуальности."
+                    width: 200
+                    wrapMode: Text.WordWrap
                     font.family: ApplicationSettings.font
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    color: ApplicationSettings.isDarkTheme ? "silver" : "#4E4E4E"
+                    font.pixelSize: 16
+                    color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
                     horizontalAlignment: Text.AlignHCenter
                 }
+
                 Label{
-                    topPadding: 10
-                    bottomPadding: 10
-                    text: "Среда разработки: \n Qt Framework 5.11.1"
-                    font.pixelSize: 16
-                    font.family: ApplicationSettings.font
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    color: ApplicationSettings.isDarkTheme ? "silver" : "#4E4E4E"
-                    horizontalAlignment: Text.AlignHCenter
-                }
-                Label{
-                    topPadding: 10
-                    bottomPadding: 10
-                    text: "GitHub: \n github.com/Antonov548/Anote"
-                    font.pixelSize: 16
-                    font.family: ApplicationSettings.font
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    color: ApplicationSettings.isDarkTheme ? "silver" : "#4E4E4E"
-                    horizontalAlignment: Text.AlignHCenter
-                }
-                Label{
-                    text: "Data build: 01.01.2019"
+                    text: "Версия: v1.0.1"
                     color: "grey"
                     font.family: ApplicationSettings.font
                     font.pixelSize: 14
