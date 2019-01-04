@@ -168,7 +168,7 @@ void TableNote::reindexNotesFromTo(int from, int to){
             str_query = "UPDATE " TABLE_NOTE " SET " TABLE_INDEX " = :index WHERE " TABLE_DATE "= :date ";
             sql_query.prepare(str_query);
 
-            sql_query.bindValue(":index",length-i+1);
+            sql_query.bindValue(":index",length-i-1);
             sql_query.bindValue(":date",note_list[i].date);
 
             sql_query.exec();
