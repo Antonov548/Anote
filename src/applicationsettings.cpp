@@ -61,7 +61,7 @@ bool ApplicationSettings::isBlock() const{
 bool ApplicationSettings::isDarkTheme() const{
     return m_isDarkTheme;
 }
-/*
+
 void ApplicationSettings::initializeAndroidKeyboard(){
     JNINativeMethod methods[] = {
         {
@@ -90,7 +90,6 @@ void ApplicationSettings::keyboardAndroidChanged(JNIEnv *env, jobject thiz, jint
 
     instance->keyboardChanged(VirtualKeyboardHeight);
 }
-*/
 
 ApplicationSettings *ApplicationSettings::AppSettingsInstance(){
     if(!instance)

@@ -65,7 +65,7 @@ Item{
                 }
 
                 Label{
-                    text: "Версия: v1.0.1"
+                    text: "Версия: v1.1"
                     color: "grey"
                     font.family: ApplicationSettings.font
                     font.pixelSize: 14

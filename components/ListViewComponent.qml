@@ -97,7 +97,7 @@ Item{
                     onReleased: {isHeld = false;tableNote.reindexNotesFromTo(oldIndex,dragIndex)}//tableNote.debugOrder()} //tableNote.reindexNotesFromTo(oldIndex,dragIndex)
 
                     drag.target: (isHeld && !ApplicationSettings.isOrder) ? mainColumn : undefined
-                    drag.axis: Drag.XAndYAxis
+                    drag.axis: Drag.YAxis
 
                 }
             }
