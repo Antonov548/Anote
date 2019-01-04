@@ -55,7 +55,7 @@ Item{
                     color: ApplicationSettings.isDarkTheme ? "silver" : "#4E4E4E"
                 }
                 Text{
-                    text: "Программа для создания заметок на день. Используйте программу для улучшения своей пунктуальности."
+                    text: "Программа для создания заметок на каждый день. Используйте программу для улучшения своей пунктуальности."
                     width: 200
                     wrapMode: Text.WordWrap
                     font.family: ApplicationSettings.font

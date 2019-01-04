@@ -1,6 +1,14 @@
 #include "tablenote.h"
 #include <QDebug>
 
+#define TABLE_NOTE "note"
+#define TABLE_INDEX "note_index"
+#define TABLE_DAY_W "day_w"
+#define TABLE_DAY_N "day_n"
+#define TABLE_MONTH "month"
+#define TABLE_DATE "date"
+#define TABLE_COMPLETED "completed"
+
 TableNote::TableNote(QObject *parent) : QObject(parent){
 
 }
@@ -9,7 +17,7 @@ void TableNote::createTable(){
     QString str_query;
     QSqlQuery sql_query;
 
-    str_query = "CREATE TABLE " TABLE_NOTE " ( " TABLE_MONTH " text , " TABLE_DAY_N " int , " TABLE_COMPLETED " int , "
+    str_query = "CREATE TABLE " TABLE_NOTE " ( " TABLE_INDEX " int , "  TABLE_MONTH " text , " TABLE_DAY_N " int , " TABLE_COMPLETED " int , "
             TABLE_DAY_W " text , " TABLE_DATE " text NOT NULL PRIMARY KEY )";
 
     sql_query.exec(str_query);
@@ -39,13 +47,15 @@ bool TableNote::addNote(QString sql_date, QString month_s, QString day_w, int da
 
     QString str_query;
     QSqlQuery sql_query;
+    int index = getCountNotes();
 
     emit addNoteStart();
 
-    str_query = "INSERT INTO " TABLE_NOTE " ( " TABLE_MONTH " , " TABLE_DAY_N " , " TABLE_COMPLETED " , " TABLE_DAY_W  " , " TABLE_DATE " ) VALUES ( :month , :day , :count , :day_w , :date )";
+    str_query = "INSERT INTO " TABLE_NOTE " ( " TABLE_INDEX " , "  TABLE_MONTH " , " TABLE_DAY_N " , " TABLE_COMPLETED " , " TABLE_DAY_W  " , " TABLE_DATE " ) VALUES (:index,  :month , :day , :count , :day_w , :date )";
 
     sql_query.prepare(str_query);
 
+    sql_query.bindValue(":index",index);
     sql_query.bindValue(":month",month_s);
     sql_query.bindValue(":day",day_n);
     sql_query.bindValue(":count",count_comp);
@@ -131,6 +141,41 @@ void TableNote::debugOrder(){
     }
 }
 
+void TableNote::reindexNotesFromTo(int from, int to){
+    qDebug() << from << to;
+    if(from<0 || to < 0)
+        return;
+
+    if(from==to)
+        return;
+
+    QString str_query;
+    QSqlQuery sql_query;
+    int length = note_list.length();
+    if(from < to){
+        for(int i = from; i<=to; i++){
+            str_query = "UPDATE " TABLE_NOTE " SET " TABLE_INDEX " = :index WHERE " TABLE_DATE "= :date ";
+            sql_query.prepare(str_query);
+
+            sql_query.bindValue(":index",length-i-1);
+            sql_query.bindValue(":date",note_list[i].date);
+
+            sql_query.exec();
+        }
+    }
+    else if (to < from){
+        for(int i = from; i>=to; i--){
+            str_query = "UPDATE " TABLE_NOTE " SET " TABLE_INDEX " = :index WHERE " TABLE_DATE "= :date ";
+            sql_query.prepare(str_query);
+
+            sql_query.bindValue(":index",length-i+1);
+            sql_query.bindValue(":date",note_list[i].date);
+
+            sql_query.exec();
+        }
+    }
+}
+
 void TableNote::moveNote(int from, int to){
     note_list.move(from,to);
 }
@@ -145,7 +190,7 @@ void TableNote::reorderList(bool isOrder){
     if(isOrder)
         str_query = "SELECT * FROM " TABLE_NOTE " ORDER BY date(" TABLE_DATE")";
     else
-        str_query = "SELECT * FROM " TABLE_NOTE;
+        str_query = "SELECT * FROM " TABLE_NOTE " ORDER BY " TABLE_INDEX " DESC ";
 
     sql_query.exec(str_query);
     note_list.clear();
@@ -159,10 +204,7 @@ void TableNote::reorderList(bool isOrder){
         new_note.day = sql_query.value(sql_query.record().indexOf(TABLE_DAY_N)).toInt();
         new_note.date = sql_query.value(sql_query.record().indexOf(TABLE_DATE)).toString();
 
-        if(isOrder)
-            note_list.append(new_note);
-        else
-            note_list.insert(0,new_note);
+        note_list.append(new_note);
     }
 }
 
@@ -170,7 +212,7 @@ void TableNote::setNotCompletedActionsCount(QString date, int index, int count){
     QString str_query;
     QSqlQuery sql_query;
 
-    str_query = "UPDATE " TABLE_NOTE " SET " TABLE_COMPLETED " = :count WHERE " TABLE_DATE "=:date";
+    str_query = "UPDATE " TABLE_NOTE " SET " TABLE_COMPLETED " = :count WHERE " TABLE_DATE " = :date";
     sql_query.prepare(str_query);
 
     sql_query.bindValue(":date",date);
@@ -186,9 +228,9 @@ void TableNote::getNotesDatabase(bool isOrder){
     QString str_query;
 
     if(isOrder)
-        str_query = "SELECT * FROM " TABLE_NOTE " ORDER BY " TABLE_DATE;
+        str_query = "SELECT * FROM " TABLE_NOTE " ORDER BY date(" TABLE_DATE")";
     else
-        str_query = "SELECT * FROM " TABLE_NOTE;
+        str_query = "SELECT * FROM " TABLE_NOTE " ORDER BY " TABLE_INDEX " DESC ";
 
     QSqlQuery sql_query;
     sql_query.exec(str_query);
@@ -208,11 +250,24 @@ void TableNote::getNotesDatabase(bool isOrder){
         new_note.count_c = sql_query.value(sql_query.record().indexOf(TABLE_COMPLETED)).toInt();
         new_note.date = sql_query.value(sql_query.record().indexOf(TABLE_DATE)).toString();
 
-        if(isOrder)
-            note_list.insert(0,new_note);
-        else
-            note_list.append(new_note);
+        qDebug() << sql_query.value(sql_query.record().indexOf(TABLE_INDEX)).toInt();
+
+        note_list.insert(0,new_note);
 
     }while((sql_query.previous()));
     setIsEmpty(false);
+}
+
+int TableNote::getCountNotes(){
+    QString str_query;
+    QSqlQuery sql_query;
+
+    str_query = "SELECT " TABLE_INDEX " FROM " TABLE_NOTE " ORDER BY " TABLE_INDEX;
+    sql_query.exec(str_query);
+
+    if(sql_query.last()){
+        return sql_query.value(sql_query.record().indexOf(TABLE_INDEX)).toInt()+1;
+    }
+    else
+        return 0;
 }

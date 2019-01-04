@@ -84,6 +84,7 @@ Item{
                     id: mouseArea
                     property bool isHeld: false
                     property real dragIndex: item.DelegateModel.itemsIndex
+                    property real oldIndex: -1
 
                     width: parent.width
                     height: parent.height
@@ -92,8 +93,8 @@ Item{
                     pressAndHoldInterval: 300
 
                     onClicked: {tableAction.getActionsDatabase(model.date); stackView.push("qrc:/qml/pages/NotePage.qml",{"month":model.month, "day":model.day, "day_w":model.day_w, "date":model.date, "indexNote":index})}
-                    onPressAndHold: isHeld = true
-                    onReleased: {isHeld = false; tableNote.debugOrder()}
+                    onPressAndHold: {isHeld = true; oldIndex = dragIndex}
+                    onReleased: {isHeld = false;tableNote.reindexNotesFromTo(oldIndex,dragIndex)}//tableNote.debugOrder()} //tableNote.reindexNotesFromTo(oldIndex,dragIndex)
 
                     drag.target: (isHeld && !ApplicationSettings.isOrder) ? mainColumn : undefined
                     drag.axis: Drag.XAndYAxis

@@ -7,14 +7,6 @@
 #include <QVariant>
 #include <QVector>
 
-#define TABLE_NOTE "note"
-#define TABLE_DAY_W "day_w"
-#define TABLE_DAY_N "day_n"
-#define TABLE_MONTH "month"
-#define TABLE_DATE "date"
-#define TABLE_COMPLETED "completed"
-
-
 struct Note{
     QString month;
     QString day_w;
@@ -30,6 +22,8 @@ class TableNote : public QObject
     Q_PROPERTY(bool isEmpty READ isEmpty WRITE setIsEmpty NOTIFY isEmptyChanged)
     QVector<Note> note_list;
     bool m_isEmpty;
+
+    int getCountNotes();
 
 public:
     explicit TableNote(QObject *parent = nullptr);
@@ -60,5 +54,6 @@ public slots:
     int getIndexByDate(QString date);
     int getCountNotCompletedByIndex(int index);
     void debugOrder();
+    void reindexNotesFromTo(int from, int to);
     void moveNote(int from, int to);
 };

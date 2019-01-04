@@ -6,11 +6,7 @@
 #include <QList>
 #include <QVariant>
 
-#define TABLE_ACTION "action"
-#define TABLE_DATE "date"
-#define TABLE_INFO "info"
-#define TABLE_DONE "done"
-#define TABLE_INDEX "action_index"
+
 
 struct Action{
     QString information;
