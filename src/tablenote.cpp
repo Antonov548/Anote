@@ -125,6 +125,16 @@ int TableNote::getCountNotCompletedByIndex(int index){
     return note_list[index].count_c;
 }
 
+void TableNote::debugOrder(){
+    for (Note& note : note_list) {
+        qDebug() << note.date;
+    }
+}
+
+void TableNote::moveNote(int from, int to){
+    note_list.move(from,to);
+}
+
 void TableNote::reorderList(bool isOrder){
     if(m_isEmpty)
         return;

@@ -127,7 +127,6 @@ ApplicationWindow{
                 }
 
                 add: Transition {
-
                     PropertyAnimation {
                         property: "opacity"
                         from: 0
@@ -135,6 +134,9 @@ ApplicationWindow{
                         duration: 300
                         easing.type: Easing.InOutQuad
                     }
+                }
+                moveDisplaced: Transition {
+                    YAnimator{easing.type: Easing.InOutBack; duration: 200 }
                 }
 
                 header: Page{

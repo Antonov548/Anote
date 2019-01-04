@@ -59,4 +59,6 @@ public slots:
     void updateDate(QString date, int index);
     int getIndexByDate(QString date);
     int getCountNotCompletedByIndex(int index);
+    void debugOrder();
+    void moveNote(int from, int to);
 };

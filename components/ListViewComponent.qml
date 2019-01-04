@@ -93,10 +93,10 @@ Item{
 
                     onClicked: {tableAction.getActionsDatabase(model.date); stackView.push("qrc:/qml/pages/NotePage.qml",{"month":model.month, "day":model.day, "day_w":model.day_w, "date":model.date, "indexNote":index})}
                     onPressAndHold: isHeld = true
-                    onReleased: isHeld = false
+                    onReleased: {isHeld = false; tableNote.debugOrder()}
 
                     drag.target: (isHeld && !ApplicationSettings.isOrder) ? mainColumn : undefined
-                    drag.axis: Drag.YAxis
+                    drag.axis: Drag.XAndYAxis
 
                 }
             }
@@ -114,11 +114,11 @@ Item{
         anchors.margins: 10
 
         onEntered: {
-            console.log("new" + drag.source.dragIndex)
-            console.log("old" + item.DelegateModel.itemsIndex)
             visualModel.items.move(
-                    drag.source.dragIndex,
-                    item.DelegateModel.itemsIndex)
+                        drag.source.dragIndex,
+                        item.DelegateModel.itemsIndex)
+            tableNote.moveNote(drag.source.dragIndex,
+                               item.DelegateModel.itemsIndex)
         }
     }
 }

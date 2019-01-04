@@ -18,13 +18,14 @@ Page{
     Column{
         anchors.centerIn: parent
         spacing: 20
-        IconImage{
+
+        IconLabel{
             id: img_lock
-            name: "lock"
-            width: 35
-            height: 35
+            icon.name: "lock"
+            icon.width: 40
+            icon.height: 40
             anchors.horizontalCenter: parent.horizontalCenter
-            color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+            icon.color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
 
             SequentialAnimation{
                 id: animationError
