@@ -33,15 +33,18 @@ Item{
         Drag.hotSpot.x: item.width/2
         Drag.hotSpot.y: item.height/2
 
-        states: State {
-            when: mouseArea.isHeld
-
-            ParentChange { target: mainColumn; parent: stackInitial }
-            AnchorChanges {
-                target: mainColumn
-                anchors { horizontalCenter: undefined; verticalCenter: undefined }
+        states: [
+            State {
+                when: mouseArea.isHeld
+                ParentChange{
+                    target: mainColumn; parent: stackInitial
+                }
+                AnchorChanges {
+                    target: mainColumn
+                    anchors { horizontalCenter: undefined; verticalCenter: undefined }
+                }
             }
-        }
+        ]
 
         Rectangle{
             height: 62
@@ -54,7 +57,6 @@ Item{
                 height: 60
                 radius: 8
                 anchors.horizontalCenter: parent.horizontalCenter
-
                 color: ApplicationSettings.isDarkTheme ?  mouseArea.pressed ? "#292929" : "#323232" : mouseArea.pressed ? "#DEDEDE" : "#E6E6E6"
 
                 Row{
@@ -113,8 +115,8 @@ Item{
         anchors.margins: 10
 
         onEntered: {
-                tableNote.moveNote(drag.source.dragIndex,
-                                   index)
+            tableNote.moveNote(drag.source.dragIndex,
+                               index)
         }
     }
 }
