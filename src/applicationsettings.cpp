@@ -29,9 +29,9 @@ bool ApplicationSettings::setJSON(QString file_path){
     return true;
 }
 
-void ApplicationSettings::setDefault(){
+void ApplicationSettings::setSettings(){
     j_object.insert("isBlock",QJsonValue::fromVariant(false));
-    j_object.insert("passwordHash",QJsonValue::fromVariant(""));
+    j_object.insert("passwordHash",QJsonValue::fromVariant(QCryptographicHash::hash("no_password",QCryptographicHash::Md5)));
     j_object.insert("isDarkTheme",QJsonValue::fromVariant(false));
     j_object.insert("font",QJsonValue::fromVariant("Arial"));
     j_object.insert("isOrder",QJsonValue::fromVariant(false));
@@ -61,7 +61,7 @@ bool ApplicationSettings::isBlock() const{
 bool ApplicationSettings::isDarkTheme() const{
     return m_isDarkTheme;
 }
-
+/*
 void ApplicationSettings::initializeAndroidKeyboard(){
     JNINativeMethod methods[] = {
         {
@@ -90,7 +90,7 @@ void ApplicationSettings::keyboardAndroidChanged(JNIEnv *env, jobject thiz, jint
 
     instance->keyboardChanged(VirtualKeyboardHeight);
 }
-
+*/
 ApplicationSettings *ApplicationSettings::AppSettingsInstance(){
     if(!instance)
         instance = new ApplicationSettings();
@@ -99,7 +99,7 @@ ApplicationSettings *ApplicationSettings::AppSettingsInstance(){
 
 void ApplicationSettings::setFile(QString filepath){
     if(!setJSON(filepath))
-        setDefault();
+        setSettings();
 
     m_isDarkTheme = j_object.value("isDarkTheme").toBool();
     m_isBlock = j_object.value("isBlock").toBool();
@@ -127,12 +127,17 @@ void ApplicationSettings::setIsBlock(bool isBlock){
     j_object.remove("isBlock");
     j_object.insert("isBlock",m_isBlock);
 
+    if(!isBlock){
+        j_object.remove("passwordHash");
+        j_object.insert("passwordHash",QJsonValue::fromVariant(QCryptographicHash::hash("no_password",QCryptographicHash::Md5)));
+    }
+
     saveToFile();
     emit isBlockChanged(m_isBlock);
 }
 
 bool ApplicationSettings::blockAppOnStart(){
-    return m_isBlock;
+    return (m_isBlock || !(passwordHash == QCryptographicHash::hash("no_password",QCryptographicHash::Md5)));
 }
 
 void ApplicationSettings::setIsDarkTheme(bool isDarkTheme){

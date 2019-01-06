@@ -10,7 +10,7 @@ Database::~Database(){
 
 void Database::connectDataBase(){
 
-    if( QFile(DATABASE_NAME).exists()){
+    if(QFile(DATABASE_NAME).exists()){
         db = QSqlDatabase::addDatabase("QSQLITE");
         db.setDatabaseName(DATABASE_NAME);
         db.open();

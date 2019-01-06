@@ -3,7 +3,6 @@ import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import QtModel 1.0
-import QtQml.Models 2.1
 import "components"
 import "pages"
 
@@ -109,13 +108,10 @@ ApplicationWindow{
                 anchors.fill: parent
                 clip: true
 
-                model: DelegateModel{
-                    id: visualModel
-                    model: NoteModel{
-                        list: tableNote
-                    }
-                    delegate: ListViewComponent{}
+                model: NoteModel{
+                    list: tableNote
                 }
+                delegate: ListViewComponent{}
 
                 headerPositioning: ListView.PullBackHeader
                 boundsBehavior: Flickable.StopAtBounds

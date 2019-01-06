@@ -40,6 +40,9 @@ signals:
     void deleteNoteStart(int index);
     void deleteNoteEnd();
 
+    void moveNoteStart(int from, int to);
+    void moveNoteEnd();
+
     void isEmptyChanged(bool isEmpty);
     void resetList(bool);
     void updateData(QString role,int index);
@@ -53,7 +56,6 @@ public slots:
     void updateDate(QString date, int index);
     int getIndexByDate(QString date);
     int getCountNotCompletedByIndex(int index);
-    void debugOrder();
     void reindexNotesFromTo(int from, int to);
     void moveNote(int from, int to);
 };

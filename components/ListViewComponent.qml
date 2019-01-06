@@ -12,8 +12,6 @@ Item{
     anchors.horizontalCenter: parent.horizontalCenter
     clip: true
 
-    property real list_index: index
-
     ListView.onRemove: SequentialAnimation {
         PropertyAction { target: item; property: "ListView.delayRemove"; value: true }
         PropertyAnimation {
@@ -83,7 +81,7 @@ Item{
                 MouseArea{
                     id: mouseArea
                     property bool isHeld: false
-                    property real dragIndex: item.DelegateModel.itemsIndex
+                    property real dragIndex: index
                     property real oldIndex: -1
 
                     width: parent.width
@@ -94,7 +92,7 @@ Item{
 
                     onClicked: {tableAction.getActionsDatabase(model.date); stackView.push("qrc:/qml/pages/NotePage.qml",{"month":model.month, "day":model.day, "day_w":model.day_w, "date":model.date, "indexNote":index})}
                     onPressAndHold: {isHeld = true; oldIndex = dragIndex}
-                    onReleased: {isHeld = false;tableNote.reindexNotesFromTo(oldIndex,dragIndex)}//tableNote.debugOrder()} //tableNote.reindexNotesFromTo(oldIndex,dragIndex)
+                    onReleased: {isHeld = false;tableNote.reindexNotesFromTo(oldIndex,dragIndex)}
 
                     drag.target: (isHeld && !ApplicationSettings.isOrder) ? mainColumn : undefined
                     drag.axis: Drag.YAxis
@@ -115,11 +113,8 @@ Item{
         anchors.margins: 10
 
         onEntered: {
-            visualModel.items.move(
-                        drag.source.dragIndex,
-                        item.DelegateModel.itemsIndex)
-            tableNote.moveNote(drag.source.dragIndex,
-                               item.DelegateModel.itemsIndex)
+                tableNote.moveNote(drag.source.dragIndex,
+                                   index)
         }
     }
 }

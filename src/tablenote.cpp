@@ -135,14 +135,7 @@ int TableNote::getCountNotCompletedByIndex(int index){
     return note_list[index].count_c;
 }
 
-void TableNote::debugOrder(){
-    for (Note& note : note_list) {
-        qDebug() << note.date;
-    }
-}
-
 void TableNote::reindexNotesFromTo(int from, int to){
-    qDebug() << from << to;
     if(from<0 || to < 0)
         return;
 
@@ -177,7 +170,14 @@ void TableNote::reindexNotesFromTo(int from, int to){
 }
 
 void TableNote::moveNote(int from, int to){
+    if(from == to)
+        return;
+    if(from>to)
+        moveNoteStart(from, to);
+    else
+        moveNoteStart(from, to+1);
     note_list.move(from,to);
+    moveNoteEnd();
 }
 
 void TableNote::reorderList(bool isOrder){
@@ -249,8 +249,6 @@ void TableNote::getNotesDatabase(bool isOrder){
         new_note.day = sql_query.value(sql_query.record().indexOf(TABLE_DAY_N)).toInt();
         new_note.count_c = sql_query.value(sql_query.record().indexOf(TABLE_COMPLETED)).toInt();
         new_note.date = sql_query.value(sql_query.record().indexOf(TABLE_DATE)).toString();
-
-        qDebug() << sql_query.value(sql_query.record().indexOf(TABLE_INDEX)).toInt();
 
         note_list.insert(0,new_note);
 

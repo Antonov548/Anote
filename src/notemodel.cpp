@@ -109,6 +109,12 @@ void NoteModel::setList(TableNote *list){
         connect(m_list, &TableNote::deleteNoteEnd, this, [=]() {
             endRemoveRows();
         });
+        connect(m_list, &TableNote::moveNoteStart, this, [=](int from, int to) {
+            beginMoveRows(QModelIndex(),from,from,QModelIndex(),to);
+        });
+        connect(m_list, &TableNote::moveNoteEnd, this, [=]() {
+            endMoveRows();
+        });
         connect(m_list,SIGNAL(resetList(bool)),this,SLOT(resetList(bool)));
         connect(m_list,SIGNAL(updateData(QString,int)),this,SLOT(setProperty(QString,int)));
     }
