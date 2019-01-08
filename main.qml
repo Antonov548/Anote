@@ -132,7 +132,7 @@ ApplicationWindow{
                     }
                 }
                 moveDisplaced: Transition {
-                    YAnimator{easing.type: Easing.InOutBack; duration: 200 }
+                    YAnimator{easing.type: Easing.OutCirc; duration: 200 }
                 }
 
                 header: Page{
