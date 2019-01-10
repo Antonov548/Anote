@@ -217,8 +217,11 @@ ScrollablePage{
                 addDisplaced: Transition{
                     YAnimator{
                         duration: 200
-                        easing.type: Easing.OutBack
+                        easing.type: Easing.Linear
                     }
+                }
+                moveDisplaced: Transition {
+                    YAnimator{easing.type: Easing.OutCirc; duration: 200 }
                 }
                 delegate: ListActionComponent{}
                 model: ActionModel{

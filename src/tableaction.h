@@ -6,8 +6,6 @@
 #include <QList>
 #include <QVariant>
 
-
-
 struct Action{
     QString information;
     bool isDone;
@@ -32,11 +30,14 @@ public:
 signals:
     void isEmptyChanged(bool isEmpty);
 
-    void addNoteStart();
-    void addNoteEnd();
+    void addActionStart();
+    void addActionEnd();
 
-    void deleteNoteStart(int index);
-    void deleteNoteEnd();
+    void deleteActionStart(int index);
+    void deleteActionEnd();
+
+    void moveActionStart(int from, int to);
+    void moveActionEnd();
 
     void updateData(QString role, int index);
 
@@ -45,9 +46,10 @@ public slots:
     void resetList();
     void deleteAction(int);
     void addActionsDatabase(QString date);
-    void getActionsDatabase(QString);
+    void getActionsDatabase(QString date);
     void deleteActionsDatabase(QString date);
     void setDone(QString, int, bool);
     void setIsEmpty(bool isEmpty);
     int getCountNotCompleted();
+    void moveAction(int from, int to);
 };

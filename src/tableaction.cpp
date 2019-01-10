@@ -29,7 +29,7 @@ bool TableAction::isEmpty() const{
 
 void TableAction::addAction(QString text){
 
-    emit addNoteStart();
+    emit addActionStart();
 
     Action new_action;
     new_action.information = text;
@@ -39,7 +39,7 @@ void TableAction::addAction(QString text){
     action_list.insert(0,new_action);
     setIsEmpty(false);
 
-    emit addNoteEnd();
+    emit addActionEnd();
 }
 
 void TableAction::resetList(){
@@ -48,10 +48,10 @@ void TableAction::resetList(){
 }
 
 void TableAction::deleteAction(int index){
-    emit deleteNoteStart(index);
+    emit deleteActionStart(index);
     action_list.removeAt(index);
     setIsEmpty(action_list.isEmpty());
-    emit deleteNoteEnd();
+    emit deleteActionEnd();
 }
 
 void TableAction::addActionsDatabase(QString date){
@@ -149,6 +149,17 @@ int TableAction::getCountNotCompleted(){
         }
     }
     return count;
+}
+
+void TableAction::moveAction(int from, int to){
+    if(from == to)
+        return;
+    if(from>to)
+        moveActionStart(from, to);
+    else
+        moveActionStart(from, to+1);
+    action_list.move(from,to);
+    moveActionEnd();
 }
 
 int TableAction::getCountFromNote(QString date){

@@ -33,10 +33,36 @@ Item{
         id: mainColumn
         width: item.width
         height: item.height
+
+        Drag.active: mouseArea.isHeld
+        Drag.source: mouseArea
+        Drag.hotSpot.x: item.width/2
+        Drag.hotSpot.y: item.height/2
+
+        states: [
+            State {
+                when: mouseArea.isHeld
+                ParentChange{
+                    target: mainColumn; parent: page
+                }
+                AnchorChanges {
+                    target: mainColumn
+                    anchors { horizontalCenter: undefined; verticalCenter: undefined }
+                }
+            }
+        ]
+
         Rectangle{
             width: item.width
             height: item.height - bottomSpaccing.height
-            color: ApplicationSettings.isDarkTheme ? "#3A3A3A" : "#E1E1E1"
+            color: ApplicationSettings.isDarkTheme ? mouseArea.isHeld ? "#4C4C4C" : "#3A3A3A" : mouseArea.isHeld ? "#D7D7D7" : "#E1E1E1"
+            Behavior on color{
+                ColorAnimation{
+                    duration: 200
+                    easing.type: Easing.OutCirc
+                }
+            }
+
             radius: 4
             Text{
                 id: textAction
@@ -47,6 +73,26 @@ Item{
                 font.pixelSize: 16
                 wrapMode: Text.Wrap
                 padding: 10
+            }
+
+            MouseArea{
+                id: mouseArea
+                property bool isHeld: false
+                property real dragIndex: index
+                property real oldIndex: -1
+
+                width: parent.width
+                height: parent.height
+                anchors.horizontalCenter: parent.horizontalCenter
+                hoverEnabled: true
+                pressAndHoldInterval: 300
+                preventStealing: true
+
+                onPressAndHold: {isHeld = true; oldIndex = dragIndex}
+                onReleased: {isHeld = false}
+
+                drag.target: isHeld ? mainColumn : undefined
+                drag.axis: Drag.YAxis
             }
 
             Button{
@@ -94,6 +140,15 @@ Item{
             width: item.width
             height: 15
             color: "transparent"
+        }
+    }
+    DropArea {
+        anchors.fill: parent
+        anchors.margins: 10
+
+        onEntered: {
+            tableAction.moveAction(drag.source.dragIndex,
+                               index)
         }
     }
 }
