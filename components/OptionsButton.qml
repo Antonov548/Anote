@@ -9,11 +9,13 @@ Item{
     property alias text: button.text
     property var handler: function(){}
 
+    signal click()
+
     Button{
         id: button
         height: parent.height
         width: parent.width
-        onClicked: handler()
+        onClicked: item.click()
         font.pixelSize: 14
         font.family: ApplicationSettings.font
 

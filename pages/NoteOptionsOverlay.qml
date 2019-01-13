@@ -47,7 +47,7 @@ Item{
                     text: "Редактировать"
                     width: parent.width
                     anchors.horizontalCenter: parent.horizontalCenter
-                    handler: function(){
+                    onClick: {
                         overlay.close()
                         editNote(date)
                     }
@@ -57,7 +57,7 @@ Item{
                     text: "Удалить"
                     width: parent.width
                     anchors.horizontalCenter: parent.horizontalCenter
-                    handler: function(){
+                    onClick: {
                         tableNote.deleteNote(date,indexNote)
                         tableAction.deleteActionsDatabase(date)
                         ApplicationSettings.showSnackBar("Заметка удалена")

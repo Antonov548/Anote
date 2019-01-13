@@ -14,6 +14,8 @@ ApplicationWindow{
 
     width: 500
     height: 800
+    minimumWidth: 500
+    minimumHeight: 800
 
     background: Rectangle{
         anchors.fill: parent
@@ -287,7 +289,7 @@ ApplicationWindow{
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
                     Label{
-                        text: "Совсем нету дел?"
+                        text: "Добавьте заметки"
                         font.pixelSize: 15
                         font.family: ApplicationSettings.font
                         color: "#909090"

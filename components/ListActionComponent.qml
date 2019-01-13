@@ -86,7 +86,6 @@ Item{
                 anchors.horizontalCenter: parent.horizontalCenter
                 hoverEnabled: true
                 pressAndHoldInterval: 300
-                preventStealing: true
 
                 onPressAndHold: {isHeld = true; oldIndex = dragIndex}
                 onReleased: {isHeld = false}
