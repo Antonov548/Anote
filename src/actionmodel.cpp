@@ -2,24 +2,21 @@
 #include <QDebug>
 
 ActionModel::ActionModel(QObject *parent)
-    : QAbstractListModel(parent)
-{
+    : QAbstractListModel(parent),m_groupActions(ActionsGroup::All){
+
 }
 
-int ActionModel::rowCount(const QModelIndex &parent) const
-{
+int ActionModel::rowCount(const QModelIndex &parent) const{
     if (parent.isValid())
         return 0;
-
-    return m_list->getAction().size();
+    return getActionsGroup().count();
 }
 
-QVariant ActionModel::data(const QModelIndex &index, int role) const
-{
+QVariant ActionModel::data(const QModelIndex &index, int role) const{
     if (!index.isValid())
         return QVariant();
 
-    const Action action = m_list->getAction().at(index.row());
+    const Action action = getActionsGroup().at(index.row());
 
     switch (role) {
     case Information:
@@ -32,13 +29,15 @@ QVariant ActionModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-TableAction *ActionModel::list() const
-{
+TableAction *ActionModel::list() const{
     return m_list;
 }
 
-QHash<int, QByteArray> ActionModel::roleNames()const
-{
+int ActionModel::groupActions() const{
+    return m_groupActions;
+}
+
+QHash<int, QByteArray> ActionModel::roleNames()const{
     roles[Information] = "info";
     roles[IsDone] = "done";
     roles[Date] = "date";
@@ -46,16 +45,14 @@ QHash<int, QByteArray> ActionModel::roleNames()const
     return roles;
 }
 
-Qt::ItemFlags ActionModel::flags(const QModelIndex &index) const
-{
+Qt::ItemFlags ActionModel::flags(const QModelIndex &index) const{
     if (!index.isValid())
         return Qt::NoItemFlags;
 
     return Qt::ItemIsEditable;
 }
 
-void ActionModel::setList(TableAction *list)
-{
+void ActionModel::setList(TableAction *list){
     beginResetModel();
 
     m_list = list;
@@ -102,5 +99,37 @@ bool ActionModel::setProperty(QString role, int index){
 }
 
 int ActionModel::getCount(){
-    return m_list->getAction().count();
+    return m_list->getActions().size();
+}
+
+void ActionModel::setGroupActions(int groupActions){
+    if (m_groupActions == groupActions)
+        return;
+
+    m_groupActions = groupActions;
+    emit groupActionsChanged(m_groupActions);
+}
+
+QList<Action> ActionModel::getActionsGroup() const{
+    QList<Action> list = m_list->getActions();
+
+    switch (m_groupActions) {
+    case OnlyDone:
+        for(int i=0; i<list.count(); i++){
+            if(!list.at(i).isDone){
+                list.removeAt(i);
+                i--;
+            }
+        }
+        return list;
+    case OnlyNotDone:
+        for(int i=0; i<list.count(); i++){
+            if(list.at(i).isDone){
+                list.removeAt(i);
+                i--;
+            }
+        }
+        return list;
+    }
+    return list;
 }

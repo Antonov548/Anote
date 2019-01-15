@@ -145,6 +145,7 @@ ScrollablePage{
             delegate: ListNoteAction{}
             model: ActionModel{
                 list: tableAction
+                groupActions: ActionModel.All
             }
         }
     }

@@ -24,7 +24,7 @@ class TableAction : public QObject
 public:
     explicit TableAction(QObject *parent = nullptr);
     void createTable();
-    QList<Action> getAction() const;
+    QList<Action> getActions() const;
     bool isEmpty() const;
 
 signals:

@@ -19,7 +19,7 @@ void TableAction::createTable(){
     sql_query.exec(str_query);
 }
 
-QList<Action> TableAction::getAction() const{
+QList<Action> TableAction::getActions() const{
     return action_list;
 }
 
