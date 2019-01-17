@@ -25,6 +25,8 @@ QVariant ActionModel::data(const QModelIndex &index, int role) const{
         return  QVariant(action.isDone);
     case Date:
         return QVariant(action.date);
+    case Index:
+        return QVariant(action.index);
     }
     return QVariant();
 }
@@ -41,6 +43,7 @@ QHash<int, QByteArray> ActionModel::roleNames()const{
     roles[Information] = "info";
     roles[IsDone] = "done";
     roles[Date] = "date";
+    roles[Index] = "action_index";
 
     return roles;
 }
@@ -65,7 +68,6 @@ void ActionModel::setList(TableAction *list){
         connect(m_list, &TableAction::addActionEnd, this, [=]() {
             endInsertRows();
         });
-
         connect(m_list, &TableAction::deleteActionStart, this, [=](int index) {
             beginRemoveRows(QModelIndex(), index, index);
         });
@@ -78,6 +80,8 @@ void ActionModel::setList(TableAction *list){
         connect(m_list, &TableAction::moveActionEnd, this, [=]() {
             endMoveRows();
         });
+        connect(m_list, &TableAction::setDoneStart, this, &ActionModel::setDoneStart);
+        connect(m_list, &TableAction::setDoneEnd, this,&ActionModel::setDoneEnd);
         connect(m_list,SIGNAL(updateData(QString,int)), this, SLOT(setProperty(QString,int)));
     }
 
@@ -132,4 +136,78 @@ QList<Action> ActionModel::getActionsGroup() const{
         return list;
     }
     return list;
+}
+
+void ActionModel::setDoneStart(int remove, int db_add, bool isDone){
+    int index_add;
+    if(isDone){
+        switch (m_groupActions) {
+        case OnlyDone:
+            index_add = getIndexFromGroup(db_add);
+            qDebug() << index_add << "add_done";
+            beginInsertRows(QModelIndex(),index_add,index_add);
+            break;
+        case OnlyNotDone:
+            qDebug() << remove << "remove_done";
+            beginRemoveRows(QModelIndex(),remove,remove);
+            break;
+        }
+    }
+    else{
+        switch (m_groupActions) {
+        case OnlyNotDone:
+            index_add = getIndexFromGroup(db_add);
+            qDebug() << index_add << "add_not";
+            beginInsertRows(QModelIndex(),index_add,index_add);
+            break;
+        case OnlyDone:
+            qDebug() << remove << "remove_not";
+            beginRemoveRows(QModelIndex(),remove,remove);
+            break;
+        }
+    }
+}
+
+void ActionModel::setDoneEnd(bool isDone){
+    if(isDone){
+        switch (m_groupActions) {
+        case OnlyDone:
+            endInsertRows();
+            break;
+        case OnlyNotDone:
+            endRemoveRows();
+            break;
+        }
+    }
+    else{
+        switch (m_groupActions) {
+        case OnlyNotDone:
+            endInsertRows();
+            break;
+        case OnlyDone:
+            endRemoveRows();
+            break;
+        }
+    }
+}
+
+int ActionModel::getIndexFromGroup(int db_index){
+    QList<Action> list = getActionsGroup();
+
+    if(list.count() == 0){
+        return 0;
+    }
+
+    int count = list.count();
+    for(int i=0; i<count; i++){
+        if(db_index<list[i].index){
+            if(i == count-1)
+                return count;
+            else
+                continue;
+        }
+        else
+            return i;
+    }
+    return -1;
 }

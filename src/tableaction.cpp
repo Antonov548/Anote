@@ -82,7 +82,7 @@ void TableAction::getActionsDatabase(QString date){
     QString str_query;
     QSqlQuery sql_query;
 
-    str_query = "SELECT * FROM " TABLE_ACTION " WHERE " TABLE_DATE "='" + date + "'";
+    str_query = "SELECT * FROM " TABLE_ACTION " WHERE " TABLE_DATE "='" + date + "' ORDER BY " TABLE_INDEX;
     sql_query.exec(str_query);
 
     if(!sql_query.last()){
@@ -95,6 +95,7 @@ void TableAction::getActionsDatabase(QString date){
         new_action.date = sql_query.value(sql_query.record().indexOf(TABLE_DATE)).toString();
         new_action.information = sql_query.value(sql_query.record().indexOf(TABLE_INFO)).toString();
         new_action.isDone = sql_query.value(sql_query.record().indexOf(TABLE_DONE)).toBool();
+        new_action.index = sql_query.value(sql_query.record().indexOf(TABLE_INDEX)).toInt();
 
         action_list.append(new_action);
 
@@ -111,6 +112,27 @@ void TableAction::deleteActionsDatabase(QString date){
     sql_query.exec(str_query);
 }
 
+//set done for ActionGroup::OnlyDone and ActionGroup::OnyNotDone
+void TableAction::setDone(QString date,int action_index, int index, bool done){
+    emit setDoneStart(index,action_index,done);
+
+    QString str_query;
+    QSqlQuery sql_query;
+
+    str_query = "UPDATE " TABLE_ACTION " SET " TABLE_DONE " = :done WHERE " TABLE_DATE "=:date AND " TABLE_INDEX "=:index";
+    sql_query.prepare(str_query);
+
+    sql_query.bindValue(":done",int(done));
+    sql_query.bindValue(":date",date);
+    sql_query.bindValue(":index",action_index);
+
+    sql_query.exec();
+    action_list[getActionIndex(action_index)].isDone = done;
+
+    emit setDoneEnd(done);
+}
+
+//set done for ActionGroup::All
 void TableAction::setDone(QString date, int index, bool done){
     QString str_query;
     QSqlQuery sql_query;
@@ -162,6 +184,7 @@ void TableAction::moveAction(int from, int to){
     moveActionEnd();
 }
 
+//get count notes in database
 int TableAction::getCountFromNote(QString date){
     QString str_query;
     QSqlQuery sql_query;
@@ -175,4 +198,13 @@ int TableAction::getCountFromNote(QString date){
     }
     else
         return 0;
+}
+
+//get database action index by index in model
+int TableAction::getActionIndex(int index){
+    for(int i=0; i<action_list.count(); i++){
+        if(action_list[i].index == index)
+            return i;
+    }
+    return -1;
 }

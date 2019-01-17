@@ -1,6 +1,5 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.4
-import QtGraphicalEffects 1.0
 
 Item{
     id: item
@@ -41,7 +40,7 @@ Item{
     ]
     MouseArea{
         anchors.fill: parent
-        onClicked: {tableAction.setDone(model.date,index,!model.done)}
+        onClicked: {tableAction.setDone(model.date,model.action_index,index,!model.done)}
     }
 
     Column{
@@ -61,7 +60,6 @@ Item{
                 width: parent.width/1.1
                 font.family: ApplicationSettings.font
                 font.pixelSize: 16
-                font.strikeout: model.done
                 wrapMode: Text.Wrap
                 padding: 10
             }

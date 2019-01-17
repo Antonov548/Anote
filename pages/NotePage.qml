@@ -135,17 +135,41 @@ ScrollablePage{
                 font.pixelSize: 14
             }
         }
-
-        ListView{
+        Column{
             width: parent.width
-            height: contentHeight
-            anchors.horizontalCenter: parent.horizontalCenter
-            boundsBehavior: Flickable.StopAtBounds
+            spacing: 15
 
-            delegate: ListNoteAction{}
-            model: ActionModel{
-                list: tableAction
-                groupActions: ActionModel.All
+            ListView{
+                width: parent.width
+                height: contentHeight
+                anchors.horizontalCenter: parent.horizontalCenter
+                boundsBehavior: Flickable.StopAtBounds
+
+                delegate: ListNoteAction{}
+                model: ActionModel{
+                    list: tableAction
+                    groupActions: ActionModel.OnlyNotDone
+                }
+            }
+            Label{
+                text: "Завершенные дела"
+                anchors.horizontalCenter: parent.horizontalCenter
+                font.pixelSize: 14
+                font.family: ApplicationSettings.font
+                color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+            }
+
+            ListView{
+                width: parent.width
+                height: contentHeight
+                anchors.horizontalCenter: parent.horizontalCenter
+                boundsBehavior: Flickable.StopAtBounds
+
+                delegate: ListNoteAction{}
+                model: ActionModel{
+                    list: tableAction
+                    groupActions: ActionModel.OnlyDone
+                }
             }
         }
     }

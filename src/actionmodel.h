@@ -16,7 +16,8 @@ public:
     enum {
         Information = Qt::UserRole,
         IsDone,
-        Date
+        Date,
+        Index
     };
 
     enum ActionsGroup {
@@ -49,5 +50,8 @@ private:
     mutable QHash<int,QByteArray> roles;
     int m_groupActions;
     QList<Action> getActionsGroup() const;
+    void setDoneStart(int remove, int db_add, bool isDone);
+    void setDoneEnd(bool isDone);
+    int getIndexFromGroup(int db_index);
 };
 

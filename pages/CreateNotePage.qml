@@ -227,6 +227,7 @@ ScrollablePage{
                 model: ActionModel{
                     id: createNoteModel
                     list: tableAction
+                    groupActions: page.isEdit ? ActionModel.OnlyNotDone : ActionGroup.All
                 }
             }
         }
