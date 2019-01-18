@@ -26,7 +26,7 @@ ScrollablePage{
             signalClose()
         }
         else{
-            tableNote.setNotCompletedActionsCount(date,indexNote,tableAction.getCountNotCompleted())
+            tableNote.setNotCompletedActionsCount(date,indexNote,modelAction.rowCount())
             signalClose()
         }
     }
@@ -137,18 +137,24 @@ ScrollablePage{
         }
         Column{
             width: parent.width
-            spacing: 15
 
             ListView{
                 width: parent.width
                 height: contentHeight
+                spacing: 0
                 anchors.horizontalCenter: parent.horizontalCenter
                 boundsBehavior: Flickable.StopAtBounds
+                addDisplaced: Transition{
+                    YAnimator{
+                        duration: 200
+                        easing.type: Easing.Linear
+                    }
+                }
 
                 delegate: ListNoteAction{}
                 model: ActionModel{
+                    id: modelAction
                     list: tableAction
-                    groupActions: ActionModel.OnlyNotDone
                 }
             }
             Label{
@@ -157,19 +163,8 @@ ScrollablePage{
                 font.pixelSize: 14
                 font.family: ApplicationSettings.font
                 color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
-            }
-
-            ListView{
-                width: parent.width
-                height: contentHeight
-                anchors.horizontalCenter: parent.horizontalCenter
-                boundsBehavior: Flickable.StopAtBounds
-
-                delegate: ListNoteAction{}
-                model: ActionModel{
-                    list: tableAction
-                    groupActions: ActionModel.OnlyDone
-                }
+                topPadding: 20
+                bottomPadding: 10
             }
         }
     }

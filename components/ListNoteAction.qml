@@ -9,6 +9,21 @@ Item{
     anchors.horizontalCenter: parent.horizontalCenter
     clip: true
 
+    ListView.onRemove: SequentialAnimation {
+        PropertyAction {target: mouseArea; property: "enabled"; value: false}
+        PropertyAction { target: item; property: "ListView.delayRemove"; value: true }
+        ParallelAnimation{
+            NumberAnimation { target: item; property: "height"; to: 0; duration: 250; easing.type: Easing.InOutQuad }
+            NumberAnimation { target: mainColumn; property: "opacity"; to: 0; duration: 150; easing.type: Easing.InOutQuad }
+        }
+        PropertyAction { target: item; property: "ListView.delayRemove"; value: false }
+    }
+
+    ListView.onAdd: ParallelAnimation{
+        NumberAnimation { target: item; property: "height"; from:0; to: item.height; duration: 250; easing.type: Easing.InOutQuad }
+        NumberAnimation { target: mainColumn; property: "opacity"; from:0; to: 1; duration: 150; easing.type: Easing.InOutQuad }
+    }
+
     state: model.done ? "done" : "default"
 
     states: [
@@ -39,11 +54,13 @@ Item{
         }
     ]
     MouseArea{
+        id: mouseArea
         anchors.fill: parent
-        onClicked: {tableAction.setDone(model.date,model.action_index,index,!model.done)}
+        onClicked: {tableAction.setDone(model.date,index,!model.done)}
     }
 
     Column{
+        id: mainColumn
         width: item.width
         height: item.height
         clip: true

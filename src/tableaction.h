@@ -21,7 +21,6 @@ class TableAction : public QObject
     QList<Action> action_list;
     bool m_isEmpty;
     int getCountFromNote(QString date);
-    int getActionIndex(int index);
 
 public:
     explicit TableAction(QObject *parent = nullptr);
@@ -53,9 +52,7 @@ public slots:
     void addActionsDatabase(QString date);
     void getActionsDatabase(QString date);
     void deleteActionsDatabase(QString date);
-    void setDone(QString date, int action_index, int index, bool done);
     void setDone(QString date, int index, bool done);
     void setIsEmpty(bool isEmpty);
-    int getCountNotCompleted();
     void moveAction(int from, int to);
 };

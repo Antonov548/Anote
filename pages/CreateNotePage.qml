@@ -227,13 +227,12 @@ ScrollablePage{
                 model: ActionModel{
                     id: createNoteModel
                     list: tableAction
-                    groupActions: page.isEdit ? ActionModel.OnlyNotDone : ActionGroup.All
                 }
             }
         }
     }
     CalendarPage{
         id: calendar
-        date: isEdit ? new Date(str_date) : new Date()
+        date: new Date()
     }
 }

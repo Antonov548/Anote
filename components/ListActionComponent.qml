@@ -146,8 +146,7 @@ Item{
         anchors.margins: 10
 
         onEntered: {
-            tableAction.moveAction(drag.source.dragIndex,
-                               index)
+            tableAction.moveAction(drag.source.dragIndex,index)
         }
     }
 }
