@@ -1,44 +1,24 @@
 #pragma once
 
-#include <QAbstractListModel>
 #include "tableaction.h"
+#include "abstractactionmodel.h"
 
-class ActionModel : public QAbstractListModel
+class ActionModel : public AbstractActionModel
 {
     Q_OBJECT
 
     Q_PROPERTY(TableAction* list READ list WRITE setList NOTIFY listChanged)
 
 public:
-    explicit ActionModel(QObject *parent = nullptr);
-
-    enum {
-        Information = Qt::UserRole,
-        IsDone,
-        Date,
-        Index
-    };
-
-    // Basic functionality:
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
-    virtual QHash<int,QByteArray> roleNames() const override;
-    Qt::ItemFlags flags(const QModelIndex& index) const override;
-    TableAction* list() const;
+    ActionModel();
 
 public slots:
-    void setList(TableAction* list);
-    bool setProperty(QString, int);
-    int getCount();
+    virtual void setList(TableAction* list) override;
 
 signals:
     void listChanged(TableAction* list);
 
-private:
-    TableAction* m_list;
-    mutable QHash<int,QByteArray> roles;
-    void setDoneStart(int remove, int db_add, bool isDone);
-    void setDoneEnd(bool isDone);
-    int getIndexFromGroup(int db_index);
+protected:
+    virtual QList<Action> getList() const override;
 };
 

@@ -18,15 +18,20 @@ class TableAction : public QObject
     Q_OBJECT
 
     Q_PROPERTY(bool isEmpty READ isEmpty WRITE setIsEmpty NOTIFY isEmptyChanged)
-    QList<Action> action_list;
+    QList<Action> action_list, list_completed;
     bool m_isEmpty;
     int getCountFromNote(QString date);
 
 public:
     explicit TableAction(QObject *parent = nullptr);
     void createTable();
-    QList<Action> getActions() const;
+    QList<Action> getActions(int group) const;
     bool isEmpty() const;
+
+    enum{
+        Done,
+        NotDone
+    };
 
 signals:
     void isEmptyChanged(bool isEmpty);

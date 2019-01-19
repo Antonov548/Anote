@@ -228,7 +228,7 @@ void TableNote::getNotesDatabase(bool isOrder){
     QString str_query;
 
     if(isOrder)
-        str_query = "SELECT * FROM " TABLE_NOTE " ORDER BY date(" TABLE_DATE")";
+        str_query = "SELECT * FROM " TABLE_NOTE " ORDER BY date(" TABLE_DATE ")";
     else
         str_query = "SELECT * FROM " TABLE_NOTE " ORDER BY " TABLE_INDEX " DESC ";
 

@@ -19,7 +19,8 @@ SOURCES += \
     src/tablenote.cpp \
     src/applicationsettings.cpp \
     src/tableaction.cpp \
-    src/actionmodel.cpp
+    src/actionmodel.cpp \
+    src/abstractactionmodel.cpp
 
 RESOURCES += \
     res.qrc \
@@ -54,6 +55,7 @@ HEADERS += \
     src/tablenote.h \
     src/applicationsettings.h \
     src/tableaction.h \
-    src/actionmodel.h
+    src/actionmodel.h \
+    src/abstractactionmodel.h
 
 STATECHARTS +=

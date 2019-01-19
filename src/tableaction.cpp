@@ -19,8 +19,15 @@ void TableAction::createTable(){
     sql_query.exec(str_query);
 }
 
-QList<Action> TableAction::getActions() const{
-    return action_list;
+QList<Action> TableAction::getActions(int group) const{
+    switch (group) {
+    case NotDone:
+        return action_list;
+    case Done:
+        return list_completed;
+    }
+
+    return action_list + list_completed;
 }
 
 bool TableAction::isEmpty() const{
@@ -116,14 +123,14 @@ void TableAction::setDone(QString date, int index, bool done){
     QString str_query;
     QSqlQuery sql_query;
 
-    int reverse_index = action_list.count()-index-1;
+    int db_index = action_list[index].index;
 
     str_query = "UPDATE " TABLE_ACTION " SET " TABLE_DONE " = :done WHERE " TABLE_DATE "=:date AND " TABLE_INDEX "=:index";
     sql_query.prepare(str_query);
 
     sql_query.bindValue(":done",int(done));
     sql_query.bindValue(":date",date);
-    sql_query.bindValue(":index",reverse_index);
+    sql_query.bindValue(":index",db_index);
 
     sql_query.exec();
     action_list[index].isDone = done;
