@@ -20,15 +20,8 @@ ScrollablePage{
             noteOptions.isOpen = false
             return
         }
-        if(modelAction.rowCount() === 0){
-            tableNote.deleteNote(date,indexNote)
-            ApplicationSettings.showSnackBar("Заметка удалена")
-            signalClose()
-        }
-        else{
-            tableNote.setNotCompletedActionsCount(date,indexNote,modelAction.rowCount())
-            signalClose()
-        }
+        tableNote.setNotCompletedActionsCount(date,indexNote,modelAction.rowCount())
+        signalClose()
     }
 
     function getLabel(parse_date){
@@ -144,7 +137,6 @@ ScrollablePage{
                 spacing: 0
                 anchors.horizontalCenter: parent.horizontalCenter
                 boundsBehavior: Flickable.StopAtBounds
-                //verticalLayoutDirection: ListView.BottomToTop
                 addDisplaced: Transition{
                     YAnimator{
                         duration: 200
@@ -167,7 +159,6 @@ ScrollablePage{
                 topPadding: 20
                 bottomPadding: 10
             }
-            /*
             ListView{
                 width: parent.width
                 height: contentHeight
@@ -187,7 +178,6 @@ ScrollablePage{
                     list: tableAction
                 }
             }
-            */
         }
     }
     Column{

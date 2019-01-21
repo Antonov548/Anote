@@ -68,27 +68,24 @@ void TableAction::deleteAction(int index){
 void TableAction::initAddActionsDatabase(QString date){
 
     int index = getLastIndexByDate(date);
-    //index increment for new actions
-    if(index!=0)
+    //if not exist records index = 0 else increment
+    if(index == -1)
+        index=0;
+    else
         index++;
+
+    addActionsDatabase(NotDone,date,index);
+}
+
+void TableAction::overwriteActionsDatabase(QString date){
+    deleteActionsDatabase(date);
+    int index = 0;
 
     QString str_query;
     QSqlQuery sql_query;
 
-    for(int i=action_list.count()-1; i >= 0; i--){
-
-        str_query = "INSERT INTO " TABLE_ACTION " ( " TABLE_INFO " , " TABLE_DONE " , " TABLE_INDEX " , " TABLE_DATE  "  ) VALUES ( :info, :done, :index, :date )";
-
-        sql_query.prepare(str_query);
-
-        sql_query.bindValue(":info",action_list[i].information);
-        sql_query.bindValue(":done",action_list[i].isDone);
-        sql_query.bindValue(":index",index);
-        sql_query.bindValue(":date",date);
-
-        sql_query.exec();
-        index++;
-    }
+    addActionsDatabase(NotDone,date,index);
+    addActionsDatabase(Done,date,index+action_list.count());
 }
 
 void TableAction::getActionsDatabase(QString date){
@@ -135,6 +132,12 @@ void TableAction::setDone(QString date, int index){
 
     int db_index = action_list[index].db_index;
     int new_index = getLastIndexByDate(date);
+    //if not exist records index = 0
+    if(new_index == -1)
+        new_index=0;
+    else
+        new_index++;
+
 
     str_query = "UPDATE " TABLE_ACTION " SET " TABLE_DONE " = :done, " TABLE_INDEX " = :new_index WHERE " TABLE_DATE "=:date AND " TABLE_INDEX "=:index";
     sql_query.prepare(str_query);
@@ -145,7 +148,7 @@ void TableAction::setDone(QString date, int index){
     sql_query.bindValue(":index",db_index);
     sql_query.exec();
 
-    list_completed.append(action_list.at(index));
+    list_completed.insert(0,action_list.at(index));
     action_list.removeAt(index);
 
     emit setDoneEnd();
@@ -164,7 +167,38 @@ int TableAction::getLastIndexByDate(QString date){
         return sql_query.value(sql_query.record().indexOf(TABLE_INDEX)).toInt();
     }
     else
-        return 0;
+        return -1;
+}
+
+void TableAction::addActionsDatabase(int group, QString date, int start_index){
+    QList<Action> list;
+
+    switch (group) {
+    case NotDone:
+        list = action_list;
+        break;
+    case Done:
+        list = list_completed;
+        break;
+    }
+
+    QString str_query;
+    QSqlQuery sql_query;
+
+    for(int i=list.count()-1; i >= 0; i--){
+
+        str_query = "INSERT INTO " TABLE_ACTION " ( " TABLE_INFO " , " TABLE_DONE " , " TABLE_INDEX " , " TABLE_DATE  "  ) VALUES ( :info, :done, :index, :date )";
+
+        sql_query.prepare(str_query);
+
+        sql_query.bindValue(":info",list[i].information);
+        sql_query.bindValue(":done",list[i].isDone);
+        sql_query.bindValue(":index",start_index);
+        sql_query.bindValue(":date",date);
+
+        sql_query.exec();
+        start_index++;
+    }
 }
 
 void TableAction::moveAction(int from, int to){

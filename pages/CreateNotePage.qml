@@ -25,16 +25,9 @@ ScrollablePage{
         var sql_date = getSQLDateFormat(calendar.arr_year[calendar.year],calendar.month+1,calendar.day+1)
         var note_index = tableNote.getIndexByDate(sql_date)
         if(isEdit){
-            if(tableAction.isEmpty){
-                tableAction.deleteActionsDatabase(sql_date)
-                signalClose()
-            }
-            else{
-                tableAction.deleteActionsDatabase(sql_date)
-                tableAction.addActionsDatabase(sql_date)
-                ApplicationSettings.showSnackBar("Заметка изменена")
-                signalClose()
-            }
+            tableAction.overwriteActionsDatabase(sql_date);
+            ApplicationSettings.showSnackBar("Заметка изменена")
+            signalClose()
         }
         else{
             if(createNoteModel.rowCount() === 0){

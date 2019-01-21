@@ -20,6 +20,7 @@ class TableAction : public QObject
     QList<Action> action_list;
     QList<Action> list_completed;
     int getLastIndexByDate(QString date);
+    void addActionsDatabase(int group, QString date,int start_index);
 
 public:
     explicit TableAction(QObject *parent = nullptr);
@@ -55,6 +56,7 @@ public slots:
     void resetList();
     void deleteAction(int);
     void initAddActionsDatabase(QString date);
+    void overwriteActionsDatabase(QString date);
     void getActionsDatabase(QString date);
     void deleteActionsDatabase(QString date);
     void setDone(QString date, int index);
