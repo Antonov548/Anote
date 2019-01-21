@@ -7,6 +7,7 @@
 #include "src/database.h"
 #include "src/notemodel.h"
 #include "src/actionmodel.h"
+#include "src/actionmodeldone.h"
 #include "src/tablenote.h"
 #include "src/applicationsettings.h"
 
@@ -26,6 +27,7 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<NoteModel>("QtModel",1,0,"NoteModel");
     qmlRegisterType<ActionModel>("QtModel",1,0,"ActionModel");
+    qmlRegisterType<ActionModelDone>("QtModel",1,0,"ActionModelDone");
 
     TableNote tableNote;
     TableAction tableAction;

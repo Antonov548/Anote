@@ -132,6 +132,8 @@ int TableNote::getIndexByDate(QString date){
 }
 
 int TableNote::getCountNotCompletedByIndex(int index){
+    if(index < 0 || index > note_list.count()-1)
+        return 0;
     return note_list[index].count_c;
 }
 

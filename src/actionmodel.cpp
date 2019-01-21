@@ -10,12 +10,11 @@ void ActionModel::setList(TableAction *list){
     m_list = list;
 
     if (m_list) {
-        connect(m_list, &TableAction::addActionStart, this, [=]() {
-            const int index = 0;
+        connect(m_list, &TableAction::addActionStart, this, [=](int index) {
             beginInsertRows(QModelIndex(), index, index);
         });
         connect(m_list, &TableAction::addActionEnd, this, [=]() {
-           endInsertRows();
+            endInsertRows();
         });
         connect(m_list, &TableAction::deleteActionStart, this, [=](int index) {
             beginRemoveRows(QModelIndex(), index, index);
@@ -29,6 +28,19 @@ void ActionModel::setList(TableAction *list){
         connect(m_list, &TableAction::moveActionEnd, this, [=]() {
             endMoveRows();
         });
+        connect(m_list, &TableAction::setDoneStart, this, [=](int index){
+            beginRemoveRows(QModelIndex(), index, index);
+        });
+        connect(m_list, &TableAction::setDoneEnd, this, [=](){
+            endRemoveRows();
+        });
+        connect(m_list, &TableAction::setNotDoneStart, this, [=](){
+            const int index = 0;
+            beginInsertRows(QModelIndex(), index, index);
+        });
+        connect(m_list, &TableAction::setNotDoneEnd, this, [=](){
+            endInsertRows();
+        });
         connect(m_list,SIGNAL(updateData(QString,int)), this, SLOT(setProperty(QString,int)));
     }
 
@@ -39,4 +51,8 @@ void ActionModel::setList(TableAction *list){
 
 QList<Action> ActionModel::getList() const{
     return m_list->getActions(TableAction::NotDone);
+}
+
+int ActionModel::getCount() const{
+    return m_list->getActionsCount(TableAction::NotDone);
 }

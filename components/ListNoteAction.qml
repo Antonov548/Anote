@@ -56,7 +56,7 @@ Item{
     MouseArea{
         id: mouseArea
         anchors.fill: parent
-        onClicked: {tableAction.setDone(model.date,index,!model.done)}
+        onClicked: {tableAction.setDone(model.date,index)}
     }
 
     Column{

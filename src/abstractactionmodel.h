@@ -26,7 +26,6 @@ public:
 public slots:
     virtual void setList(TableAction* list) = 0;
     bool setProperty(QString, int);
-    int getCount();
 
 signals:
     void listChanged(TableAction* list);
@@ -35,5 +34,5 @@ protected:
     TableAction* m_list;
     mutable QHash<int,QByteArray> roles;
     virtual QList<Action> getList() const = 0;
-
+    virtual int getCount() const = 0;
 };

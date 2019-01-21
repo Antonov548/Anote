@@ -37,18 +37,18 @@ ScrollablePage{
             }
         }
         else{
-            if(tableAction.isEmpty){
+            if(createNoteModel.rowCount() === 0){
                 signalClose()
                 return
             }
-            if(tableNote.addNote(sql_date,lblMonth.text,lblDay_w.text,calendar.day+1,createNoteModel.getCount())){
-                tableAction.addActionsDatabase(sql_date)
+            if(tableNote.addNote(sql_date,lblMonth.text,lblDay_w.text,calendar.day+1,createNoteModel.rowCount())){
+                tableAction.initAddActionsDatabase(sql_date)
                 ApplicationSettings.showSnackBar("Создана заметка")
                 signalClose()
             }
             else{
-                tableNote.setNotCompletedActionsCount(sql_date,note_index,createNoteModel.getCount()+tableNote.getCountNotCompletedByIndex(note_index))
-                tableAction.addActionsDatabase(sql_date)
+                tableNote.setNotCompletedActionsCount(sql_date,note_index,createNoteModel.rowCount() + tableNote.getCountNotCompletedByIndex(note_index))
+                tableAction.initAddActionsDatabase(sql_date)
                 ApplicationSettings.showSnackBar("Дела добавлены")
                 signalClose()
             }

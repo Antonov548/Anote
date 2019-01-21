@@ -20,7 +20,8 @@ SOURCES += \
     src/applicationsettings.cpp \
     src/tableaction.cpp \
     src/actionmodel.cpp \
-    src/abstractactionmodel.cpp
+    src/abstractactionmodel.cpp \
+    src/actionmodeldone.cpp
 
 RESOURCES += \
     res.qrc \
@@ -56,6 +57,7 @@ HEADERS += \
     src/applicationsettings.h \
     src/tableaction.h \
     src/actionmodel.h \
-    src/abstractactionmodel.h
+    src/abstractactionmodel.h \
+    src/actionmodeldone.h
 
 STATECHARTS +=

@@ -7,7 +7,7 @@
 #define TABLE_DONE "done"
 #define TABLE_INDEX "action_index"
 
-TableAction::TableAction(QObject *parent) : QObject(parent),m_isEmpty(true){
+TableAction::TableAction(QObject *parent) : QObject(parent){
 
 }
 
@@ -30,44 +30,52 @@ QList<Action> TableAction::getActions(int group) const{
     return action_list + list_completed;
 }
 
-bool TableAction::isEmpty() const{
-    return m_isEmpty;
+int TableAction::getActionsCount(int group) const{
+    switch (group) {
+    case NotDone:
+        return action_list.count();
+    case Done:
+        return list_completed.count();
+    }
+    return action_list.count() + list_completed.count();
 }
 
 void TableAction::addAction(QString text){
-
-    emit addActionStart();
+    int index = 0;
+    emit addActionStart(index);
 
     Action new_action;
     new_action.information = text;
     new_action.isDone = false;
     new_action.date = "";
 
-    action_list.insert(0,new_action);
-    setIsEmpty(false);
+    action_list.insert(index,new_action);
 
     emit addActionEnd();
 }
 
 void TableAction::resetList(){
     action_list.clear();
-    m_isEmpty = true;
+    list_completed.clear();
 }
 
 void TableAction::deleteAction(int index){
     emit deleteActionStart(index);
     action_list.removeAt(index);
-    setIsEmpty(action_list.isEmpty());
     emit deleteActionEnd();
 }
 
-void TableAction::addActionsDatabase(QString date){
+void TableAction::initAddActionsDatabase(QString date){
 
-    int index = getCountFromNote(date);
+    int index = getLastIndexByDate(date);
+    //index increment for new actions
+    if(index!=0)
+        index++;
+
     QString str_query;
     QSqlQuery sql_query;
 
-    for(int i=action_list.count()-1; i>=0; i--){
+    for(int i=action_list.count()-1; i >= 0; i--){
 
         str_query = "INSERT INTO " TABLE_ACTION " ( " TABLE_INFO " , " TABLE_DONE " , " TABLE_INDEX " , " TABLE_DATE  "  ) VALUES ( :info, :done, :index, :date )";
 
@@ -89,11 +97,10 @@ void TableAction::getActionsDatabase(QString date){
     QString str_query;
     QSqlQuery sql_query;
 
-    str_query = "SELECT * FROM " TABLE_ACTION " WHERE " TABLE_DATE "='" + date + "' ORDER BY " TABLE_INDEX;
+    str_query = "SELECT * FROM " TABLE_ACTION " WHERE " TABLE_DATE "='" + date + "' ORDER BY " TABLE_INDEX " ASC ";
     sql_query.exec(str_query);
 
-    if(!sql_query.last()){
-        setIsEmpty(true);
+    if(!sql_query.first()){
         return;
     }
 
@@ -102,13 +109,14 @@ void TableAction::getActionsDatabase(QString date){
         new_action.date = sql_query.value(sql_query.record().indexOf(TABLE_DATE)).toString();
         new_action.information = sql_query.value(sql_query.record().indexOf(TABLE_INFO)).toString();
         new_action.isDone = sql_query.value(sql_query.record().indexOf(TABLE_DONE)).toBool();
-        new_action.index = sql_query.value(sql_query.record().indexOf(TABLE_INDEX)).toInt();
+        new_action.db_index = sql_query.value(sql_query.record().indexOf(TABLE_INDEX)).toInt();
 
-        action_list.append(new_action);
+        if(new_action.isDone)
+            list_completed.insert(0,new_action);
+        else
+            action_list.insert(0,new_action);
 
-    }while((sql_query.previous()));
-
-    setIsEmpty(false);
+    }while((sql_query.next()));
 }
 
 void TableAction::deleteActionsDatabase(QString date){
@@ -119,44 +127,41 @@ void TableAction::deleteActionsDatabase(QString date){
     sql_query.exec(str_query);
 }
 
-void TableAction::setDone(QString date, int index, bool done){
+void TableAction::setDone(QString date, int index){
+    emit setDoneStart(index);
+
     QString str_query;
     QSqlQuery sql_query;
 
-    int db_index = action_list[index].index;
+    int db_index = action_list[index].db_index;
+    int new_index = getLastIndexByDate(date);
 
-    str_query = "UPDATE " TABLE_ACTION " SET " TABLE_DONE " = :done WHERE " TABLE_DATE "=:date AND " TABLE_INDEX "=:index";
+    str_query = "UPDATE " TABLE_ACTION " SET " TABLE_DONE " = :done, " TABLE_INDEX " = :new_index WHERE " TABLE_DATE "=:date AND " TABLE_INDEX "=:index";
     sql_query.prepare(str_query);
 
-    sql_query.bindValue(":done",int(done));
+    sql_query.bindValue(":done",int(true));
+    sql_query.bindValue(":new_index",new_index);
     sql_query.bindValue(":date",date);
     sql_query.bindValue(":index",db_index);
-
     sql_query.exec();
-    action_list[index].isDone = done;
 
-    emit updateData("done",index);
+    list_completed.append(action_list.at(index));
+    action_list.removeAt(index);
+
+    emit setDoneEnd();
 }
 
-void TableAction::setIsEmpty(bool isEmpty){
-    if (m_isEmpty == isEmpty)
-        return;
-
-    m_isEmpty = isEmpty;
-    emit isEmptyChanged(m_isEmpty);
-}
-
-//get count notes in database
-int TableAction::getCountFromNote(QString date){
+//get last index action in database
+int TableAction::getLastIndexByDate(QString date){
     QString str_query;
     QSqlQuery sql_query;
 
-    str_query = "SELECT " TABLE_INDEX " FROM " TABLE_ACTION " WHERE " TABLE_DATE " =:date ORDER BY " TABLE_INDEX;
+    str_query = "SELECT " TABLE_INDEX " FROM " TABLE_ACTION " WHERE " TABLE_DATE " =:date ORDER BY " TABLE_INDEX " DESC ";
     sql_query.prepare(str_query);
     sql_query.bindValue(":date",date);
     sql_query.exec();
-    if(sql_query.last()){
-        return sql_query.value(sql_query.record().indexOf(TABLE_INDEX)).toInt()+1;
+    if(sql_query.first()){
+        return sql_query.value(sql_query.record().indexOf(TABLE_INDEX)).toInt();
     }
     else
         return 0;

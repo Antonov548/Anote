@@ -20,7 +20,7 @@ ScrollablePage{
             noteOptions.isOpen = false
             return
         }
-        if(tableAction.isEmpty){
+        if(modelAction.rowCount() === 0){
             tableNote.deleteNote(date,indexNote)
             ApplicationSettings.showSnackBar("Заметка удалена")
             signalClose()
@@ -144,6 +144,7 @@ ScrollablePage{
                 spacing: 0
                 anchors.horizontalCenter: parent.horizontalCenter
                 boundsBehavior: Flickable.StopAtBounds
+                //verticalLayoutDirection: ListView.BottomToTop
                 addDisplaced: Transition{
                     YAnimator{
                         duration: 200
@@ -166,10 +167,31 @@ ScrollablePage{
                 topPadding: 20
                 bottomPadding: 10
             }
+            /*
+            ListView{
+                width: parent.width
+                height: contentHeight
+                spacing: 0
+                anchors.horizontalCenter: parent.horizontalCenter
+                boundsBehavior: Flickable.StopAtBounds
+                addDisplaced: Transition{
+                    YAnimator{
+                        duration: 200
+                        easing.type: Easing.Linear
+                    }
+                }
+
+                delegate: ListNoteAction{}
+                model: ActionModelDone{
+                    id: modelActionDone
+                    list: tableAction
+                }
+            }
+            */
         }
     }
     Column{
-        visible: tableAction.isEmpty
+        visible: false//modelAction.isEmpty
         anchors.centerIn: parent
 
         spacing: 5

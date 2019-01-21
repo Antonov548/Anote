@@ -10,23 +10,22 @@ struct Action{
     QString information;
     bool isDone;
     QString date;
-    int index;
+    int db_index;
 };
 
 class TableAction : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(bool isEmpty READ isEmpty WRITE setIsEmpty NOTIFY isEmptyChanged)
-    QList<Action> action_list, list_completed;
-    bool m_isEmpty;
-    int getCountFromNote(QString date);
+    QList<Action> action_list;
+    QList<Action> list_completed;
+    int getLastIndexByDate(QString date);
 
 public:
     explicit TableAction(QObject *parent = nullptr);
     void createTable();
     QList<Action> getActions(int group) const;
-    bool isEmpty() const;
+    int getActionsCount(int group) const;
 
     enum{
         Done,
@@ -34,9 +33,7 @@ public:
     };
 
 signals:
-    void isEmptyChanged(bool isEmpty);
-
-    void addActionStart();
+    void addActionStart(int index);
     void addActionEnd();
 
     void deleteActionStart(int index);
@@ -45,8 +42,11 @@ signals:
     void moveActionStart(int from, int to);
     void moveActionEnd();
 
-    void setDoneStart(int index_delete, int index_add, bool isDone);
-    void setDoneEnd(bool isDone);
+    void setDoneStart(int index);
+    void setDoneEnd();
+
+    void setNotDoneStart(int index);
+    void setNotDoneEnd();
 
     void updateData(QString role, int index);
 
@@ -54,10 +54,9 @@ public slots:
     void addAction(QString);
     void resetList();
     void deleteAction(int);
-    void addActionsDatabase(QString date);
+    void initAddActionsDatabase(QString date);
     void getActionsDatabase(QString date);
     void deleteActionsDatabase(QString date);
-    void setDone(QString date, int index, bool done);
-    void setIsEmpty(bool isEmpty);
+    void setDone(QString date, int index);
     void moveAction(int from, int to);
 };

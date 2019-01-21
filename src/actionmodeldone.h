@@ -1,11 +1,23 @@
-#ifndef ACTIONMODELDONE_H
-#define ACTIONMODELDONE_H
+#pragma once
 
+#include "abstractactionmodel.h"
 
-class ActionModelDone
+class ActionModelDone : public AbstractActionModel
 {
+    Q_OBJECT
+
+    Q_PROPERTY(TableAction* list READ list WRITE setList NOTIFY listChanged)
+
 public:
     ActionModelDone();
-};
 
-#endif // ACTIONMODELDONE_H
+public slots:
+    virtual void setList(TableAction* list) override;
+
+signals:
+    void listChanged(TableAction* list);
+
+protected:
+    virtual QList<Action> getList() const override;
+    virtual int getCount() const override;
+};

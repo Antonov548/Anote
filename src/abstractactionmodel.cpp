@@ -13,7 +13,7 @@ QVariant AbstractActionModel::data(const QModelIndex &index, int role) const{
     if (!index.isValid())
         return QVariant();
 
-    const Action action = m_list->getActions(TableAction::NotDone).at(index.row());
+    const Action action = getList().at(index.row());
 
     switch (role) {
     case Information:
@@ -23,7 +23,7 @@ QVariant AbstractActionModel::data(const QModelIndex &index, int role) const{
     case Date:
         return QVariant(action.date);
     case Index:
-        return QVariant(action.index);
+        return QVariant(action.db_index);
     }
     return QVariant();
 }
@@ -58,8 +58,4 @@ bool AbstractActionModel::setProperty(QString role, int index){
 
     emit dataChanged(QAbstractListModel::index(index), QAbstractListModel::index(index), changed_role);
     return true;
-}
-
-int AbstractActionModel::getCount(){
-    return getList().count();
 }

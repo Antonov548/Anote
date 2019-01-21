@@ -1,6 +1,5 @@
 #pragma once
 
-#include "tableaction.h"
 #include "abstractactionmodel.h"
 
 class ActionModel : public AbstractActionModel
@@ -20,5 +19,5 @@ signals:
 
 protected:
     virtual QList<Action> getList() const override;
+    virtual int getCount() const override;
 };
-
