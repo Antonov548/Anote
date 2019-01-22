@@ -13,46 +13,16 @@ Item{
         PropertyAction {target: mouseArea; property: "enabled"; value: false}
         PropertyAction { target: item; property: "ListView.delayRemove"; value: true }
         ParallelAnimation{
-            NumberAnimation { target: item; property: "height"; to: 0; duration: 250; easing.type: Easing.InOutQuad }
+            NumberAnimation { target: item; property: "height"; to: 0; duration: 150; easing.type: Easing.InOutQuad }
             NumberAnimation { target: mainColumn; property: "opacity"; to: 0; duration: 150; easing.type: Easing.InOutQuad }
         }
         PropertyAction { target: item; property: "ListView.delayRemove"; value: false }
     }
 
     ListView.onAdd: ParallelAnimation{
-        NumberAnimation { target: item; property: "height"; from:0; to: item.height; duration: 250; easing.type: Easing.InOutQuad }
+        NumberAnimation { target: item; property: "height"; from:0; to: item.height; duration: 150; easing.type: Easing.InOutQuad }
         NumberAnimation { target: mainColumn; property: "opacity"; from:0; to: 1; duration: 150; easing.type: Easing.InOutQuad }
     }
-
-    state: model.done ? "done" : "default"
-
-    states: [
-        State {
-            name: "default"
-            PropertyChanges{target: textAction; color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"}
-            PropertyChanges{target: check; visible: false}
-            PropertyChanges{target: checkBorder; color: "transparent"}
-        },
-        State {
-            name: "done"
-            PropertyChanges{target: textAction; color: ApplicationSettings.isDarkTheme ? "#7E7E7E" : "#9D9D9D"}
-            PropertyChanges{target: check; visible: true}
-            PropertyChanges{target: checkBorder; color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"}
-        }
-    ]
-
-    transitions: [
-        Transition {
-            from: "default"
-            to: "done"
-            ColorAnimation{targets: [textAction,checkBorder]; duration: 150; easing.type: Easing.Linear}
-        },
-        Transition {
-            from: "done"
-            to: "default"
-            ColorAnimation{targets: [textAction,checkBorder]; duration: 150;  easing.type: Easing.Linear}
-        }
-    ]
     MouseArea{
         id: mouseArea
         anchors.fill: parent
@@ -72,6 +42,7 @@ Item{
 
             Text{
                 id: textAction
+                color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
                 text: model.info
                 height: contentHeight
                 width: parent.width/1.1
@@ -81,7 +52,6 @@ Item{
                 padding: 10
             }
             Rectangle{
-                id: checkBorder
                 width: textAction.contentHeight/textAction.lineCount
                 height: width
                 clip: true
@@ -93,27 +63,6 @@ Item{
                 border.color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
                 border.width: 2
                 radius: 4
-                Rectangle{
-                    id: check
-                    color: "transparent"
-                    anchors.fill: parent
-                    Rectangle{
-                        height: parent.height/1.5
-                        color: ApplicationSettings.isDarkTheme ? "#454545" : "silver"
-                        width: 2
-                        anchors.verticalCenter: parent.verticalCenter
-                        x: (parent.width-width) - 3
-                        transform: Rotation {origin.x: 0; origin.y: 1; angle: 45}
-                    }
-                    Rectangle{
-                        height: parent.height/3.4
-                        color: ApplicationSettings.isDarkTheme ? "#454545" : "silver"
-                        width: 2
-                        y: 9
-                        x: 3
-                        transform: Rotation {origin.x: 0; origin.y: 1; angle: -45}
-                    }
-                }
             }
         }
         Rectangle{

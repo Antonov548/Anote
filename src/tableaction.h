@@ -60,5 +60,6 @@ public slots:
     void getActionsDatabase(QString date);
     void deleteActionsDatabase(QString date);
     void setDone(QString date, int index);
+    void setNotDone(QString date, int index);
     void moveAction(int from, int to);
 };

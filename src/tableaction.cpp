@@ -113,7 +113,7 @@ void TableAction::getActionsDatabase(QString date){
         else
             action_list.insert(0,new_action);
 
-    }while((sql_query.next()));
+    }while(sql_query.next());
 }
 
 void TableAction::deleteActionsDatabase(QString date){
@@ -132,12 +132,8 @@ void TableAction::setDone(QString date, int index){
 
     int db_index = action_list[index].db_index;
     int new_index = getLastIndexByDate(date);
-    //if not exist records index = 0
-    if(new_index == -1)
-        new_index=0;
-    else
-        new_index++;
-
+    //increment db index for action
+    new_index++;
 
     str_query = "UPDATE " TABLE_ACTION " SET " TABLE_DONE " = :done, " TABLE_INDEX " = :new_index WHERE " TABLE_DATE "=:date AND " TABLE_INDEX "=:index";
     sql_query.prepare(str_query);
@@ -148,10 +144,38 @@ void TableAction::setDone(QString date, int index){
     sql_query.bindValue(":index",db_index);
     sql_query.exec();
 
+    action_list[index].db_index = new_index;
     list_completed.insert(0,action_list.at(index));
     action_list.removeAt(index);
 
     emit setDoneEnd();
+}
+
+void TableAction::setNotDone(QString date, int index){
+    emit setNotDoneStart(index);
+
+    QString str_query;
+    QSqlQuery sql_query;
+
+    int db_index = list_completed[index].db_index;
+    int new_index = getLastIndexByDate(date);
+    //increment db index for action
+    new_index++;
+
+    str_query = "UPDATE " TABLE_ACTION " SET " TABLE_DONE " = :done, " TABLE_INDEX " = :new_index WHERE " TABLE_DATE "=:date AND " TABLE_INDEX "=:index";
+    sql_query.prepare(str_query);
+
+    sql_query.bindValue(":done",int(false));
+    sql_query.bindValue(":new_index",new_index);
+    sql_query.bindValue(":date",date);
+    sql_query.bindValue(":index",db_index);
+    sql_query.exec();
+
+    list_completed[index].db_index = new_index;
+    action_list.insert(0,list_completed.at(index));
+    list_completed.removeAt(index);
+
+    emit setNotDoneEnd();
 }
 
 //get last index action in database

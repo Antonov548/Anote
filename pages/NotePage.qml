@@ -140,7 +140,7 @@ ScrollablePage{
                 boundsBehavior: Flickable.StopAtBounds
                 addDisplaced: Transition{
                     YAnimator{
-                        duration: 200
+                        duration: 150
                         easing.type: Easing.Linear
                     }
                 }
@@ -152,7 +152,7 @@ ScrollablePage{
                 }
             }
             Column{
-                topPadding: 20
+                topPadding: 10
                 bottomPadding: 20
                 anchors.horizontalCenter: parent.horizontalCenter
                 Button{
@@ -167,9 +167,9 @@ ScrollablePage{
                     contentItem: Label{
                         text: "Завершенные (" + listDone.count + ")"
                         anchors.horizontalCenter: parent.horizontalCenter
-                        font.pixelSize: 16
+                        font.pixelSize: 14
                         font.family: ApplicationSettings.font
-                        color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                        color: "#909090"
                     }
                     background: Rectangle{
                         anchors.fill: parent
@@ -206,12 +206,12 @@ ScrollablePage{
                 clip: true
                 addDisplaced: Transition{
                     YAnimator{
-                        duration: 200
+                        duration: 150
                         easing.type: Easing.Linear
                     }
                 }
 
-                delegate: ListNoteAction{}
+                delegate: ListNoteDoneAction{}
                 model: ActionModelDone{
                     id: modelActionDone
                     list: tableAction

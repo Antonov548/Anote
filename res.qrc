@@ -25,6 +25,7 @@
         <file>pages/SnackBar.qml</file>
         <file>pages/AboutPage.qml</file>
         <file>components/OptionsButton.qml</file>
+        <file>components/ListNoteDoneAction.qml</file>
     </qresource>
     <qresource prefix="/">
         <file>font/header_font.ttf</file>
