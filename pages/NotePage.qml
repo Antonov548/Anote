@@ -11,6 +11,7 @@ ScrollablePage{
     property string date: ""
     property real day: -1
     property real indexNote: -1
+    property bool isListDoneOpen: false
 
     signal signalClose()
     signal editNote(string date)
@@ -150,21 +151,59 @@ ScrollablePage{
                     list: tableAction
                 }
             }
-            Label{
-                text: "Завершенные дела"
-                anchors.horizontalCenter: parent.horizontalCenter
-                font.pixelSize: 14
-                font.family: ApplicationSettings.font
-                color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+            Column{
                 topPadding: 20
-                bottomPadding: 10
+                bottomPadding: 20
+                anchors.horizontalCenter: parent.horizontalCenter
+                Button{
+                    opacity: listDone.count===0 ? 0 : 1
+                    Behavior on opacity {
+                        OpacityAnimator{
+                            duration: 300
+                            easing.type: Easing.OutCirc
+                        }
+                    }
+
+                    contentItem: Label{
+                        text: "Завершенные (" + listDone.count + ")"
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        font.pixelSize: 16
+                        font.family: ApplicationSettings.font
+                        color: ApplicationSettings.isDarkTheme ? "silver" : "#454545"
+                    }
+                    background: Rectangle{
+                        anchors.fill: parent
+                        color: "transparent"
+                    }
+                    onClicked: page.isListDoneOpen = !page.isListDoneOpen
+                }
             }
             ListView{
+                id: listDone
                 width: parent.width
-                height: contentHeight
+                state: page.isListDoneOpen ? "open" : "close"
+                states: [
+                    State {
+                        name: "open"
+                        PropertyChanges {target: listDone; height: listDone.contentHeight; opacity: 1}
+                    },
+                    State {
+                        name: "close"
+                        PropertyChanges {target: listDone; height: 0; opacity: 0}
+                    }
+                ]
+                transitions: [
+                    Transition {
+                        ParallelAnimation{
+                            PropertyAnimation{property: "height"; duration: 200; easing.type: Easing.OutCirc}
+                            PropertyAnimation{property: "opacity"; duration: 300; easing.type: Easing.OutCirc}
+                        }
+                    }
+                ]
                 spacing: 0
                 anchors.horizontalCenter: parent.horizontalCenter
                 boundsBehavior: Flickable.StopAtBounds
+                clip: true
                 addDisplaced: Transition{
                     YAnimator{
                         duration: 200

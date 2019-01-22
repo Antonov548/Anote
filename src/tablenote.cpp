@@ -35,10 +35,6 @@ QVector<Note> TableNote::getNote() const{
     return note_list;
 }
 
-bool TableNote::isEmpty() const{
-    return m_isEmpty;
-}
-
 bool TableNote::addNote(QString sql_date, QString month_s, QString day_w, int day_n, int count_comp){
     for(auto &note : note_list){
         if(note.date == sql_date)
@@ -73,8 +69,6 @@ bool TableNote::addNote(QString sql_date, QString month_s, QString day_w, int da
 
     note_list.insert(0,new_note);
 
-    setIsEmpty(false);
-
     emit addNoteEnd();
 
     return true;
@@ -94,18 +88,7 @@ void TableNote::deleteNote(QString date, int index){
 
     note_list.remove(index);
 
-    if(!note_list.count())
-        setIsEmpty(true);
-
     emit deleteNoteEnd();
-}
-
-void TableNote::setIsEmpty(bool isEmpty){
-    if (m_isEmpty == isEmpty)
-        return;
-
-    m_isEmpty = isEmpty;
-    emit isEmptyChanged(m_isEmpty);
 }
 
 void TableNote::updateDate(QString date, int index){
@@ -183,9 +166,6 @@ void TableNote::moveNote(int from, int to){
 }
 
 void TableNote::reorderList(bool isOrder){
-    if(m_isEmpty)
-        return;
-
     QString str_query;
     QSqlQuery sql_query;
 
@@ -239,7 +219,6 @@ void TableNote::getNotesDatabase(bool isOrder){
 
     //check database empty
     if(!sql_query.last()){
-        setIsEmpty(true);
         return;
     }
 
@@ -255,7 +234,6 @@ void TableNote::getNotesDatabase(bool isOrder){
         note_list.insert(0,new_note);
 
     }while((sql_query.previous()));
-    setIsEmpty(false);
 }
 
 int TableNote::getCountNotes(){

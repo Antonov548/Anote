@@ -268,9 +268,9 @@ ApplicationWindow{
 
             Column{
                 width: parent.width
-                visible: tableNote.isEmpty
+                visible: listView.count === 0
                 anchors.centerIn: parent
-                opacity: tableNote.isEmpty ? 1 : 0
+                opacity: listView.count === 0 ? 1 : 0
                 Behavior on opacity{
                     NumberAnimation{
                         duration: 300

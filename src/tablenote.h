@@ -19,10 +19,7 @@ class TableNote : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(bool isEmpty READ isEmpty WRITE setIsEmpty NOTIFY isEmptyChanged)
     QVector<Note> note_list;
-    bool m_isEmpty;
-
     int getCountNotes();
 
 public:
@@ -31,7 +28,6 @@ public:
     bool setNoteAt(int,Note);
     QVector<Note> getNote() const;
     void getNotesDatabase(bool);
-    bool isEmpty() const;
 
 signals:
     void addNoteStart();
@@ -43,7 +39,6 @@ signals:
     void moveNoteStart(int from, int to);
     void moveNoteEnd();
 
-    void isEmptyChanged(bool isEmpty);
     void resetList(bool);
     void updateData(QString role,int index);
 
@@ -52,7 +47,6 @@ public slots:
     void deleteNote(QString, int);
     void reorderList(bool);
     void setNotCompletedActionsCount(QString date, int index, int count);
-    void setIsEmpty(bool isEmpty);
     void updateDate(QString date, int index);
     int getIndexByDate(QString date);
     int getCountNotCompletedByIndex(int index);
