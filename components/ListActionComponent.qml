@@ -11,28 +11,24 @@ Item{
     clip: true
 
     ListView.onRemove: SequentialAnimation {
+        PropertyAction {target: mouseArea; property: "enabled"; value: false}
         PropertyAction { target: item; property: "ListView.delayRemove"; value: true }
-        PropertyAction {target: button; property: "enabled"; value: false}
         ParallelAnimation{
-            NumberAnimation { target: item; property: "height"; to: 0; duration: (listActions.count == 1) ? 0 : 250; easing.type: Easing.InOutQuad }
-            NumberAnimation { target: mainColumn; property: "opacity"; to: 0; duration: (listActions.count == 1) ? 0 : 150; easing.type: Easing.InOutQuad }
+            NumberAnimation { target: item; property: "height"; to: 0; duration:(listActions.count == 1) ? 0 : 150; easing.type: Easing.InOutQuad }
+            NumberAnimation { target: mainColumn; property: "opacity"; to: 0; duration:(listActions.count == 1) ? 0 : 150; easing.type: Easing.InOutQuad }
         }
         PropertyAction { target: item; property: "ListView.delayRemove"; value: false }
     }
 
-    ListView.onAdd: NumberAnimation {
-        target: item
-        property: "opacity"
-        from: 0
-        to: 1
-        duration: 300
-        easing.type: Easing.InOutQuad
+    ListView.onAdd: ParallelAnimation{
+        NumberAnimation { target: item; property: "height"; from:0; to: item.height; duration: 150; easing.type: Easing.InOutQuad }
+        NumberAnimation { target: mainColumn; property: "opacity"; from:0; to: 1; duration: 150; easing.type: Easing.InOutQuad }
     }
-
     Column{
         id: mainColumn
         width: item.width
         height: item.height
+        clip: true
 
         Drag.active: mouseArea.isHeld
         Drag.source: mouseArea
@@ -55,6 +51,7 @@ Item{
         Rectangle{
             width: item.width
             height: item.height - bottomSpaccing.height
+            radius: 4
             color: ApplicationSettings.isDarkTheme ? mouseArea.isHeld ? "#4C4C4C" : "#3A3A3A" : mouseArea.isHeld ? "#D7D7D7" : "#E1E1E1"
             Behavior on color{
                 ColorAnimation{
@@ -62,8 +59,6 @@ Item{
                     easing.type: Easing.OutCirc
                 }
             }
-
-            radius: 4
             Text{
                 id: textAction
                 text: model.info

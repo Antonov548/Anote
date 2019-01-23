@@ -106,7 +106,6 @@ void ApplicationSettings::setFile(QString filepath){
     m_font = j_object.value("font").toString();
     m_isOrder = j_object.value("isOrder").toBool();
     passwordHash = j_object.value("passwordHash").toString();
-
 }
 
 QString ApplicationSettings::font() const{

@@ -74,18 +74,18 @@ void TableAction::initAddActionsDatabase(QString date){
     else
         index++;
 
-    addActionsDatabase(NotDone,date,index);
+    addActionsDatabase(getListReference(NotDone),date,index);
 }
 
-void TableAction::overwriteActionsDatabase(QString date){
+void TableAction::rewriteActionsDatabase(QString date){
     deleteActionsDatabase(date);
     int index = 0;
 
     QString str_query;
     QSqlQuery sql_query;
 
-    addActionsDatabase(NotDone,date,index);
-    addActionsDatabase(Done,date,index+action_list.count());
+    addActionsDatabase(getListReference(NotDone),date,index);
+    addActionsDatabase(getListReference(Done),date,index+action_list.count());
 }
 
 void TableAction::getActionsDatabase(QString date){
@@ -145,7 +145,8 @@ void TableAction::setDone(QString date, int index){
     sql_query.exec();
 
     action_list[index].db_index = new_index;
-    list_completed.insert(0,action_list.at(index));
+    action_list[index].isDone = true;
+    list_completed.insert(0,action_list[index]);
     action_list.removeAt(index);
 
     emit setDoneEnd();
@@ -172,7 +173,8 @@ void TableAction::setNotDone(QString date, int index){
     sql_query.exec();
 
     list_completed[index].db_index = new_index;
-    action_list.insert(0,list_completed.at(index));
+    list_completed[index].isDone = false;
+    action_list.insert(0,list_completed[index]);
     list_completed.removeAt(index);
 
     emit setNotDoneEnd();
@@ -194,17 +196,9 @@ int TableAction::getLastIndexByDate(QString date){
         return -1;
 }
 
-void TableAction::addActionsDatabase(int group, QString date, int start_index){
-    QList<Action> list;
-
-    switch (group) {
-    case NotDone:
-        list = action_list;
-        break;
-    case Done:
-        list = list_completed;
-        break;
-    }
+void TableAction::addActionsDatabase(QList<Action>& list, QString date, int start_index){
+    if(list.count()==0)
+        return;
 
     QString str_query;
     QSqlQuery sql_query;
@@ -216,12 +210,25 @@ void TableAction::addActionsDatabase(int group, QString date, int start_index){
         sql_query.prepare(str_query);
 
         sql_query.bindValue(":info",list[i].information);
-        sql_query.bindValue(":done",list[i].isDone);
+        sql_query.bindValue(":done",int(list[i].isDone));
         sql_query.bindValue(":index",start_index);
         sql_query.bindValue(":date",date);
 
         sql_query.exec();
+        list[i].db_index = start_index;
+
         start_index++;
+    }
+}
+
+QList<Action> &TableAction::getListReference(int group){
+    switch (group) {
+    case NotDone:
+        return action_list;
+    case Done:
+        return list_completed;
+    default:
+        return action_list;
     }
 }
 

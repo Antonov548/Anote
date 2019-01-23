@@ -25,7 +25,7 @@ ScrollablePage{
         var sql_date = getSQLDateFormat(calendar.arr_year[calendar.year],calendar.month+1,calendar.day+1)
         var note_index = tableNote.getIndexByDate(sql_date)
         if(isEdit){
-            tableAction.overwriteActionsDatabase(sql_date);
+            tableAction.rewriteActionsDatabase(sql_date);
             ApplicationSettings.showSnackBar("Заметка изменена")
             signalClose()
         }
@@ -205,11 +205,12 @@ ScrollablePage{
                 id: listActions
                 width: parent.width
                 height: contentHeight
+                spacing: 0
                 anchors.horizontalCenter: parent.horizontalCenter
                 boundsBehavior: Flickable.StopAtBounds
                 addDisplaced: Transition{
                     YAnimator{
-                        duration: 200
+                        duration: 150
                         easing.type: Easing.Linear
                     }
                 }
