@@ -50,5 +50,9 @@
         <file>icons/anote/20x20@2/lock.png</file>
         <file>icons/anote/20x20@3/lock.png</file>
         <file>icons/anote/20x20@4/lock.png</file>
+        <file>icons/anote/20x20/open.png</file>
+        <file>icons/anote/20x20@2/open.png</file>
+        <file>icons/anote/20x20@3/open.png</file>
+        <file>icons/anote/20x20@4/open.png</file>
     </qresource>
 </RCC>

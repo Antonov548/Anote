@@ -1,5 +1,6 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.4
+import QtQuick.Controls.impl 2.4
 import QtModel 1.0
 import "../components"
 
@@ -164,12 +165,32 @@ ScrollablePage{
                         }
                     }
 
-                    contentItem: Label{
-                        text: "Завершенные (" + listDone.count + ")"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        font.pixelSize: 14
-                        font.family: ApplicationSettings.font
-                        color: "#909090"
+                    contentItem: Row{
+                        spacing: 8
+                        IconLabel{
+                            icon.name: "open"
+                            icon.color: "#909090"
+                            icon.width: 14
+                            icon.height: 14
+                            anchors.top: parent.top
+                            transform: Rotation{
+                                angle: page.isListDoneOpen ? 180 : 0
+                                Behavior on angle {
+                                    RotationAnimation{
+                                        duration: 200
+                                        easing.type: Easing.OutCirc
+                                    }
+                                }
+                                origin.x: 7
+                                origin.y: 7
+                            }
+                        }
+                        Label{
+                            text: "Завершенные (" + listDone.count + ")"
+                            font.pixelSize: 14
+                            font.family: ApplicationSettings.font
+                            color: "#909090"
+                        }
                     }
                     background: Rectangle{
                         anchors.fill: parent
