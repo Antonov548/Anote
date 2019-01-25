@@ -38,6 +38,7 @@ Item{
             height: item.height - bottomSpaccing.height
             color: ApplicationSettings.isDarkTheme ? "#3A3A3A" : "#E1E1E1"
             radius: 4
+            clip: true
 
             Text{
                 id: textAction

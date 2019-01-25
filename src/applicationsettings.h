@@ -7,7 +7,7 @@
 #include <QString>
 #include <QObject>
 #include <QList>
-//#include <QtAndroidExtras>
+#include <QtAndroidExtras>
 
 class ApplicationSettings : public QObject
 {
@@ -44,8 +44,8 @@ class ApplicationSettings : public QObject
 public:
     bool isBlock() const;
     bool isDarkTheme() const;
-    //void initializeAndroidKeyboard();
-    //static void keyboardAndroidChanged(JNIEnv *env, jobject thiz, jint VirtualKeyboardHeight);
+    void initializeAndroidKeyboard();
+    static void keyboardAndroidChanged(JNIEnv *env, jobject thiz, jint VirtualKeyboardHeight);
     static ApplicationSettings *AppSettingsInstance();
     void setFile(QString);
     QString font() const;

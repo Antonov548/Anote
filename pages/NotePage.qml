@@ -134,6 +134,7 @@ ScrollablePage{
             width: parent.width
 
             ListView{
+                id: listView
                 width: parent.width
                 height: contentHeight
                 spacing: 0
@@ -216,8 +217,8 @@ ScrollablePage{
                 transitions: [
                     Transition {
                         ParallelAnimation{
-                            PropertyAnimation{property: "height"; duration: 200; easing.type: Easing.OutCirc}
-                            PropertyAnimation{property: "opacity"; duration: 300; easing.type: Easing.OutCirc}
+                            PropertyAnimation{property: "height"; duration: 300; easing.type: Easing.OutCirc}
+                            PropertyAnimation{property: "opacity"; duration: 400; easing.type: Easing.OutCirc}
                         }
                     }
                 ]
@@ -241,10 +242,17 @@ ScrollablePage{
         }
     }
     Column{
-        visible: false//modelAction.isEmpty
+        visible: (listView.count === 0 && !page.isListDoneOpen)
+        opacity: (listView.count === 0 && !page.isListDoneOpen) ? 1 : 0
+        Behavior on opacity{
+            NumberAnimation{
+                duration: 300
+                easing.type: Easing.OutCirc
+            }
+        }
         anchors.centerIn: parent
-
         spacing: 5
+
         Label{
             text: "Дел больше не осталось"
             font.pixelSize: 18
@@ -254,7 +262,7 @@ ScrollablePage{
             anchors.horizontalCenter: parent.horizontalCenter
         }
         Label{
-            text: "Заметка будет удалена"
+            text: "Заметку можно удалить"
             font.pixelSize: 15
             font.family: ApplicationSettings.font
             color: "#909090"
