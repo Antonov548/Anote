@@ -81,9 +81,6 @@ void TableAction::rewriteActionsDatabase(QString date){
     deleteActionsDatabase(date);
     int index = 0;
 
-    QString str_query;
-    QSqlQuery sql_query;
-
     addActionsDatabase(getListReference(NotDone),date,index);
     addActionsDatabase(getListReference(Done),date,index+action_list.count());
 }
@@ -216,6 +213,7 @@ void TableAction::addActionsDatabase(QList<Action>& list, QString date, int star
 
         sql_query.exec();
         list[i].db_index = start_index;
+        list[i].date = date;
 
         start_index++;
     }
