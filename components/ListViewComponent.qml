@@ -14,12 +14,9 @@ Item{
 
     ListView.onRemove: SequentialAnimation {
         PropertyAction { target: item; property: "ListView.delayRemove"; value: true }
-        PropertyAnimation {
-            property: "height"
-            target: item
-            to: 0
-            duration: (listView.count == 1) ? 0 : 150
-            easing.type: Easing.InOutQuad
+        ParallelAnimation{
+            NumberAnimation { target: item; property: "height"; to: 0; duration:(listView.count === 1) ? 0 : 150; easing.type: Easing.InOutQuad }
+            NumberAnimation { target: mainColumn; property: "opacity"; to: 0; duration:(listView.count === 1) ? 0 : 150; easing.type: Easing.InOutQuad }
         }
         PropertyAction { target: item; property: "ListView.delayRemove"; value: false }
     }

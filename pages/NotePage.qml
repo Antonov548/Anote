@@ -204,6 +204,7 @@ ScrollablePage{
                 id: listDone
                 width: parent.width
                 state: page.isListDoneOpen ? "open" : "close"
+                enabled: page.isListDoneOpen
                 states: [
                     State {
                         name: "open"

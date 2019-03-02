@@ -42,6 +42,10 @@ Item{
         anchors.fill: item
         onClicked: {
             ApplicationSettings.commitInputMethod()
+
+            // FIXME : check empty text field only with '/n'
+            // FIXME : clear '/n' simvols after text
+
             if(fieldAction.text.length == 0){
                 fieldAction.isIncorrect = true
                 page.contentYPosition = 0

@@ -2,11 +2,18 @@ import QtQuick 2.11
 import QtQuick.Controls 2.4
 import QtQuick.Window 2.11
 
+// TODO : make something to show that action is dragble
+// TODO : maybe add shadow to action when it held
+
 Item{
     id: item
 
-    height: textAction.implicitHeight + bottomSpaccing.height
-    width: parent.width/1.2
+    readonly property real itemHeight: textAction.implicitHeight + bottomSpaccing.height
+    readonly property real itemWidth: parent.width/1.2
+
+    height: itemHeight
+    width: itemWidth
+
     anchors.horizontalCenter: parent.horizontalCenter
     clip: true
 
@@ -20,10 +27,8 @@ Item{
         PropertyAction { target: item; property: "ListView.delayRemove"; value: false }
     }
 
-    ListView.onAdd: ParallelAnimation{
-        NumberAnimation { target: item; property: "height"; from:0; to: item.height; duration: 150; easing.type: Easing.InOutQuad }
-        NumberAnimation { target: mainColumn; property: "opacity"; from:0; to: 1; duration: 150; easing.type: Easing.InOutQuad }
-    }
+    ListView.onAdd: NumberAnimation { target: mainColumn; property: "opacity"; from:0; to: 1; duration: 150; easing.type: Easing.InOutQuad }
+
     Column{
         id: mainColumn
         width: item.width

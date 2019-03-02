@@ -3,6 +3,7 @@ import QtQuick.Controls 2.4
 import QtModel 1.0
 import QtQuick.Window 2.11
 import QtGraphicalEffects 1.0
+import QtQuick.Controls.impl 2.4
 import "../components/"
 
 ScrollablePage{
@@ -14,6 +15,7 @@ ScrollablePage{
     property bool list_valid: false
     property bool isEdit: false
     property string str_date: ""
+    property var date_array: str_date.split(/[^0-9]/)
     property real appHeight: 0
 
     function popSignal(){
@@ -34,7 +36,7 @@ ScrollablePage{
                 signalClose()
                 return
             }
-            if(tableNote.addNote(sql_date,lblMonth.text,lblDay_w.text,calendar.day+1,createNoteModel.rowCount())){
+            if(tableNote.addNote(sql_date,lblMonth.text,lblDay_w.text,calendar.day + 1,createNoteModel.rowCount())){
                 tableAction.initAddActionsDatabase(sql_date)
                 ApplicationSettings.showSnackBar("Создана заметка")
                 signalClose()
@@ -58,6 +60,11 @@ ScrollablePage{
         onKeyboardChanged: {
             page.height = appHeight - keyboardHeight/Screen.devicePixelRatio
         }
+    }
+
+    CalendarPage{
+        id: calendar
+        date: isEdit ? new Date(date_array[0], date_array[1] - 1, date_array[2]) : new Date()
     }
 
     function getSQLDateFormat(year,month,day){
@@ -146,7 +153,7 @@ ScrollablePage{
                             spacing: 10
                             Label{
                                 id: lblDay
-                                text: calendar.day+1
+                                text: calendar.day + 1
                                 font.pixelSize: 30
                                 font.family: titleFont.name
                                 horizontalAlignment: Text.AlignHCenter
@@ -208,12 +215,6 @@ ScrollablePage{
                 spacing: 0
                 anchors.horizontalCenter: parent.horizontalCenter
                 boundsBehavior: Flickable.StopAtBounds
-                addDisplaced: Transition{
-                    YAnimator{
-                        duration: 150
-                        easing.type: Easing.Linear
-                    }
-                }
                 moveDisplaced: Transition {
                     YAnimator{easing.type: Easing.OutCirc; duration: 200 }
                 }
@@ -224,9 +225,5 @@ ScrollablePage{
                 }
             }
         }
-    }
-    CalendarPage{
-        id: calendar
-        date: new Date()
     }
 }

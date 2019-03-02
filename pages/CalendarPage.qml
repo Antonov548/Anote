@@ -8,7 +8,7 @@ Item{
 
     property var arr_year: [2018,2019,2020,2021,2022,2023,2024,2025]
 
-    property var date: isEdit ? new Date(str_date) : new Date()
+    property var date: new Date()
 
     property real dateYear: date.getFullYear()
     property real dateMonth: date.getMonth()
@@ -82,8 +82,8 @@ Item{
                                 width: 40
 
                                 Component.onCompleted: {
-                                    tumblerDay.contentItem.currentIndex = item.dateDay - 1
-                                    tumblerDay.contentItem.positionViewAtIndex(item.dateDay - 1,ListView.Center)
+                                    tumblerDay.contentItem.currentIndex = item.dateDay-1
+                                    tumblerDay.contentItem.positionViewAtIndex(item.dateDay-1, ListView.Center)
                                 }
 
                                 background: Rectangle{
